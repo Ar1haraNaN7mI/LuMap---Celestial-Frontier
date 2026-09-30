@@ -8,6 +8,7 @@ struct MobileProgressView: View {
     @Query(sort: \ActivityRecord.completedAt, order: .reverse) private var activities: [ActivityRecord]
     @Query(sort: \AssessmentRecord.createdAt, order: .reverse) private var assessments: [AssessmentRecord]
     @State private var actionError: String?
+    @State private var journeyGoal: LearningGoal?
 
     private let personaStyles: [MobilePersonaStyle] = [
         .init(name: "Aurora", colors: [MobileTheme.accent, MobileTheme.cyan]),
@@ -101,17 +102,12 @@ struct MobileProgressView: View {
                             if goal.status == "completed" {
                                 Label(store.t("Path completed · review your evidence below", "路径已完成 · 下方可回顾学习证据"), systemImage: "checkmark.seal.fill")
                                     .font(.caption).foregroundStyle(MobileTheme.mint)
-                            } else {
-                                Button(store.t("Resume learning", "继续学习"), systemImage: "play.fill") {
-                                    do {
-                                        try store.resumeGoal(goal)
-                                        onResumeLearning()
-                                    }
-                                    catch { actionError = error.localizedDescription }
-                                }
-                                .buttonStyle(.borderedProminent)
-                                .frame(minHeight: 44)
                             }
+                            Button(store.t("View learning chain", "查看学习光链"), systemImage: "point.topleft.down.to.point.bottomright.curvepath") {
+                                journeyGoal = goal
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
                         }
                         .mobileCard()
                     }
@@ -181,6 +177,9 @@ struct MobileProgressView: View {
         }
         .background(MobileTheme.background)
         .navigationTitle(store.t("Personal", "个人"))
+        .sheet(item: $journeyGoal) { goal in
+            LearningJourneyPresentation(goal: goal, openLearning: onResumeLearning)
+        }
         .alert(store.t("Couldn't complete that action", "无法完成操作"), isPresented: Binding(
             get: { actionError != nil },
             set: { if !$0 { actionError = nil } }

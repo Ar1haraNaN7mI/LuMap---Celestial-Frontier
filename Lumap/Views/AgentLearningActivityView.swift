@@ -284,25 +284,7 @@ struct AgentLearningActivityView: View {
 
     private func story(_ activity: LearningGeneratedActivity) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top, spacing: 16) {
-                portrait
-                    .frame(width: 100, height: 132)
-                    .background(.tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(guideName).font(.headline).foregroundStyle(.tint)
-                    Text(activity.explanation).textSelection(.enabled)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            DisclosureGroup(store.t("Customize your story guide", "自定义剧情导师")) {
-                VStack(alignment: .leading, spacing: 10) {
-                    TextField(store.t("Guide name", "导师名称"), text: $guideName).textFieldStyle(.roundedBorder)
-                    Button(store.t("Choose a portrait", "选择立绘"), systemImage: "photo") { showingPortraitPicker = true }
-                    Text(store.t("Your portrait stays on this device.", "立绘仅保存在这台设备上。")).font(.caption).foregroundStyle(.secondary)
-                }.padding(.top, 10)
-            }
-            numberedSteps(activity.steps, title: store.t("Story scenes", "剧情场景"))
+            Paper2GalgameLearningView(activity: activity)
             Text(activity.prompt).font(.headline)
             choiceButtons(activity)
             if let choice = activity.choices.first(where: { $0.id == selectedChoice }) {

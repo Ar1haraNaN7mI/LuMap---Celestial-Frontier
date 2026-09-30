@@ -19,9 +19,51 @@ final class LumapStoreTests: XCTestCase {
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: schema, configurations: configuration)
         let context = ModelContext(container)
-        let store = LumapStore()
+        let store = try isolatedLumapStore()
         store.configure(context: context)
         return (store, context)
+    }
+
+    @MainActor
+    func testFixturePreferencesStayIndependentOfOtherStoresAndUserSettings() throws {
+        let originalEndpoint = UserDefaults.standard.string(forKey: "lumap.provider.endpoint")
+        let originalModel = UserDefaults.standard.string(forKey: "lumap.provider.model")
+        let originalStyle = UserDefaults.standard.string(forKey: "lumap.provider.style")
+        let first = try isolatedLumapStore()
+        let second = try isolatedLumapStore()
+        let secondEndpoint = second.providerEndpoint
+        first.providerEndpoint = "http://127.0.0.1:1/v1"
+        first.providerModel = "isolated-fixture-model"
+        first.providerStyle = .openAIChat
+
+        XCTAssertEqual(second.providerEndpoint, secondEndpoint)
+        XCTAssertNotEqual(second.providerModel, first.providerModel)
+        XCTAssertEqual(UserDefaults.standard.string(forKey: "lumap.provider.endpoint"), originalEndpoint)
+        XCTAssertEqual(UserDefaults.standard.string(forKey: "lumap.provider.model"), originalModel)
+        XCTAssertEqual(UserDefaults.standard.string(forKey: "lumap.provider.style"), originalStyle)
+        XCTAssertFalse(first.hasSavedAPIKey)
+        XCTAssertEqual(first.providerConfigurationForGeneration()?.apiKey, "", "A loopback fixture must not read the user's real provider key")
+    }
+
+    @MainActor
+    func testInjectedCredentialReaderControlsAvailabilityAndConfiguration() throws {
+        let suiteName = "com.local.lumap.tests.credential-reader.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        var credentialReads = 0
+        let store = LumapStore(defaults: defaults, credentialReader: {
+            credentialReads += 1
+            return "fixture-provider-token"
+        })
+        store.providerEndpoint = "https://provider.example/v1"
+        store.providerModel = "fixture-model"
+        XCTAssertTrue(store.hasSavedAPIKey)
+        XCTAssertEqual(store.providerConfigurationForGeneration()?.apiKey, "fixture-provider-token")
+        XCTAssertEqual(credentialReads, 2)
+
+        let withoutCredential = LumapStore(defaults: defaults, credentialReader: { nil })
+        XCTAssertFalse(withoutCredential.hasSavedAPIKey)
+        XCTAssertNil(withoutCredential.providerConfigurationForGeneration(), "Remote generation still requires a credential")
     }
 
     @MainActor

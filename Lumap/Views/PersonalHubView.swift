@@ -10,6 +10,7 @@ struct PersonalHubView: View {
 
     @State private var projectScope: ProjectScope = .all
     @State private var errorMessage: String?
+    @State private var journeyGoal: LearningGoal?
 
     private let personaLooks: [PersonaLook] = [
         .init(name: "Aurora", colors: [LumapTheme.accent, LumapTheme.cyan]),
@@ -34,6 +35,9 @@ struct PersonalHubView: View {
             .frame(maxWidth: LumapTheme.contentWidth, alignment: .leading)
         }
         .background(Color.clear)
+        .sheet(item: $journeyGoal) { goal in
+            LearningJourneyPresentation(goal: goal) { store.selectedSection = .studio }
+        }
     }
 
     private var personalHeader: some View {
@@ -148,12 +152,11 @@ struct PersonalHubView: View {
                         open(goal)
                     } label: {
                         Label(
-                            goal.status == "paused" ? store.t("Resume path", "继续路径") : store.t("Open Studio", "进入学习空间"),
-                            systemImage: goal.status == "paused" ? "play.fill" : "arrow.up.right"
+                            store.t("View learning chain", "查看学习光链"),
+                            systemImage: "point.topleft.down.to.point.bottomright.curvepath"
                         )
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(goal.status == "completed")
 
                     if goal.status == "completed" {
                         Label(store.t("Path completed", "路径已完成"), systemImage: "checkmark.seal.fill")
@@ -257,14 +260,10 @@ struct PersonalHubView: View {
                     .foregroundStyle(LumapTheme.secondaryInk)
                     .lineLimit(1)
                     Spacer()
-                    if goal.status != "completed" {
-                        Button(goal.status == "paused" ? store.t("Resume", "继续") : store.t("Open", "打开")) {
-                            open(goal)
-                        }
-                        .buttonStyle(.plain)
-                        .foregroundStyle(LumapTheme.accent)
-                        .font(.caption.weight(.semibold))
-                    }
+                    Button(store.t("View chain", "查看光链")) { journeyGoal = goal }
+                        .buttonStyle(.bordered)
+                        .tint(LumapTheme.gold)
+                        .controlSize(.small)
                 }
             }
         }
@@ -754,20 +753,7 @@ struct PersonalHubView: View {
     }
 
     private func open(_ goal: LearningGoal) {
-        do {
-            if goal.status == "paused" {
-                try store.resumeGoal(goal)
-            } else if goal.status == "active" {
-                if store.currentGoal?.id != goal.id {
-                    try store.resumeGoal(goal)
-                } else {
-                    store.selectedSection = .studio
-                }
-            }
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+        journeyGoal = goal
     }
 
     private func select(_ look: PersonaLook) {

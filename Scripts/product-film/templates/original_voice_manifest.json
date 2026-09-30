@@ -1,0 +1,130 @@
+{
+  "total_runtime": 85,
+  "voice_duration_sum": 67.676,
+  "music": "music_original_85s.wav",
+  "scenes": [
+    {
+      "id": "01_question",
+      "text": "Every discovery starts with a question. What do you want to learn today?",
+      "file": "audio/01_question.wav",
+      "duration": 4.980167,
+      "scene_start": 0,
+      "scene_duration": 7,
+      "voice_start": 0.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "02_introducing",
+      "text": "Meet Lumap. A learning experience that begins with your curiosity, and grows with you.",
+      "file": "audio/02_introducing.wav",
+      "duration": 6.573375,
+      "scene_start": 7,
+      "scene_duration": 8,
+      "voice_start": 7.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "03_sources",
+      "text": "Choose an idea, or bring your own material. Lumap finds sources and shapes a path around your goal.",
+      "file": "audio/03_sources.wav",
+      "duration": 7.27425,
+      "scene_start": 15,
+      "scene_duration": 9,
+      "voice_start": 15.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "04_adaptive",
+      "text": "One step at a time. Each response helps decide what comes next, and how you learn it.",
+      "file": "audio/04_adaptive.wav",
+      "duration": 6.206667,
+      "scene_start": 24,
+      "scene_duration": 8,
+      "voice_start": 24.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "05_methods",
+      "text": "Connect ideas visually. Think through questions. Explore scenarios. Turn understanding into something you can explain.",
+      "file": "audio/05_methods.wav",
+      "duration": 9.741917,
+      "scene_start": 32,
+      "scene_duration": 11,
+      "voice_start": 32.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "06_narration",
+      "text": "Listen to narrated lessons, with short quizzes that bring you back into the conversation.",
+      "file": "audio/06_narration.wav",
+      "duration": 5.448917,
+      "scene_start": 43,
+      "scene_duration": 7,
+      "voice_start": 43.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "07_evidence",
+      "text": "Test your understanding through theory and practice. Get specific feedback, and see evidence of your progress.",
+      "file": "audio/07_evidence.wav",
+      "duration": 7.69775,
+      "scene_start": 50,
+      "scene_duration": 9,
+      "voice_start": 50.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "08_devices",
+      "text": "Designed for Mac and iPhone. A little more discovery, wherever life takes you.",
+      "file": "audio/08_devices.wav",
+      "duration": 6.040625,
+      "scene_start": 59,
+      "scene_duration": 8,
+      "voice_start": 59.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "09_spatial",
+      "text": "Explore a preview of spatial learning, where ideas become interactive experiences.",
+      "file": "audio/09_spatial.wav",
+      "duration": 6.077333,
+      "scene_start": 67,
+      "scene_duration": 8,
+      "voice_start": 67.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    },
+    {
+      "id": "10_close",
+      "text": "Lumap. Follow your curiosity. Build your own path. From Celestial Frontier.",
+      "file": "audio/10_close.wav",
+      "duration": 7.634833,
+      "scene_start": 75,
+      "scene_duration": 10,
+      "voice_start": 75.55,
+      "voice_offset": 0.55,
+      "voice": "Kokoro v1.1 / af_sol / speaker1 / speed0.86",
+      "sample_rate": 48000
+    }
+  ],
+  "full_voice": "voiceover_85s.wav",
+  "premix": "launch_mix_85s.wav",
+  "subtitle": "voiceover_en.srt"
+}

@@ -122,7 +122,17 @@ final class LumapStore: ObservableObject {
     private(set) var context: ModelContext?
     private var configured = false
     private var configuring = false
-    private let defaults = UserDefaults.standard
+    private let defaults: UserDefaults
+    private let credentialReader: @MainActor () -> String?
+
+    /// Production uses the user’s saved preferences and Keychain. Tests inject
+    /// isolated preferences and a credential reader so fixtures never access or
+    /// modify the learner’s provider configuration.
+    init(defaults: UserDefaults = .standard,
+         credentialReader: @escaping @MainActor () -> String? = { LumapKeychainStore.read(account: "active-provider") }) {
+        self.defaults = defaults
+        self.credentialReader = credentialReader
+    }
     private var personaEndDate: Date?
     private var personaDurationSeconds = 0
     private var lastPersonaNudgeSecond: Int?
@@ -164,7 +174,7 @@ final class LumapStore: ObservableObject {
     }
 
     var hasSavedAPIKey: Bool {
-        LumapKeychainStore.read(account: "active-provider")?.isEmpty == false
+        credentialReader()?.isEmpty == false
     }
 
     /// Returns a complete runtime configuration without exposing the key to the
@@ -176,7 +186,7 @@ final class LumapStore: ObservableObject {
         guard !cleanEndpoint.isEmpty, !cleanModel.isEmpty,
               let url = URL(string: cleanEndpoint), let host = url.host else { return nil }
 
-        let key = LumapKeychainStore.read(account: "active-provider") ?? ""
+        let key = credentialReader() ?? ""
         let normalizedHost = host.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: "."))
         let isLoopback = normalizedHost == "localhost"
             || normalizedHost.hasSuffix(".localhost")
@@ -1116,7 +1126,7 @@ final class LumapStore: ObservableObject {
         providerIsTesting = true
         defer { providerIsTesting = false }
         do {
-            let key = LumapKeychainStore.read(account: "active-provider") ?? ""
+            let key = credentialReader() ?? ""
             let configuration = ProviderConfiguration(
                 endpoint: providerEndpoint,
                 model: providerModel,

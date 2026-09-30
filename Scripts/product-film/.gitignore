@@ -1,0 +1,11 @@
+.local/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# Never add captures, synthesized voices, render products or provider logs here.
+*.mp4
+*.mov
+*.wav
+*.f32
+*.log

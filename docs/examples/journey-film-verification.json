@@ -1,0 +1,450 @@
+{
+  "editions": [
+    {
+      "file": "Lumap_Product_Film_Journey_1080p.mp4",
+      "bytes": 22654496,
+      "sha256": "0707f6e24b0524cf1bdeb70cc9a7d06e5201ef5d743fa661464b1cd117a7b8d3",
+      "duration_seconds": 105,
+      "frames": 3150,
+      "fps": 30,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "subtitle_tracks": 0,
+      "full_decode": "passed"
+    },
+    {
+      "file": "Lumap_Product_Film_Journey_Captions.mp4",
+      "bytes": 21075461,
+      "sha256": "bc9b91a391462a49cc0dca117d57034c94fe896b40686ced7661ce566d48079c",
+      "duration_seconds": 105,
+      "frames": 3150,
+      "fps": 30,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "subtitle_tracks": 0,
+      "full_decode": "passed"
+    },
+    {
+      "file": "Lumap_Product_Film_Journey_Subtitles.mp4",
+      "bytes": 22658812,
+      "sha256": "3aeee9316c875b20560f4f8654f24aae8c762a33e120242a33cfd7c34e7e9249",
+      "duration_seconds": 105,
+      "frames": 3150,
+      "fps": 30,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "subtitle_tracks": 2,
+      "full_decode": "passed"
+    }
+  ],
+  "voice_stems": [
+    {
+      "id": "01_question",
+      "start": 0.55,
+      "duration": 4.980167,
+      "correlation": 0.9994333137719172,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "02_introducing",
+      "start": 7.55,
+      "duration": 6.573375,
+      "correlation": 0.99933763058898,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "03_sources",
+      "start": 15.55,
+      "duration": 7.27425,
+      "correlation": 0.9987850673803075,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "04_adaptive",
+      "start": 24.55,
+      "duration": 6.206667,
+      "correlation": 0.9978681881462383,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "11_journey",
+      "start": 32.5,
+      "duration": 6.1575,
+      "correlation": 0.9972753268218959,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "05_methods",
+      "start": 40.55,
+      "duration": 9.741917,
+      "correlation": 0.9967986537422117,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "12_methods",
+      "start": 51.5,
+      "duration": 9.038625,
+      "correlation": 0.9963565059333643,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "06_narration",
+      "start": 63.55,
+      "duration": 5.448917,
+      "correlation": 0.9963843556212866,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "07_evidence",
+      "start": 70.55,
+      "duration": 7.69775,
+      "correlation": 0.9960200931264088,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "08_devices",
+      "start": 79.55,
+      "duration": 6.040625,
+      "correlation": 0.9967218132497315,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "09_spatial",
+      "start": 87.55,
+      "duration": 6.077333,
+      "correlation": 0.9970451224834147,
+      "entire_stem_preserved": true
+    },
+    {
+      "id": "10_close",
+      "start": 95.55,
+      "duration": 7.634833,
+      "correlation": 0.9987436011629436,
+      "entire_stem_preserved": true
+    }
+  ],
+  "audio_peak": 0.8091498017311096,
+  "compositor": "Python Pillow NumPy; native-code vector motion and geometry; no browser renderer",
+  "new_insert_seconds": 20,
+  "method_gallery_count": 17,
+  "original_voice_stems_preserved": 10,
+  "new_kokoro_stems": 2,
+  "native_asset_provenance": [
+    {
+      "file": "native_chain.png",
+      "description": "Actual Lumap SwiftUI component rendered with synthetic lesson fixtures",
+      "sha256": "3dcd31fa5cadd384c8003b6c983de240813e182819138e13f47b7c0f3cc6d81b",
+      "pixels": [
+        1440,
+        900
+      ]
+    },
+    {
+      "file": "paper2galgame-native.png",
+      "description": "Actual upstream Paper2GalGame GameScreen in Lumap WKWebView; synthetic lesson fixture; upstream revision da60826012493b16872add56d6c6d412197e6f1c",
+      "sha256": "e155f9b6170fc11a3b603311f7373e9decf9d45dc1c81341dff9e224c93b1d29",
+      "pixels": [
+        2560,
+        1440
+      ]
+    }
+  ],
+  "boundaries": {
+    "duration_seconds": 105,
+    "frames": 3150,
+    "shots": [
+      {
+        "name": "intro_continuous",
+        "duration": 10.5,
+        "path": "output/product-film/edit/motion_titles/intro_continuous.mp4",
+        "authored": true,
+        "old_index": 0
+      },
+      {
+        "name": "s04_discover",
+        "duration": 4.5,
+        "path": "output/product-film/edit/s04_discover.mp4",
+        "authored": false,
+        "old_index": 1
+      },
+      {
+        "name": "s05_type",
+        "duration": 5,
+        "path": "output/product-film/edit/s05_type.mp4",
+        "authored": false,
+        "old_index": 2
+      },
+      {
+        "name": "s06_sources",
+        "duration": 4,
+        "path": "output/product-film/edit/s06_sources.mp4",
+        "authored": false,
+        "old_index": 3
+      },
+      {
+        "name": "s07_adaptive",
+        "duration": 2,
+        "path": "output/product-film/edit/motion_titles/s07_adaptive.mp4",
+        "authored": true,
+        "old_index": 4
+      },
+      {
+        "name": "s08_save",
+        "duration": 6,
+        "path": "output/product-film/edit/s08_save.mp4",
+        "authored": false,
+        "old_index": 5
+      },
+      {
+        "name": "journey-insert",
+        "duration": 8
+      },
+      {
+        "name": "s09_map",
+        "duration": 6,
+        "path": "output/product-film/edit/s09_map.mp4",
+        "authored": false,
+        "old_index": 6
+      },
+      {
+        "name": "s10_question",
+        "duration": 5,
+        "path": "output/product-film/edit/s10_question.mp4",
+        "authored": false,
+        "old_index": 7
+      },
+      {
+        "name": "methods-insert",
+        "duration": 12
+      },
+      {
+        "name": "s11_lesson",
+        "duration": 3,
+        "path": "output/product-film/edit/s11_lesson.mp4",
+        "authored": false,
+        "old_index": 8
+      },
+      {
+        "name": "s12_quiz",
+        "duration": 4,
+        "path": "output/product-film/edit/s12_quiz.mp4",
+        "authored": false,
+        "old_index": 9
+      },
+      {
+        "name": "s13_check",
+        "duration": 3,
+        "path": "output/product-film/edit/s13_check.mp4",
+        "authored": false,
+        "old_index": 10
+      },
+      {
+        "name": "s14_feedback",
+        "duration": 3,
+        "path": "output/product-film/edit/s14_feedback.mp4",
+        "authored": false,
+        "old_index": 11
+      },
+      {
+        "name": "s15_growth",
+        "duration": 3,
+        "path": "output/product-film/edit/s15_growth.mp4",
+        "authored": false,
+        "old_index": 12
+      },
+      {
+        "name": "s16_devices",
+        "duration": 8,
+        "path": "output/product-film/edit/s16_devices.mp4",
+        "authored": false,
+        "old_index": 13
+      },
+      {
+        "name": "s17_spatial_mac",
+        "duration": 4,
+        "path": "output/product-film/edit/s17_spatial_mac.mp4",
+        "authored": false,
+        "old_index": 14
+      },
+      {
+        "name": "s18_spatial_phone",
+        "duration": 4,
+        "path": "output/product-film/edit/s18_spatial_phone.mp4",
+        "authored": false,
+        "old_index": 15
+      },
+      {
+        "name": "s19_close",
+        "duration": 10,
+        "path": "output/product-film/edit/motion_titles/s19_close.mp4",
+        "authored": true,
+        "old_index": 16
+      }
+    ],
+    "transitions": [
+      {
+        "kind": "portal",
+        "frames": 36,
+        "name": "Curiosity opens into the product",
+        "boundary_seconds": 10.5
+      },
+      {
+        "kind": "focus",
+        "frames": 30,
+        "name": "Focus into the learning goal",
+        "focus": [
+          970,
+          605
+        ],
+        "protect_header": true,
+        "boundary_seconds": 15.0
+      },
+      {
+        "kind": "diagonal",
+        "frames": 30,
+        "name": "Reveal the source material",
+        "protect_header": true,
+        "boundary_seconds": 20.0
+      },
+      {
+        "kind": "depth",
+        "frames": 28,
+        "name": "Research moves into an adaptive path",
+        "protect_header": true,
+        "boundary_seconds": 24.0
+      },
+      {
+        "kind": "portal",
+        "frames": 28,
+        "name": "The next learning step opens",
+        "protect_header": true,
+        "boundary_seconds": 26.0
+      },
+      {
+        "kind": "focus",
+        "frames": 32,
+        "focus": [
+          980,
+          595
+        ],
+        "name": "Follow the light into the journey",
+        "boundary_seconds": 32.0
+      },
+      {
+        "kind": "diagonal",
+        "frames": 28,
+        "slope": 0.3,
+        "name": "A discovery becomes a visual connection",
+        "boundary_seconds": 40.0
+      },
+      {
+        "kind": "depth",
+        "frames": 32,
+        "name": "The companion enters the conversation",
+        "protect_header": true,
+        "boundary_seconds": 46.0
+      },
+      {
+        "kind": "panels",
+        "frames": 24,
+        "name": "Open the activity gallery",
+        "boundary_seconds": 51.0
+      },
+      {
+        "kind": "portal",
+        "frames": 24,
+        "name": "The gallery resolves into the narrated lesson",
+        "boundary_seconds": 63.0
+      },
+      {
+        "kind": "vertical",
+        "frames": 24,
+        "name": "Move from the lesson into its quiz",
+        "protect_header": true,
+        "boundary_seconds": 66.0
+      },
+      {
+        "kind": "depth",
+        "frames": 28,
+        "name": "Enter optional checks",
+        "protect_header": true,
+        "boundary_seconds": 70.0
+      },
+      {
+        "kind": "pan",
+        "frames": 24,
+        "name": "Answer to specific feedback",
+        "protect_header": true,
+        "boundary_seconds": 73.0
+      },
+      {
+        "kind": "panels",
+        "frames": 28,
+        "name": "Evidence builds a growth record",
+        "protect_header": true,
+        "boundary_seconds": 76.0
+      },
+      {
+        "kind": "depth",
+        "frames": 36,
+        "name": "Pull back to the two-device experience",
+        "direction": -1,
+        "protect_header": true,
+        "boundary_seconds": 79.0
+      },
+      {
+        "kind": "focus",
+        "frames": 36,
+        "name": "Enter spatial exploration",
+        "focus": [
+          970,
+          560
+        ],
+        "protect_header": true,
+        "boundary_seconds": 87.0
+      },
+      {
+        "kind": "orb",
+        "frames": 36,
+        "name": "Connect the spatial model across devices",
+        "protect_header": true,
+        "protect_preview_badge": true,
+        "boundary_seconds": 91.0
+      },
+      {
+        "kind": "close",
+        "frames": 40,
+        "name": "Spatial world resolves into the brand",
+        "boundary_seconds": 95.0
+      }
+    ],
+    "chain_native_capture": true,
+    "paper_native_capture": true,
+    "original_masters_untouched": true,
+    "montage_methods": [
+      "Guided explanation",
+      "Worked example",
+      "Socratic dialogue",
+      "Analogy",
+      "Visual map",
+      "Story mode",
+      "Flash recall",
+      "Teach it back",
+      "Interactive simulation",
+      "Spatial exploration",
+      "Deliberate practice",
+      "Reflection",
+      "Misconception diagnosis",
+      "Curiosity branch",
+      "Counterfactual lab",
+      "Transfer challenge",
+      "Narrated lesson"
+    ]
+  }
+}

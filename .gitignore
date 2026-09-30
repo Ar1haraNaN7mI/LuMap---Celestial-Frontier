@@ -39,3 +39,11 @@ VoicePacks/**/runtime/
 # Validation/build scratch and generated local lesson media
 tmp/
 dist/Demos/
+
+# Downloaded Paper2Galgame runtime is local-only; publish the adapter/installer.
+Paper2Galgame/Resources/Runtime/
+Paper2Galgame/Web/node_modules/
+Paper2Galgame/Web/dist/
+
+# Local product-film renders and media tooling environments.
+output/

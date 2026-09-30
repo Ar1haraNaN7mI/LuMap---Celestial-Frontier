@@ -24,7 +24,10 @@ struct LearningStudioView: View {
     @State private var showsPath = true
     @State private var showsTutor = true
     @State private var showsPathSheet = false
+    @State private var showJourneyAfterPath = false
     @State private var showsTutorSheet = false
+    @State private var showsJourney = false
+    @AppStorage("lumap.journey.enteredPlanID") private var enteredPlanID = ""
 
     private var currentMaterial: MaterialRecord? {
         guard let materialID = store.currentGoal?.materialID else { return nil }
@@ -45,7 +48,17 @@ struct LearningStudioView: View {
                 studio
             }
         }
-        .task(id: store.currentGoal?.id) { await store.prepareLearningPlan() }
+        .task(id: store.currentGoal?.id) {
+            await store.prepareLearningPlan()
+            presentNewJourney()
+        }
+        .onChange(of: store.activePlan?.id) { _, _ in presentNewJourney() }
+        .onChange(of: store.currentLearningNode?.id) { previous, next in
+            if previous != nil, next != nil, previous != next { showsJourney = true }
+        }
+        .sheet(isPresented: $showsJourney) {
+            if let goal = store.currentGoal { LearningJourneyPresentation(goal: goal) }
+        }
     }
 
     private var studio: some View {
@@ -68,6 +81,11 @@ struct LearningStudioView: View {
             .frame(width: proxy.size.width, height: proxy.size.height)
             .toolbar {
                 ToolbarItemGroup {
+                    Button { showsJourney = true } label: {
+                        Label(store.t("Your learning chain", "你的学习光链"), systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                    }
+                    .help(store.t("Explore your progress along the golden learning chain", "沿金色学习光链回顾你的探索进度"))
+                    .accessibilityIdentifier("learning-journey-entry")
                     Button {
                         if layout == .compact {
                             showsPathSheet = true
@@ -110,7 +128,12 @@ struct LearningStudioView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showsPathSheet) {
+            .sheet(isPresented: $showsPathSheet, onDismiss: {
+                if showJourneyAfterPath {
+                    showJourneyAfterPath = false
+                    showsJourney = true
+                }
+            }) {
                 NavigationStack {
                     ScrollView {
                         pathPanel
@@ -234,10 +257,30 @@ struct LearningStudioView: View {
 
     private var pathPanel: some View {
         ScrollView {
-            LearningAgentPathView()
-                .padding(20)
+            VStack(alignment: .leading, spacing: 20) {
+                Button {
+                    if showsPathSheet {
+                        showJourneyAfterPath = true
+                        showsPathSheet = false
+                    } else {
+                        showsJourney = true
+                    }
+                } label: {
+                    Label(store.t("View learning chain", "查看学习光链"), systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                        .font(.callout.weight(.medium))
+                }
+                .buttonStyle(.bordered)
+                .tint(LumapTheme.gold)
+                LearningAgentPathView()
+            }.padding(20)
         }
         .background(LumapTheme.surface)
+    }
+
+    private func presentNewJourney() {
+        guard let plan = store.activePlan, enteredPlanID != plan.id else { return }
+        enteredPlanID = plan.id
+        showsJourney = true
     }
 
     @ViewBuilder

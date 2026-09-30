@@ -29,6 +29,10 @@ targets:
         excludes:
           - Info.plist
           - Lumap.entitlements
+      - path: Paper2Galgame/Native
+      - path: Paper2Galgame/Resources
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: sherpa-onnx
         product: sherpa-onnx
@@ -69,6 +73,12 @@ targets:
       - path: Lumap/Views/LearningAgentStatusView.swift
       - path: Lumap/Views/AssessmentSessionModel.swift
       - path: Lumap/Views/LearningWorkspaceView.swift
+      - path: Lumap/Views/LearningJourneyChainView.swift
+      - path: Lumap/Views/LearningJourneyPresentation.swift
+      - path: Paper2Galgame/Native
+      - path: Paper2Galgame/Resources
+        type: folder
+        buildPhase: resources
       - path: LumapiOS
     dependencies:
       - package: sherpa-onnx

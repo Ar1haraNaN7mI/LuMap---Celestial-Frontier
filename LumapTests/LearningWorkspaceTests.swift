@@ -35,7 +35,7 @@ final class LearningWorkspaceTests: XCTestCase {
                              ActivityRecord.self, AssessmentRecord.self, RewardEntry.self, MaterialRecord.self, AppHealthRecord.self])
         let container = try ModelContainer(for: schema, configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)])
         let context = ModelContext(container)
-        let store = LumapStore()
+        let store = try isolatedLumapStore()
         store.configure(context: context)
         return (store, context)
     }
@@ -198,7 +198,7 @@ final class LearningWorkspaceTests: XCTestCase {
         let persisted = try JSONDecoder().decode(LearningSessionEvidence.self, from: XCTUnwrap(store.currentGoal?.agentSessionData))
         XCTAssertEqual(persisted.currentMethodID, "workedExample")
 
-        let reopened = LumapStore()
+        let reopened = try isolatedLumapStore()
         reopened.configure(context: context)
         XCTAssertEqual(reopened.currentMethod, .workedExample)
         XCTAssertEqual(reopened.activeActivity, cached)
@@ -265,7 +265,7 @@ final class LearningWorkspaceTests: XCTestCase {
         XCTAssertEqual(transferred.session.currentMethodID, transferred.currentMethodID)
         XCTAssertEqual(store.rewardBalance, 0)
 
-        let reopened = LumapStore()
+        let reopened = try isolatedLumapStore()
         reopened.configure(context: context)
         XCTAssertEqual(reopened.currentMethod, .guidedExplanation)
         XCTAssertEqual(reopened.activeActivity, firstActivity)
@@ -286,9 +286,18 @@ final class LearningWorkspaceTests: XCTestCase {
         XCTAssertEqual(store.currentGoal?.preferredMethodID, "guidedExplanation", "Resuming a method must not overwrite the learner's preference")
         let export = try store.exportWorkspaceSession()
         defer { try? FileManager.default.removeItem(at: export) }
-        XCTAssertEqual(try store.readWorkspaceSession(from: export).currentMethodID, "workedExample")
+        let transferred: LearningWorkspaceTransfer
+        do {
+            transferred = try store.readWorkspaceSession(from: export)
+            print("Workspace fixture round-trip: selected=\(store.currentMethod.rawValue), persisted=\(store.sessionEvidence.currentMethodID ?? "nil"), decoded=\(transferred.currentMethodID)")
+        } catch {
+            let diagnostic = error as NSError
+            print("Workspace fixture read failed: domain=\(diagnostic.domain), code=\(diagnostic.code)")
+            throw error
+        }
+        XCTAssertEqual(transferred.currentMethodID, "workedExample")
 
-        let reopened = LumapStore()
+        let reopened = try isolatedLumapStore()
         reopened.configure(context: context)
         XCTAssertEqual(reopened.currentMethod, .workedExample)
         XCTAssertEqual(reopened.activeActivity, cached)

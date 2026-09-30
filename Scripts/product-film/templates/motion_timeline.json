@@ -1,0 +1,238 @@
+{
+  "duration": 85.0,
+  "fps": 30,
+  "shots": [
+    {
+      "name": "intro_continuous",
+      "duration": 10.5,
+      "path": "edit/motion_titles/intro_continuous.mp4",
+      "authored": true
+    },
+    {
+      "name": "s04_discover",
+      "duration": 4.5,
+      "path": "edit/s04_discover.mp4",
+      "authored": false
+    },
+    {
+      "name": "s05_type",
+      "duration": 5,
+      "path": "edit/s05_type.mp4",
+      "authored": false
+    },
+    {
+      "name": "s06_sources",
+      "duration": 4,
+      "path": "edit/s06_sources.mp4",
+      "authored": false
+    },
+    {
+      "name": "s07_adaptive",
+      "duration": 2,
+      "path": "edit/motion_titles/s07_adaptive.mp4",
+      "authored": true
+    },
+    {
+      "name": "s08_save",
+      "duration": 6,
+      "path": "edit/s08_save.mp4",
+      "authored": false
+    },
+    {
+      "name": "s09_map",
+      "duration": 6,
+      "path": "edit/s09_map.mp4",
+      "authored": false
+    },
+    {
+      "name": "s10_question",
+      "duration": 5,
+      "path": "edit/s10_question.mp4",
+      "authored": false
+    },
+    {
+      "name": "s11_lesson",
+      "duration": 3,
+      "path": "edit/s11_lesson.mp4",
+      "authored": false
+    },
+    {
+      "name": "s12_quiz",
+      "duration": 4,
+      "path": "edit/s12_quiz.mp4",
+      "authored": false
+    },
+    {
+      "name": "s13_check",
+      "duration": 3,
+      "path": "edit/s13_check.mp4",
+      "authored": false
+    },
+    {
+      "name": "s14_feedback",
+      "duration": 3,
+      "path": "edit/s14_feedback.mp4",
+      "authored": false
+    },
+    {
+      "name": "s15_growth",
+      "duration": 3,
+      "path": "edit/s15_growth.mp4",
+      "authored": false
+    },
+    {
+      "name": "s16_devices",
+      "duration": 8,
+      "path": "edit/s16_devices.mp4",
+      "authored": false
+    },
+    {
+      "name": "s17_spatial_mac",
+      "duration": 4,
+      "path": "edit/s17_spatial_mac.mp4",
+      "authored": false
+    },
+    {
+      "name": "s18_spatial_phone",
+      "duration": 4,
+      "path": "edit/s18_spatial_phone.mp4",
+      "authored": false
+    },
+    {
+      "name": "s19_close",
+      "duration": 10,
+      "path": "edit/motion_titles/s19_close.mp4",
+      "authored": true
+    }
+  ],
+  "transitions": [
+    {
+      "boundary": 10.5,
+      "duration": 0.8,
+      "outgoing": "intro_continuous",
+      "incoming": "s04_discover",
+      "curve": "quintic smootherstep",
+      "overlap_start": 10.1
+    },
+    {
+      "boundary": 15.0,
+      "duration": 0.6,
+      "outgoing": "s04_discover",
+      "incoming": "s05_type",
+      "curve": "quintic smootherstep",
+      "overlap_start": 14.7
+    },
+    {
+      "boundary": 20.0,
+      "duration": 0.6666666666666666,
+      "outgoing": "s05_type",
+      "incoming": "s06_sources",
+      "curve": "quintic smootherstep",
+      "overlap_start": 19.666666666666668
+    },
+    {
+      "boundary": 24.0,
+      "duration": 0.6,
+      "outgoing": "s06_sources",
+      "incoming": "s07_adaptive",
+      "curve": "quintic smootherstep",
+      "overlap_start": 23.7
+    },
+    {
+      "boundary": 26.0,
+      "duration": 0.6,
+      "outgoing": "s07_adaptive",
+      "incoming": "s08_save",
+      "curve": "quintic smootherstep",
+      "overlap_start": 25.7
+    },
+    {
+      "boundary": 32.0,
+      "duration": 0.6,
+      "outgoing": "s08_save",
+      "incoming": "s09_map",
+      "curve": "quintic smootherstep",
+      "overlap_start": 31.7
+    },
+    {
+      "boundary": 38.0,
+      "duration": 0.8,
+      "outgoing": "s09_map",
+      "incoming": "s10_question",
+      "curve": "quintic smootherstep",
+      "overlap_start": 37.6
+    },
+    {
+      "boundary": 43.0,
+      "duration": 0.6666666666666666,
+      "outgoing": "s10_question",
+      "incoming": "s11_lesson",
+      "curve": "quintic smootherstep",
+      "overlap_start": 42.666666666666664
+    },
+    {
+      "boundary": 46.0,
+      "duration": 0.4666666666666667,
+      "outgoing": "s11_lesson",
+      "incoming": "s12_quiz",
+      "curve": "quintic smootherstep",
+      "overlap_start": 45.766666666666666
+    },
+    {
+      "boundary": 50.0,
+      "duration": 0.5333333333333333,
+      "outgoing": "s12_quiz",
+      "incoming": "s13_check",
+      "curve": "quintic smootherstep",
+      "overlap_start": 49.733333333333334
+    },
+    {
+      "boundary": 53.0,
+      "duration": 0.4666666666666667,
+      "outgoing": "s13_check",
+      "incoming": "s14_feedback",
+      "curve": "quintic smootherstep",
+      "overlap_start": 52.766666666666666
+    },
+    {
+      "boundary": 56.0,
+      "duration": 0.4666666666666667,
+      "outgoing": "s14_feedback",
+      "incoming": "s15_growth",
+      "curve": "quintic smootherstep",
+      "overlap_start": 55.766666666666666
+    },
+    {
+      "boundary": 59.0,
+      "duration": 0.8,
+      "outgoing": "s15_growth",
+      "incoming": "s16_devices",
+      "curve": "quintic smootherstep",
+      "overlap_start": 58.6
+    },
+    {
+      "boundary": 67.0,
+      "duration": 0.8,
+      "outgoing": "s16_devices",
+      "incoming": "s17_spatial_mac",
+      "curve": "quintic smootherstep",
+      "overlap_start": 66.6
+    },
+    {
+      "boundary": 71.0,
+      "duration": 0.6666666666666666,
+      "outgoing": "s17_spatial_mac",
+      "incoming": "s18_spatial_phone",
+      "curve": "quintic smootherstep",
+      "overlap_start": 70.66666666666667
+    },
+    {
+      "boundary": 75.0,
+      "duration": 1.0,
+      "outgoing": "s18_spatial_phone",
+      "incoming": "s19_close",
+      "curve": "quintic smootherstep",
+      "overlap_start": 74.5
+    }
+  ]
+}

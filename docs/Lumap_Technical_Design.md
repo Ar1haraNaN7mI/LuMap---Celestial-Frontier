@@ -4,13 +4,23 @@
 
 macOS 与 iOS 应用架构及逐项功能实现方案
 
-版本 0.9　｜　2026 年 9 月 30 日　｜　对应产品需求 PRD 0.9、Lumap macOS/iOS 0.3.0
+版本 0.10　｜　2026 年 9 月 30 日　｜　对应产品需求 PRD 0.10、Lumap macOS/iOS 0.3.0
 
 本文把 Lumap PRD 的 F01 至 F30 全部功能转为可供开发拆分的技术方案，面向 macOS、iOS、空间计算、AI、数据及测试开发者。每项功能说明数据与接口、执行流程、异常处理和验证方式；共用的数据约束与事件机制在前部定义，避免各模块独立实现后产生状态冲突。
 
 建议采用 macOS 14 起的原生 SwiftUI 与 AppKit 应用，以 SwiftData 保存独立学习档案，通过可替换模型适配器生成内容。推荐规则、授权、学习状态、评分有效性、奖励和桌宠调度由本地程序控制。公开主页、浏览器记录、文件与可选画面感知通过独立适配器进入系统。
 
 Lumap 已建立独立的原生 macOS 0.1.0 与 iOS 0.2.0 targets，已接入真实检索、模型生成与评估，并支持缓存内容的本地恢复；新生成与评分需要网络。本文同时承担两项职责：标明当前代码已经实现的行为及入口，并定义后续 H1 至 H4 的目标合同。逐功能章节中的完整协议、版本、策略和恢复流程仍是目标架构；若与“当前实现快照”不一致，以快照和应用界面明确标出的原型边界为当前事实。Lumap 不迁移 VoiceClass 数据，也不复用其 bundle identifier、数据库或密钥。
+
+## 0.10 光链投影与本地视觉小说适配
+
+`LearningJourneySnapshot` 从 plan/session 和真实游标生成只读投影，限定连续已完成前缀和实际当前节点。未来节点及总计划数不进入展示模型；缺失游标不会推断开放新的未来小节。`LearningJourneyChainView` 使用原生 ScrollView、Canvas 光束、Button 卡片及 30 fps 上限的缓慢 TimelineView。动画可固定相位以生成测试图片；系统/应用 Reduce Motion 或非活动场景会暂停摆动。
+
+`LearningJourneyPresentation` 从当前 Store 或所选目标的持久化 plan/session 读取数据。当前卡片回原 Studio，历史卡片展示保存证据；回顾不调用 setMethod/selectLearningNode。Personal 与 iPhone 档案入口共用该视图。新课程首次完成编排及下一节正式进入时，Mac 可展示光链作为视觉进度入口；现有活动页及继续条件保留。
+
+Paper2Galgame 的 `GameScreen.tsx` 与 `types.ts` 由本地安装器按固定 upstream commit 与 SHA-256 获取，只下载绘制器与类型。Lumap 原创 React 宿主桥接其打字、推进、Auto、Log 和本地立绘；Vite 构建后作为本地资源打包。WKWebView 使用非持久 WebKit data store、本地导航白名单和禁止联网的 CSP；供应商请求由 Swift 服务调用现有 LumapAIClient，Keychain 密钥不经过 JavaScript。
+
+Native service 校验剧本行数、非空内容、允许表情与长度，使用 90 秒有限请求；任务身份与当前活动检查阻止迟到输出覆盖新课程。局部剧情续读文件按活动身份及语言隔离，补充材料沿用当前目标。原有活动回答、真实评分及保存链保持唯一权威；WebKit 的 progress 消息只能记录剧情行号，不能完成学习方法或解锁小节。安装器与本地运行时范围见 [接入说明](../Paper2Galgame/README.md) 与 [第三方来源](../Paper2Galgame/THIRD_PARTY_NOTICES.md)。
 
 ## 0.9 活动合同与证据一致性实现
 
@@ -446,7 +456,7 @@ H0 候选来自带版本的可用内容目录，加上通过 schema 和内容能
 | Socratic dialogue | 带上下文的真实模型问答与追问 |
 | Analogy | 解释模型生成的具体映射和失效边界 |
 | Visual map | 编辑概念连接并说明关系 |
-| Story | 模型生成的分支场景、选择理由，可用本地人物图；不是完整上游 Paper2Galgame 嵌入 |
+| Story | 本地嵌入上游 Paper2Galgame GameScreen，原生模型/资料适配、自定义角色、剧情续读与原有评估流程 |
 | Flash recall | 揭示前记录回忆，再逐卡核对与评估 |
 | Teach back | 用户独立讲解，由模型指出遗漏/误区 |
 | Simulation | 对当前主题的条件变化提出预测并解释结果；不把语言生成称为物理仿真器 |

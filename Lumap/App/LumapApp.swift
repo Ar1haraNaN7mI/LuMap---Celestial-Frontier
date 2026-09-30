@@ -6,11 +6,25 @@ struct LumapApp: App {
     @StateObject private var store = LumapStore()
     @StateObject private var database = LumapDatabaseBootstrap()
 
+    // Unit/integration tests construct their own stores. Do not also open the
+    // learner's database or start Home's model recommendations in the test host.
+    private var isTestHost: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+            || ProcessInfo.processInfo.environment["LUMAP_TEST_HOST"] == "1"
+            || NSClassFromString("XCTestCase") != nil
+    }
+
     var body: some Scene {
         Window("Lumap", id: "main") {
-            LumapLaunchView(database: database)
-                .environmentObject(store)
-                .tint(LumapTheme.accent)
+            Group {
+                if isTestHost {
+                    Color.clear.accessibilityHidden(true)
+                } else {
+                    LumapLaunchView(database: database)
+                        .environmentObject(store)
+                        .tint(LumapTheme.accent)
+                }
+            }
         }
         .defaultSize(width: 1320, height: 820)
         .windowStyle(.titleBar)

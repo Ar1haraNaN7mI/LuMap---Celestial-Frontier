@@ -1,0 +1,57 @@
+LUMAP — JOURNEY EDITION
+Celestial Frontier
+
+DELIVERY
+105.000 seconds / 1920 × 1080 / 30 fps / H.264 / stereo AAC.
+Clean master, English burned-caption edition, and English + Chinese optional
+subtitle edition. V1 cinematic masters and their published release are untouched.
+
+NEW EDIT
+00:32–00:40: an eight-second golden learning-journey insert. A near-thick,
+far-thin S-shaped beam, softly moving lesson tags, completion-triggered reveal,
+and vertical exploration. The code-authored visualization is explicitly labelled
+“Journey motion study”; the native SwiftUI component snapshot is separately
+labelled as example lesson data. It is a real component rendered with fixtures,
+not a claim that a learner completed those particular lessons.
+00:51–01:03: a twelve-second activity gallery spanning all 17 method categories:
+guided explanation, worked example, Socratic dialogue, analogy, visual map,
+story mode, flash recall, teach-back, simulation, spatial preview, deliberate
+practice, reflection, misconception diagnosis, curiosity branch, counterfactual
+lab, transfer challenge, and narrated lesson.
+
+The gallery uses captured app activities with example learning content, a real
+generated lesson slide, and a real upstream Paper2GalGame WebKit render. The
+upstream shot's synthetic/provider provenance is noted in its supplied test
+evidence; a real rendering does not by itself prove generation. The gallery
+crops away desktop/account information and the historical all-method
+picker. Archived examples are visual evidence of the activity gallery; they are
+not a claim that a single present-day learner sees every method or future step.
+AR remains explicitly labelled as a concept preview. A Paper2GalGame native
+capture replaces the earlier illustrative story card when available; see QA JSON.
+
+MOTION
+All new animation and compositing use Pillow/NumPy frame-by-frame geometry.
+No HTML renderer, slideshow export, or UI-control process is used. Geometric
+cuts include depth-plane travel, diagonal light sweeps, focus portals, staggered
+panels, vertical travel and directional match cuts. Activity titles remain fixed
+and change once at each cut midpoint so they never duplicate or tear.
+
+AUDIO
+All ten original Kokoro narration stems survive in full. Two additional lines
+use the same offline Kokoro multilingual v1.1 / af_sol voice at speed 0.86.
+The original procedural music composition is extended to 105 seconds, with a
+new resolving outro and smooth speech ducking. No stock music or voice cloning.
+English/Chinese subtitles use the exact revised voice timings.
+
+VERIFICATION
+Every edition is fully decoded: 3150 frames. The exported AAC track is decoded
+again and each full narration stem is correlated against its delivery interval.
+journey_video_qa.json records per-edition hashes, durations and per-stem checks.
+SHA256SUMS.txt records the three final video checksums.
+
+REBUILD
+Use the product-film local Python environment and edit/build_journey_film.py.
+Commands: audio, prepare, render, package, validate (or all).
+Optional real assets: edit/journey_v2/native_chain.png and
+edit/journey_v2/paper2galgame-native.png, with JSON crop sidecars if necessary.
+Runtime voice weights, local provider keys and private learner data are omitted.

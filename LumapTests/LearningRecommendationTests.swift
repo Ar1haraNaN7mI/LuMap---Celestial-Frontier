@@ -11,7 +11,7 @@ final class LearningRecommendationTests: XCTestCase {
             ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         ])
         let context = ModelContext(container)
-        let store = LumapStore()
+        let store = try isolatedLumapStore()
         store.configure(context: context)
         return (store, context)
     }

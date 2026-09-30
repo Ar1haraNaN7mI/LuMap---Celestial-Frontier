@@ -3,12 +3,12 @@ import XCTest
 @testable import Lumap
 
 final class LearningAgentStoreTests: XCTestCase {
-    @MainActor private func store() throws -> (LumapStore, ModelContext) {
+    @MainActor private func store(useSavedProvider: Bool = false) throws -> (LumapStore, ModelContext) {
         let schema = Schema([LearnerProfile.self, SourceRecord.self, InterestEvidence.self, LearningGoal.self,
                              ActivityRecord.self, AssessmentRecord.self, RewardEntry.self, MaterialRecord.self, AppHealthRecord.self])
         let container = try ModelContainer(for: schema, configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)])
         let context = ModelContext(container)
-        let store = LumapStore()
+        let store = try isolatedLumapStore(useSavedProvider: useSavedProvider)
         store.configure(context: context)
         return (store, context)
     }
@@ -77,7 +77,7 @@ final class LearningAgentStoreTests: XCTestCase {
         XCTAssertEqual(s.sessionEvidence.completedNodeIDs, ["n1", "n2"])
         XCTAssertEqual(s.currentGoal?.status, "completed")
         XCTAssertEqual(s.currentGoal?.currentStep, 2)
-        let restored = LumapStore()
+        let restored = try isolatedLumapStore()
         restored.configure(context: context)
         XCTAssertNil(restored.currentGoal, "A completed path must not reopen as active on app launch")
         XCTAssertEqual(try context.fetch(FetchDescriptor<LearningGoal>()).first?.status, "completed")
@@ -339,7 +339,7 @@ final class LearningAgentStoreTests: XCTestCase {
         guard let directory = ProcessInfo.processInfo.environment["LUMAP_LIVE_POLISH_OUTPUT"] else {
             throw XCTSkip("Set TEST_RUNNER_LUMAP_LIVE_POLISH_OUTPUT to verify actual assessment generation and evaluation.")
         }
-        let (s, context) = try store()
+        let (s, context) = try store(useSavedProvider: true)
         guard let provider = s.providerConfigurationForGeneration() else {
             throw XCTSkip("The authorized provider credential is unavailable in this test host.")
         }

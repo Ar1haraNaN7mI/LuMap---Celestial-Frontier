@@ -1,0 +1,1 @@
+export default {content:['./*.tsx','./upstream/components/*.tsx'],theme:{extend:{colors:{'gal-pink':'#d9bd78','gal-pink-dark':'#8b6828','gal-blue':'#586d91'},animation:{'bounce-slow':'float 6s ease-in-out infinite','jump-once':'float 3s ease-in-out'},keyframes:{float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-5px)'}}}}}};

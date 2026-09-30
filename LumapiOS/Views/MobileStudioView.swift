@@ -8,6 +8,8 @@ struct MobileStudioView: View {
     @State private var showingImporter = false
     @State private var isImporting = false
     @State private var errorMessage: String?
+    @State private var showingJourney = false
+    @AppStorage("lumap.journey.enteredPlanID") private var enteredPlanID = ""
 
     var body: some View {
         Group {
@@ -17,7 +19,10 @@ struct MobileStudioView: View {
                         goalHeader(goal)
                         LearningAgentStatusView()
                         if store.activePlan != nil {
-                            DisclosureGroup(store.t("Learning path", "学习路径")) { LearningAgentPathView() }
+                            Button { showingJourney = true } label: {
+                                Label(store.t("Your learning chain", "你的学习光链"), systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                                    .frame(maxWidth: .infinity, minHeight: 44)
+                            }.buttonStyle(.bordered).tint(MobileTheme.gold)
                         }
                         LearningSectionMethodsView().mobileCard()
 
@@ -90,7 +95,16 @@ struct MobileStudioView: View {
                 }
             }
         }
-        .task(id: store.currentGoal?.id) { await store.prepareLearningPlan() }
+        .task(id: store.currentGoal?.id) {
+            await store.prepareLearningPlan()
+            if let plan = store.activePlan, enteredPlanID != plan.id {
+                enteredPlanID = plan.id
+                showingJourney = true
+            }
+        }
+        .sheet(isPresented: $showingJourney) {
+            if let goal = store.currentGoal { LearningJourneyPresentation(goal: goal) }
+        }
         .navigationTitle(store.t("Learn", "学习"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

@@ -10,7 +10,7 @@
     <img alt="iOS 18 or newer" src="https://img.shields.io/badge/iOS-18%2B-151D31?style=flat-square&logo=apple" />
     <img alt="Status: working MVP" src="https://img.shields.io/badge/status-working_MVP-48AD96?style=flat-square" />
   </p>
-  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30">▶ Watch the product demo · Video release</a></strong></p>
+  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30">▶ Watch the product demo · Video release</a></strong></p>
   <p><a href="#get-started">Get started</a> · <a href="#watch-the-product-film">Product film</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
 </div>
 
@@ -22,21 +22,22 @@ The aim is to help people discover what they want to understand—and make progr
 
 ## Watch the product film
 
-**[Open the video release on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)** — watch or download the demo, English captions, and optional English / Chinese subtitles.
+**[Open the video release on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)** — watch or download the demo, English captions, and optional English / Chinese subtitles.
 
-[![Lumap product film: native Mac and iPhone learning experiences](docs/images/lumap-product-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)
+[![Lumap product film: native Mac and iPhone learning experiences](docs/images/lumap-journey-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)
 
-**85 seconds · 1080p · 30 fps.** A continuous code-rendered opening and 16 geometric transitions connect real product demonstrations: topic input, sources, adaptive activities, a narrated lesson and quiz, learning evidence, Mac/iPhone views and spatial concept previews.
+**105 seconds · 1080p · 30 fps.** A continuous code-rendered opening connects topic input, research, adaptive activities, a narrated lesson and quiz, learning evidence, Mac/iPhone views and spatial concept previews. The Journey edition adds an **eight-second golden-path insert** and a **twelve-second montage across 17 learning methods**, with directional cuts, light sweeps, focus portals and staggered panels.
 
-[Watch / download with English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-2026-09-30/Lumap_Product_Film_Cinematic_Captions.mp4) · [Download with optional English / Chinese subtitles](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-2026-09-30/Lumap_Product_Film_Cinematic_Subtitles.mp4) · [All video assets and checksums](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)
+[Watch / download with English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-journey-2026-09-30/Lumap_Product_Film_Journey_Captions.mp4) · [Download with optional English / Chinese subtitles](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-journey-2026-09-30/Lumap_Product_Film_Journey_Subtitles.mp4) · [All video assets and checksums](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)
 
-The film uses edited real app captures, synthetic English narration and original music. Generation waits are shortened. Spatial scenes are clearly labeled concept previews; no trained RL deployment, automatic cloud sync or working headset integration is claimed. Large video assets live in Releases so cloning the source repository stays lightweight. Optional subtitle tracks require a compatible player.
+The film combines edited app captures, native SwiftUI and actual upstream Paper2Galgame renders with clearly labeled example lesson data, a code-authored journey motion study, synthetic English narration and original music. All three exports passed full-frame decoding; all 12 narration segments remain complete. See the [export verification](docs/examples/journey-film-verification.json) and [editing guide](docs/examples/journey-film-editing-guide.txt). The [animation source bundle](docs/product-film/README.md) includes a standalone eight-second golden-chain renderer; the full-film editor accepts locally supplied footage and narration. Generation waits are shortened. Spatial scenes are clearly labeled concept previews; no trained RL deployment, automatic cloud sync or working headset integration is claimed. Large video assets live in Releases so cloning the source repository stays lightweight. Optional subtitle tracks require a compatible player.
 
 ## Feature highlights
 
 | Capability | What makes it useful |
 | --- | --- |
 | **An individual learning path** | The agent chooses the scope, foundations, examples and method sequence from the goal and learner context, then revises the next section using actual answers. |
+| **A journey you can see** | A gently moving golden light path carries clickable current and explored course cards. The next card appears only when the next section is actually opened; Personal keeps the same visual archive. |
 | **One section at a time** | Future lessons stay hidden. A saved response and feedback drive the next activity; unfinished concepts receive another approach before progression. |
 | **Mixed learning experiences** | Concept maps, worked examples, retrieval, dialogue, branching stories, simulations and transfer tasks make reasoning visible in different ways. |
 | **Research before teaching** | Public-topic lessons start with retrieved sources. Document-based courses and multi-source Q&A use selected material and traceable citations. |
@@ -88,6 +89,16 @@ flowchart TD
 ```
 
 The **70/100** threshold is an application progression rule, not a certified measure of mastery. A successful alternative method can resolve earlier saved failures on the same concept. Model recommendations cannot bypass local prerequisite checks. Learners see the current section and completed history, without a menu exposing every future lesson or every possible method.
+
+### Follow the golden learning chain
+
+![Actual native SwiftUI golden learning chain with current and explored section cards](docs/images/golden-learning-chain.png)
+
+*The actual SwiftUI component, rendered with synthetic lesson data. Only the current section and previously explored sections are included.*
+
+A dedicated native SwiftUI progress view makes the learning journey visible without changing the lesson interface. A tapered golden beam curves into the distance; current and explored sections hang from it as large, clickable cards. Scroll through past discoveries, open the current activity, or revisit saved responses and feedback. Future section names and methods never enter this view's data projection.
+
+The chain opens when a new course is ready and is always available from **Learning Studio → Your learning chain**. **Personal → View chain** opens the same visual archive, including completed courses. Reviewing an archived card does not switch the live learning cursor. Existing lesson pages, assessment thresholds, rewards and method assignment remain unchanged. System and in-app Reduce Motion settings stop the sway; the view supports keyboard focus, light/dark appearances and compact iPhone layouts.
 
 ### What adaptation looks like
 
@@ -191,7 +202,7 @@ The agent chooses methods for the section and the learner's observed needs. The 
 | Narrated lesson | Learn from a complete slide lesson with local narration and retrieval checks. |
 | Spatial AR lab | Interact with a clearly labeled spatial concept preview. **Real camera-based supervision is not implemented.** |
 
-Story mode is a native Lumap branching interaction inspired by the learning potential of visual novels. It is **not an embedded copy of the full upstream Paper2Galgame application**. Practical tasks and simulations currently use learner responses and model feedback; they do not independently verify a real-world experiment.
+Story mode now embeds the actual upstream **Paper2Galgame GameScreen** locally in WebKit. Lumap supplies source-grounded model generation, chapter depth, character customization, local resume and its existing assessed-choice workflow. The provider layer is native: custom API credentials remain in Keychain and are never passed to the embedded JavaScript. The upstream runtime is installed locally using the [integration installer](Paper2Galgame/README.md); the public repository includes the adapter and reproducible installer, not upstream code or character artwork without redistribution permission. Practical tasks and simulations currently use learner responses and model feedback; they do not independently verify a real-world experiment.
 
 Different interactions produce different kinds of evidence:
 
@@ -591,9 +602,28 @@ xcodebuild -project Lumap.xcodeproj -scheme LumapiOS \
 
 The Mac build is written to `.build/DerivedData/Build/Products/Debug/Lumap.app`. For a local Release bundle, the [packaging helper](Scripts/package-local-macos.py) stages the built app, corrects known malformed dependency symlinks and verifies ad-hoc signatures; it does not notarize the app.
 
+### Paper2Galgame running locally
+
+![Actual upstream Paper2Galgame GameScreen running in the native WebKit bridge](docs/images/paper2galgame-local-runtime.png)
+
+*The pinned upstream renderer running in Lumap’s actual WKWebView bridge, using synthetic teaching notes and original Lumap artwork for this capture. Typewriter dialogue, Auto, Log, Hide, Exit and six expression slots are connected. Generation uses the configured native model; assessment and saving remain in the existing learning activity.*
+
+### Install the local Paper2Galgame renderer
+
+The existing app works without this optional runtime, but Story requires installation to play the upstream visual novel. Install Node.js/npm, then run:
+
+```sh
+python3 Paper2Galgame/Scripts/install_runtime.py
+xcodegen generate
+```
+
+The installer downloads only two pinned, SHA-256-checked upstream renderer/type files, replaces external character artwork with local portraits, and builds the bundled WebKit resources. It never downloads the upstream provider service or its embedded credential. The generated runtime and build/cache folders are excluded from Git. See the [setup, supported controls and provenance](Paper2Galgame/README.md) for 15/25/30-scene chapters, six portrait expressions, custom backgrounds, document references, dialogue log, autoplay and resume.
+
 ## Tests and a reproducible demo
 
-The [latest functional-integrity update](docs/updates/2026-09-30-functional-integrity.md) verifies **109 default tests passed** (3 explicit opt-ins skipped), **3 separate real-service checks passed**, both platform builds, and a freshly generated **six-slide, 650-word, 247-second narrated lesson**. It completes method-specific interactions, protects evidence-based progression and cancellation, aligns Handoff with saved progress, and verifies full PPTX/script/audio/video exports.
+The [golden-journey update](docs/updates/2026-09-30-golden-journey.md) adds the native chain, real local Paper2Galgame renderer and 105-second film. Its locked-host validation passed **120 checks**, both platform builds and the actual WebKit renderer with synthetic content. Three real-service opt-ins were skipped, and three protected-file round-trips plus desktop/live-provider validation remain pending an unlocked host.
+
+The [earlier functional-integrity update](docs/updates/2026-09-30-functional-integrity.md) verifies **109 default tests passed** (3 explicit opt-ins skipped), **3 separate real-service checks passed**, both platform builds, and a freshly generated **six-slide, 650-word, 247-second narrated lesson**. It completes method-specific interactions, protects evidence-based progression and cancellation, aligns Handoff with saved progress, and verifies full PPTX/script/audio/video exports.
 
 The [30 September learning-flow update](docs/updates/2026-09-30-learning-polish.md) adds iPhone optional assessments and project resume, reliable terminal course status, cancellable section adaptation, quiz-safe narration, and recommendation invalidation after profile changes. Its verification run passed **81 default tests** (3 explicit opt-ins skipped), both platform builds, and a separate real-provider assessment test. The update includes actual synthetic-input model output and a manual walkthrough.
 

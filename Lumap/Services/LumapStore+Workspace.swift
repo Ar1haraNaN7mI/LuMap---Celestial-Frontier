@@ -367,9 +367,14 @@ extension LumapStore {
             currentNodeID: node.id, currentMethodID: currentMethod.rawValue, teachingLanguage: learningLanguage)
         let data = try LearningWorkspaceTransferCodec.encode(payload)
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("LumapSessionExports", isDirectory: true)
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true,
+                                                attributes: [.posixPermissions: 0o700])
+        // Restrict the directory before the atomic write so its temporary file
+        // is private too. A previously created export directory may be broader.
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: directory.path)
         let url = directory.appendingPathComponent("Lumap-Session-\(UUID().uuidString.prefix(8)).json")
         try data.write(to: url, options: [.atomic, .completeFileProtectionUnlessOpen])
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
         return url
     }
 
