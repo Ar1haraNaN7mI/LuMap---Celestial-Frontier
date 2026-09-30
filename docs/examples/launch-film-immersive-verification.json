@@ -1,0 +1,1500 @@
+{
+  "project": "Lumap",
+  "team": "Celestial Frontier",
+  "date": "2026-10-01",
+  "release": "launch-film-immersive-2026-10-01",
+  "delivery_passed": true,
+  "scope": "Picture-preserving audio revision. Objective decode, bitstream identity, cue coverage, alignment, metadata, loudness and subtitle checks; no subjective audition claim.",
+  "duration_seconds": 85,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 2550,
+  "approved_picture_stream_sha256": "a7660ee2f533803ba4c8cecf630a88ca81c740ae52a93f56b857b757d0ed81e6",
+  "decoded_picture_vs_approved_SSIM": 1.0,
+  "files": {
+    "Lumap_Launch_Film_Immersive.mp4": {
+      "sha256": "acde88f32796518f67be70bf3f92911a436abddf054115c30f01a9b1818b726c",
+      "checks": {
+        "file_stable_during_check": true,
+        "full_decode_passed": true,
+        "approved_h264_picture_preserved": true,
+        "1080p_30fps_2550frames": true,
+        "container_video_audio_85seconds": true,
+        "aac_stereo_48khz": true,
+        "all_32_cue_center_probes_zero_lag": true,
+        "all_32_probes_correlation_over_0_999": true,
+        "all_32_complete_cue_correlations_over_0_999": true,
+        "all_32_speech_endpoints_inside_windows": true,
+        "true_peak_below_minus_1dbtp": true,
+        "no_clipped_decoded_samples": true,
+        "32_subtitles_match_exact_srt": true,
+        "english_nonforced_soft_subtitles": true
+      },
+      "video_stream_sha256": "a7660ee2f533803ba4c8cecf630a88ca81c740ae52a93f56b857b757d0ed81e6",
+      "audio_alignment_probes": [
+        {
+          "id": "01_strengths",
+          "probe_center_seconds": 1.9175,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999852429293623,
+          "reference_probe_rms_dbfs": -21.83973664551052
+        },
+        {
+          "id": "02_potential",
+          "probe_center_seconds": 5.2645,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999924819356568,
+          "reference_probe_rms_dbfs": -18.884923097370056
+        },
+        {
+          "id": "03_begins",
+          "probe_center_seconds": 8.259,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999933251273497,
+          "reference_probe_rms_dbfs": -18.46181861539179
+        },
+        {
+          "id": "04_read",
+          "probe_center_seconds": 11.186,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999949573811,
+          "reference_probe_rms_dbfs": -18.663217692738897
+        },
+        {
+          "id": "05_listen",
+          "probe_center_seconds": 12.591,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999784553803861,
+          "reference_probe_rms_dbfs": -19.412689584103056
+        },
+        {
+          "id": "06_ask",
+          "probe_center_seconds": 14.102,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999565801700113,
+          "reference_probe_rms_dbfs": -19.52126661783967
+        },
+        {
+          "id": "07_try",
+          "probe_center_seconds": 15.6685,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.999995667506693,
+          "reference_probe_rms_dbfs": -17.793223893870753
+        },
+        {
+          "id": "08_question",
+          "probe_center_seconds": 18.433,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999944115380209,
+          "reference_probe_rms_dbfs": -19.034725478216405
+        },
+        {
+          "id": "09_curiosity",
+          "probe_center_seconds": 22.077,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999874987966543,
+          "reference_probe_rms_dbfs": -22.053179157966554
+        },
+        {
+          "id": "10_connect",
+          "probe_center_seconds": 25.538,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999930116201672,
+          "reference_probe_rms_dbfs": -19.007653479200815
+        },
+        {
+          "id": "11_path",
+          "probe_center_seconds": 28.3765,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999875637025535,
+          "reference_probe_rms_dbfs": -18.11398239739554
+        },
+        {
+          "id": "12_discovery",
+          "probe_center_seconds": 31.624,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999851311253959,
+          "reference_probe_rms_dbfs": -20.390987542176827
+        },
+        {
+          "id": "13_aroundyou",
+          "probe_center_seconds": 34.7125,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.999984661327554,
+          "reference_probe_rms_dbfs": -19.184911648430887
+        },
+        {
+          "id": "14_click",
+          "probe_center_seconds": 38.233,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999911215558996,
+          "reference_probe_rms_dbfs": -19.3286411699547
+        },
+        {
+          "id": "15_wayin",
+          "probe_center_seconds": 40.537,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999821158065407,
+          "reference_probe_rms_dbfs": -16.170679799883803
+        },
+        {
+          "id": "16_see",
+          "probe_center_seconds": 43.1295,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999963279708888,
+          "reference_probe_rms_dbfs": -16.942375405324256
+        },
+        {
+          "id": "17_hear",
+          "probe_center_seconds": 44.4155,
+          "probe_duration_seconds": 0.3856875,
+          "lag_samples": 0,
+          "correlation": 0.9999939643032595,
+          "reference_probe_rms_dbfs": -18.540771968744714
+        },
+        {
+          "id": "18_tryit",
+          "probe_center_seconds": 45.3585,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999936570690672,
+          "reference_probe_rms_dbfs": -17.905837886049962
+        },
+        {
+          "id": "19_lumi",
+          "probe_center_seconds": 47.0955,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999932205792806,
+          "reference_probe_rms_dbfs": -18.40104926107881
+        },
+        {
+          "id": "20_story",
+          "probe_center_seconds": 50.6885,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999842115211961,
+          "reference_probe_rms_dbfs": -18.347514158151338
+        },
+        {
+          "id": "21_alive",
+          "probe_center_seconds": 54.2375,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999900378705828,
+          "reference_probe_rms_dbfs": -18.516655320781922
+        },
+        {
+          "id": "22_clear",
+          "probe_center_seconds": 57.941,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999882660926993,
+          "reference_probe_rms_dbfs": -16.820515815072454
+        },
+        {
+          "id": "23_next",
+          "probe_center_seconds": 61.67,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999925523010733,
+          "reference_probe_rms_dbfs": -17.884729014670892
+        },
+        {
+          "id": "24_ownwords",
+          "probe_center_seconds": 64.4755,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999909444041198,
+          "reference_probe_rms_dbfs": -17.9203361658575
+        },
+        {
+          "id": "25_feedback",
+          "probe_center_seconds": 66.9885,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999954787356371,
+          "reference_probe_rms_dbfs": -17.94380339801904
+        },
+        {
+          "id": "26_nextstep",
+          "probe_center_seconds": 68.687,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999867817280919,
+          "reference_probe_rms_dbfs": -19.798232043327538
+        },
+        {
+          "id": "27_mac",
+          "probe_center_seconds": 71.2705,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999912152836193,
+          "reference_probe_rms_dbfs": -18.410944216763728
+        },
+        {
+          "id": "28_phone",
+          "probe_center_seconds": 72.912,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999923389453905,
+          "reference_probe_rms_dbfs": -18.98204333394101
+        },
+        {
+          "id": "29_spatial",
+          "probe_center_seconds": 74.6965,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999952290576896,
+          "reference_probe_rms_dbfs": -17.65236150742902
+        },
+        {
+          "id": "30_answer",
+          "probe_center_seconds": 77.2095,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999756999226722,
+          "reference_probe_rms_dbfs": -20.477931878055088
+        },
+        {
+          "id": "31_understand",
+          "probe_center_seconds": 79.66,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999912910479557,
+          "reference_probe_rms_dbfs": -20.271438895590745
+        },
+        {
+          "id": "32_brand",
+          "probe_center_seconds": 82.42,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999907433122988,
+          "reference_probe_rms_dbfs": -18.90166794977985
+        }
+      ],
+      "narration_coverage": [
+        {
+          "id": "01_strengths",
+          "text": "Every person has strengths waiting to be discovered.",
+          "audible_start": 0.6,
+          "audible_end": 3.235,
+          "window_end": 4.02,
+          "margin_seconds": 0.785,
+          "stereo_correlation_to_expected_mix": 0.9999924282767741,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.73331977148243
+        },
+        {
+          "id": "02_potential",
+          "text": "Potential looks different.",
+          "audible_start": 4.55,
+          "audible_end": 5.979,
+          "window_end": 6.55,
+          "margin_seconds": 0.571,
+          "stereo_correlation_to_expected_mix": 0.9999864194567335,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.808382848880953
+        },
+        {
+          "id": "03_begins",
+          "text": "Lumap begins with you.",
+          "audible_start": 7.55,
+          "audible_end": 8.968,
+          "window_end": 9.72,
+          "margin_seconds": 0.752,
+          "stereo_correlation_to_expected_mix": 0.9999942790507901,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.998601883184588
+        },
+        {
+          "id": "04_read",
+          "text": "Read.",
+          "audible_start": 10.88,
+          "audible_end": 11.492,
+          "window_end": 11.58,
+          "margin_seconds": 0.088,
+          "stereo_correlation_to_expected_mix": 0.9999948779833894,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.232815376897822
+        },
+        {
+          "id": "05_listen",
+          "text": "Listen.",
+          "audible_start": 12.26,
+          "audible_end": 12.922,
+          "window_end": 13.1,
+          "margin_seconds": 0.178,
+          "stereo_correlation_to_expected_mix": 0.999992140311453,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.31953930043336
+        },
+        {
+          "id": "06_ask",
+          "text": "Ask.",
+          "audible_start": 13.81,
+          "audible_end": 14.394,
+          "window_end": 14.62,
+          "margin_seconds": 0.226,
+          "stereo_correlation_to_expected_mix": 0.9999846447476602,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.334272048915178
+        },
+        {
+          "id": "07_try",
+          "text": "Try.",
+          "audible_start": 15.34,
+          "audible_end": 15.997,
+          "window_end": 16.3,
+          "margin_seconds": 0.303,
+          "stereo_correlation_to_expected_mix": 0.9999922433239209,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.57726416119654
+        },
+        {
+          "id": "08_question",
+          "text": "Start with a question.",
+          "audible_start": 17.8,
+          "audible_end": 19.066,
+          "window_end": 19.92,
+          "margin_seconds": 0.854,
+          "stereo_correlation_to_expected_mix": 0.9999938372723708,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.819418084378373
+        },
+        {
+          "id": "09_curiosity",
+          "text": "Bring what sparked your curiosity.",
+          "audible_start": 21.14,
+          "audible_end": 23.014,
+          "window_end": 23.68,
+          "margin_seconds": 0.666,
+          "stereo_correlation_to_expected_mix": 0.999989488600154,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.73598087025192
+        },
+        {
+          "id": "10_connect",
+          "text": "Watch the ideas connect.",
+          "audible_start": 24.8,
+          "audible_end": 26.276,
+          "window_end": 26.82,
+          "margin_seconds": 0.544,
+          "stereo_correlation_to_expected_mix": 0.9999894372186682,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.832251511147508
+        },
+        {
+          "id": "11_path",
+          "text": "A path begins to emerge.",
+          "audible_start": 27.56,
+          "audible_end": 29.193,
+          "window_end": 29.77,
+          "margin_seconds": 0.577,
+          "stereo_correlation_to_expected_mix": 0.999991075962371,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.583362385412148
+        },
+        {
+          "id": "12_discovery",
+          "text": "One discovery at a time.",
+          "audible_start": 30.82,
+          "audible_end": 32.428,
+          "window_end": 33.02,
+          "margin_seconds": 0.592,
+          "stereo_correlation_to_expected_mix": 0.9999934139365769,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.620937771421918
+        },
+        {
+          "id": "13_aroundyou",
+          "text": "Each step, shaped around you.",
+          "audible_start": 33.87,
+          "audible_end": 35.555,
+          "window_end": 36.32,
+          "margin_seconds": 0.765,
+          "stereo_correlation_to_expected_mix": 0.9999929076050339,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.02720317250612
+        },
+        {
+          "id": "14_click",
+          "text": "When it doesn't click,",
+          "audible_start": 37.7,
+          "audible_end": 38.766,
+          "window_end": 39.34,
+          "margin_seconds": 0.574,
+          "stereo_correlation_to_expected_mix": 0.9999939511825922,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.970956684850222
+        },
+        {
+          "id": "15_wayin",
+          "text": "see it another way.",
+          "audible_start": 39.86,
+          "audible_end": 41.214,
+          "window_end": 41.65,
+          "margin_seconds": 0.436,
+          "stereo_correlation_to_expected_mix": 0.9999944425780163,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.40347314701394
+        },
+        {
+          "id": "16_see",
+          "text": "See it move.",
+          "audible_start": 42.7,
+          "audible_end": 43.559,
+          "window_end": 43.82,
+          "margin_seconds": 0.261,
+          "stereo_correlation_to_expected_mix": 0.9999941022460426,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.4962366515656
+        },
+        {
+          "id": "17_hear",
+          "text": "Hear.",
+          "audible_start": 44.14,
+          "audible_end": 44.691,
+          "window_end": 44.78,
+          "margin_seconds": 0.089,
+          "stereo_correlation_to_expected_mix": 0.9999922109127511,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.827041033124523
+        },
+        {
+          "id": "18_tryit",
+          "text": "Try.",
+          "audible_start": 45.04,
+          "audible_end": 45.677,
+          "window_end": 45.72,
+          "margin_seconds": 0.043,
+          "stereo_correlation_to_expected_mix": 0.9999912822739562,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.59840508123338
+        },
+        {
+          "id": "19_lumi",
+          "text": "Talk it through with Lumi.",
+          "audible_start": 46.25,
+          "audible_end": 47.941,
+          "window_end": 48.72,
+          "margin_seconds": 0.779,
+          "stereo_correlation_to_expected_mix": 0.9999946108955206,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.1828421188484
+        },
+        {
+          "id": "20_story",
+          "text": "Turn a paper into a story.",
+          "audible_start": 49.63,
+          "audible_end": 51.747,
+          "window_end": 52.03,
+          "margin_seconds": 0.283,
+          "stereo_correlation_to_expected_mix": 0.999989465568386,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.63373138859583
+        },
+        {
+          "id": "21_alive",
+          "text": "Hear the lesson come alive.",
+          "audible_start": 53.42,
+          "audible_end": 55.055,
+          "window_end": 55.72,
+          "margin_seconds": 0.665,
+          "stereo_correlation_to_expected_mix": 0.9999928156609614,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.33990060004567
+        },
+        {
+          "id": "22_clear",
+          "text": "Your answers reveal what's becoming clear.",
+          "audible_start": 56.8,
+          "audible_end": 59.082,
+          "window_end": 59.93,
+          "margin_seconds": 0.848,
+          "stereo_correlation_to_expected_mix": 0.9999914715129707,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.645467452272683
+        },
+        {
+          "id": "23_next",
+          "text": "And what comes next.",
+          "audible_start": 60.9,
+          "audible_end": 62.44,
+          "window_end": 62.72,
+          "margin_seconds": 0.28,
+          "stereo_correlation_to_expected_mix": 0.9999936191042033,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.892898669790547
+        },
+        {
+          "id": "24_ownwords",
+          "text": "Show what you understand.",
+          "audible_start": 63.75,
+          "audible_end": 65.201,
+          "window_end": 66.13,
+          "margin_seconds": 0.929,
+          "stereo_correlation_to_expected_mix": 0.9999935127623971,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.509856456013733
+        },
+        {
+          "id": "25_feedback",
+          "text": "Get feedback.",
+          "audible_start": 66.54,
+          "audible_end": 67.437,
+          "window_end": 67.6,
+          "margin_seconds": 0.163,
+          "stereo_correlation_to_expected_mix": 0.9999918552218764,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.787490254905347
+        },
+        {
+          "id": "26_nextstep",
+          "text": "Then take the next step.",
+          "audible_start": 67.94,
+          "audible_end": 69.434,
+          "window_end": 69.76,
+          "margin_seconds": 0.326,
+          "stereo_correlation_to_expected_mix": 0.9999919373220348,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.064633052060046
+        },
+        {
+          "id": "27_mac",
+          "text": "On your Mac.",
+          "audible_start": 70.82,
+          "audible_end": 71.721,
+          "window_end": 72.04,
+          "margin_seconds": 0.319,
+          "stereo_correlation_to_expected_mix": 0.9999931699535095,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.606361146066487
+        },
+        {
+          "id": "28_phone",
+          "text": "On your phone.",
+          "audible_start": 72.43,
+          "audible_end": 73.394,
+          "window_end": 73.61,
+          "margin_seconds": 0.216,
+          "stereo_correlation_to_expected_mix": 0.9999885829161358,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.612405550041892
+        },
+        {
+          "id": "29_spatial",
+          "text": "One day, beyond the screen.",
+          "audible_start": 73.9,
+          "audible_end": 75.493,
+          "window_end": 75.82,
+          "margin_seconds": 0.327,
+          "stereo_correlation_to_expected_mix": 0.999993267754134,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.658213550012878
+        },
+        {
+          "id": "30_answer",
+          "text": "More than an answer.",
+          "audible_start": 76.55,
+          "audible_end": 77.869,
+          "window_end": 78.3,
+          "margin_seconds": 0.431,
+          "stereo_correlation_to_expected_mix": 0.9999914100950746,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.816698469260896
+        },
+        {
+          "id": "31_understand",
+          "text": "Your own way to understand.",
+          "audible_start": 78.86,
+          "audible_end": 80.46,
+          "window_end": 81.2,
+          "margin_seconds": 0.74,
+          "stereo_correlation_to_expected_mix": 0.9999940798753281,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.581864006938403
+        },
+        {
+          "id": "32_brand",
+          "text": "Lumap.",
+          "audible_start": 82.08,
+          "audible_end": 82.76,
+          "window_end": 83.55,
+          "margin_seconds": 0.79,
+          "stereo_correlation_to_expected_mix": 0.9999917689058326,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.641994679790788
+        }
+      ],
+      "measured_loudness": {
+        "input_i": "-17.24",
+        "input_tp": "-2.39",
+        "input_lra": "4.00",
+        "input_thresh": "-29.12"
+      },
+      "subtitle_cues": 32,
+      "subtitle_default_flag": 1,
+      "subtitle_note": "English captions are a separate non-forced mov_text track, not burned into the picture. MP4 marks the sole subtitle track default; player display preferences may apply."
+    },
+    "Lumap_Launch_Film_Immersive_No_Music.mp4": {
+      "sha256": "1a1a375a2478098410336c568bc300cdb280ccbdb077301bd33308bf21577f03",
+      "checks": {
+        "file_stable_during_check": true,
+        "full_decode_passed": true,
+        "approved_h264_picture_preserved": true,
+        "1080p_30fps_2550frames": true,
+        "container_video_audio_85seconds": true,
+        "aac_stereo_48khz": true,
+        "all_32_cue_center_probes_zero_lag": true,
+        "all_32_probes_correlation_over_0_999": true,
+        "all_32_complete_cue_correlations_over_0_999": true,
+        "all_32_speech_endpoints_inside_windows": true,
+        "true_peak_below_minus_1dbtp": true,
+        "no_clipped_decoded_samples": true,
+        "32_subtitles_match_exact_srt": true,
+        "english_nonforced_soft_subtitles": true
+      },
+      "video_stream_sha256": "a7660ee2f533803ba4c8cecf630a88ca81c740ae52a93f56b857b757d0ed81e6",
+      "audio_alignment_probes": [
+        {
+          "id": "01_strengths",
+          "probe_center_seconds": 1.9175,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999846243762625,
+          "reference_probe_rms_dbfs": -21.915561759460438
+        },
+        {
+          "id": "02_potential",
+          "probe_center_seconds": 5.2645,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999928465583806,
+          "reference_probe_rms_dbfs": -18.898447292381878
+        },
+        {
+          "id": "03_begins",
+          "probe_center_seconds": 8.259,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999934315651313,
+          "reference_probe_rms_dbfs": -18.49094286122593
+        },
+        {
+          "id": "04_read",
+          "probe_center_seconds": 11.186,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999848737798609,
+          "reference_probe_rms_dbfs": -18.694219601977693
+        },
+        {
+          "id": "05_listen",
+          "probe_center_seconds": 12.591,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999774419775995,
+          "reference_probe_rms_dbfs": -19.396465740544187
+        },
+        {
+          "id": "06_ask",
+          "probe_center_seconds": 14.102,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.999959311710583,
+          "reference_probe_rms_dbfs": -19.604528964470166
+        },
+        {
+          "id": "07_try",
+          "probe_center_seconds": 15.6685,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999956527762645,
+          "reference_probe_rms_dbfs": -17.784643257273864
+        },
+        {
+          "id": "08_question",
+          "probe_center_seconds": 18.433,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999942427043785,
+          "reference_probe_rms_dbfs": -19.062662983238223
+        },
+        {
+          "id": "09_curiosity",
+          "probe_center_seconds": 22.077,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999893754949616,
+          "reference_probe_rms_dbfs": -22.332039806958818
+        },
+        {
+          "id": "10_connect",
+          "probe_center_seconds": 25.538,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999928505135433,
+          "reference_probe_rms_dbfs": -19.05481186720435
+        },
+        {
+          "id": "11_path",
+          "probe_center_seconds": 28.3765,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999902553782188,
+          "reference_probe_rms_dbfs": -18.24798209098385
+        },
+        {
+          "id": "12_discovery",
+          "probe_center_seconds": 31.624,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999908742081072,
+          "reference_probe_rms_dbfs": -20.505070330171247
+        },
+        {
+          "id": "13_aroundyou",
+          "probe_center_seconds": 34.7125,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999820146811185,
+          "reference_probe_rms_dbfs": -19.332794467759882
+        },
+        {
+          "id": "14_click",
+          "probe_center_seconds": 38.233,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999906060988175,
+          "reference_probe_rms_dbfs": -19.33808934376807
+        },
+        {
+          "id": "15_wayin",
+          "probe_center_seconds": 40.537,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999828657047619,
+          "reference_probe_rms_dbfs": -16.147442914342335
+        },
+        {
+          "id": "16_see",
+          "probe_center_seconds": 43.1295,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999964569213483,
+          "reference_probe_rms_dbfs": -17.04624552378766
+        },
+        {
+          "id": "17_hear",
+          "probe_center_seconds": 44.4155,
+          "probe_duration_seconds": 0.3856875,
+          "lag_samples": 0,
+          "correlation": 0.9999948763927986,
+          "reference_probe_rms_dbfs": -18.61995039525239
+        },
+        {
+          "id": "18_tryit",
+          "probe_center_seconds": 45.3585,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999911610419822,
+          "reference_probe_rms_dbfs": -17.981297731657694
+        },
+        {
+          "id": "19_lumi",
+          "probe_center_seconds": 47.0955,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999945998429023,
+          "reference_probe_rms_dbfs": -18.471102044223105
+        },
+        {
+          "id": "20_story",
+          "probe_center_seconds": 50.6885,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999839695630877,
+          "reference_probe_rms_dbfs": -18.475013520821115
+        },
+        {
+          "id": "21_alive",
+          "probe_center_seconds": 54.2375,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999914286798474,
+          "reference_probe_rms_dbfs": -18.667519056703544
+        },
+        {
+          "id": "22_clear",
+          "probe_center_seconds": 57.941,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999877684397863,
+          "reference_probe_rms_dbfs": -16.92514577195966
+        },
+        {
+          "id": "23_next",
+          "probe_center_seconds": 61.67,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999951778657271,
+          "reference_probe_rms_dbfs": -17.96082229979583
+        },
+        {
+          "id": "24_ownwords",
+          "probe_center_seconds": 64.4755,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999840229158519,
+          "reference_probe_rms_dbfs": -17.996313026519505
+        },
+        {
+          "id": "25_feedback",
+          "probe_center_seconds": 66.9885,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999950617211331,
+          "reference_probe_rms_dbfs": -18.026115123294833
+        },
+        {
+          "id": "26_nextstep",
+          "probe_center_seconds": 68.687,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999859191155431,
+          "reference_probe_rms_dbfs": -19.889951881712623
+        },
+        {
+          "id": "27_mac",
+          "probe_center_seconds": 71.2705,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999918429843356,
+          "reference_probe_rms_dbfs": -18.509442625830058
+        },
+        {
+          "id": "28_phone",
+          "probe_center_seconds": 72.912,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.999991795566798,
+          "reference_probe_rms_dbfs": -19.13961056222375
+        },
+        {
+          "id": "29_spatial",
+          "probe_center_seconds": 74.6965,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999942531574073,
+          "reference_probe_rms_dbfs": -17.75501314743048
+        },
+        {
+          "id": "30_answer",
+          "probe_center_seconds": 77.2095,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.999980666641192,
+          "reference_probe_rms_dbfs": -20.454653003692037
+        },
+        {
+          "id": "31_understand",
+          "probe_center_seconds": 79.66,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999913339364759,
+          "reference_probe_rms_dbfs": -20.305958610308785
+        },
+        {
+          "id": "32_brand",
+          "probe_center_seconds": 82.42,
+          "probe_duration_seconds": 0.4,
+          "lag_samples": 0,
+          "correlation": 0.9999919790461289,
+          "reference_probe_rms_dbfs": -18.966395148524818
+        }
+      ],
+      "narration_coverage": [
+        {
+          "id": "01_strengths",
+          "text": "Every person has strengths waiting to be discovered.",
+          "audible_start": 0.6,
+          "audible_end": 3.235,
+          "window_end": 4.02,
+          "margin_seconds": 0.785,
+          "stereo_correlation_to_expected_mix": 0.9999925773264794,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.75147674192704
+        },
+        {
+          "id": "02_potential",
+          "text": "Potential looks different.",
+          "audible_start": 4.55,
+          "audible_end": 5.979,
+          "window_end": 6.55,
+          "margin_seconds": 0.571,
+          "stereo_correlation_to_expected_mix": 0.9999901986694912,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.84050905390239
+        },
+        {
+          "id": "03_begins",
+          "text": "Lumap begins with you.",
+          "audible_start": 7.55,
+          "audible_end": 8.968,
+          "window_end": 9.72,
+          "margin_seconds": 0.752,
+          "stereo_correlation_to_expected_mix": 0.9999929215758809,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.027726446082653
+        },
+        {
+          "id": "04_read",
+          "text": "Read.",
+          "audible_start": 10.88,
+          "audible_end": 11.492,
+          "window_end": 11.58,
+          "margin_seconds": 0.088,
+          "stereo_correlation_to_expected_mix": 0.9999876278175507,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.29576512428587
+        },
+        {
+          "id": "05_listen",
+          "text": "Listen.",
+          "audible_start": 12.26,
+          "audible_end": 12.922,
+          "window_end": 13.1,
+          "margin_seconds": 0.178,
+          "stereo_correlation_to_expected_mix": 0.9999914574959384,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.330380201387143
+        },
+        {
+          "id": "06_ask",
+          "text": "Ask.",
+          "audible_start": 13.81,
+          "audible_end": 14.394,
+          "window_end": 14.62,
+          "margin_seconds": 0.226,
+          "stereo_correlation_to_expected_mix": 0.9999883997845977,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.431326785425217
+        },
+        {
+          "id": "07_try",
+          "text": "Try.",
+          "audible_start": 15.34,
+          "audible_end": 15.997,
+          "window_end": 16.3,
+          "margin_seconds": 0.303,
+          "stereo_correlation_to_expected_mix": 0.999993011217446,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.607683254884783
+        },
+        {
+          "id": "08_question",
+          "text": "Start with a question.",
+          "audible_start": 17.8,
+          "audible_end": 19.066,
+          "window_end": 19.92,
+          "margin_seconds": 0.854,
+          "stereo_correlation_to_expected_mix": 0.9999942229246558,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.882552840142292
+        },
+        {
+          "id": "09_curiosity",
+          "text": "Bring what sparked your curiosity.",
+          "audible_start": 21.14,
+          "audible_end": 23.014,
+          "window_end": 23.68,
+          "margin_seconds": 0.666,
+          "stereo_correlation_to_expected_mix": 0.999991087965158,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.843948801874614
+        },
+        {
+          "id": "10_connect",
+          "text": "Watch the ideas connect.",
+          "audible_start": 24.8,
+          "audible_end": 26.276,
+          "window_end": 26.82,
+          "margin_seconds": 0.544,
+          "stereo_correlation_to_expected_mix": 0.999994556116084,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.911122801851285
+        },
+        {
+          "id": "11_path",
+          "text": "A path begins to emerge.",
+          "audible_start": 27.56,
+          "audible_end": 29.193,
+          "window_end": 29.77,
+          "margin_seconds": 0.577,
+          "stereo_correlation_to_expected_mix": 0.9999938698835027,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.670210812376066
+        },
+        {
+          "id": "12_discovery",
+          "text": "One discovery at a time.",
+          "audible_start": 30.82,
+          "audible_end": 32.428,
+          "window_end": 33.02,
+          "margin_seconds": 0.592,
+          "stereo_correlation_to_expected_mix": 0.9999926972681146,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.74479718316693
+        },
+        {
+          "id": "13_aroundyou",
+          "text": "Each step, shaped around you.",
+          "audible_start": 33.87,
+          "audible_end": 35.555,
+          "window_end": 36.32,
+          "margin_seconds": 0.765,
+          "stereo_correlation_to_expected_mix": 0.9999927134043464,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.149354577213614
+        },
+        {
+          "id": "14_click",
+          "text": "When it doesn't click,",
+          "audible_start": 37.7,
+          "audible_end": 38.766,
+          "window_end": 39.34,
+          "margin_seconds": 0.574,
+          "stereo_correlation_to_expected_mix": 0.9999935441586694,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.986100548699145
+        },
+        {
+          "id": "15_wayin",
+          "text": "see it another way.",
+          "audible_start": 39.86,
+          "audible_end": 41.214,
+          "window_end": 41.65,
+          "margin_seconds": 0.436,
+          "stereo_correlation_to_expected_mix": 0.9999949503380955,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.408577034029644
+        },
+        {
+          "id": "16_see",
+          "text": "See it move.",
+          "audible_start": 42.7,
+          "audible_end": 43.559,
+          "window_end": 43.82,
+          "margin_seconds": 0.261,
+          "stereo_correlation_to_expected_mix": 0.9999949954588239,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.62843465761036
+        },
+        {
+          "id": "17_hear",
+          "text": "Hear.",
+          "audible_start": 44.14,
+          "audible_end": 44.691,
+          "window_end": 44.78,
+          "margin_seconds": 0.089,
+          "stereo_correlation_to_expected_mix": 0.9999934062271898,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.934854134884073
+        },
+        {
+          "id": "18_tryit",
+          "text": "Try.",
+          "audible_start": 45.04,
+          "audible_end": 45.677,
+          "window_end": 45.72,
+          "margin_seconds": 0.043,
+          "stereo_correlation_to_expected_mix": 0.9999904013861175,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.720629388227252
+        },
+        {
+          "id": "19_lumi",
+          "text": "Talk it through with Lumi.",
+          "audible_start": 46.25,
+          "audible_end": 47.941,
+          "window_end": 48.72,
+          "margin_seconds": 0.779,
+          "stereo_correlation_to_expected_mix": 0.9999951606091796,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.29277007070733
+        },
+        {
+          "id": "20_story",
+          "text": "Turn a paper into a story.",
+          "audible_start": 49.63,
+          "audible_end": 51.747,
+          "window_end": 52.03,
+          "margin_seconds": 0.283,
+          "stereo_correlation_to_expected_mix": 0.999991161202927,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.788034941421778
+        },
+        {
+          "id": "21_alive",
+          "text": "Hear the lesson come alive.",
+          "audible_start": 53.42,
+          "audible_end": 55.055,
+          "window_end": 55.72,
+          "margin_seconds": 0.665,
+          "stereo_correlation_to_expected_mix": 0.9999942253568594,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.528547670079597
+        },
+        {
+          "id": "22_clear",
+          "text": "Your answers reveal what's becoming clear.",
+          "audible_start": 56.8,
+          "audible_end": 59.082,
+          "window_end": 59.93,
+          "margin_seconds": 0.848,
+          "stereo_correlation_to_expected_mix": 0.9999929625140324,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.80955954387946
+        },
+        {
+          "id": "23_next",
+          "text": "And what comes next.",
+          "audible_start": 60.9,
+          "audible_end": 62.44,
+          "window_end": 62.72,
+          "margin_seconds": 0.28,
+          "stereo_correlation_to_expected_mix": 0.9999950219070475,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.024222742596002
+        },
+        {
+          "id": "24_ownwords",
+          "text": "Show what you understand.",
+          "audible_start": 63.75,
+          "audible_end": 65.201,
+          "window_end": 66.13,
+          "margin_seconds": 0.929,
+          "stereo_correlation_to_expected_mix": 0.9999928509793273,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.59714752215009
+        },
+        {
+          "id": "25_feedback",
+          "text": "Get feedback.",
+          "audible_start": 66.54,
+          "audible_end": 67.437,
+          "window_end": 67.6,
+          "margin_seconds": 0.163,
+          "stereo_correlation_to_expected_mix": 0.999993623216245,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.913473908874792
+        },
+        {
+          "id": "26_nextstep",
+          "text": "Then take the next step.",
+          "audible_start": 67.94,
+          "audible_end": 69.434,
+          "window_end": 69.76,
+          "margin_seconds": 0.326,
+          "stereo_correlation_to_expected_mix": 0.999992625333023,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.178837854715614
+        },
+        {
+          "id": "27_mac",
+          "text": "On your Mac.",
+          "audible_start": 70.82,
+          "audible_end": 71.721,
+          "window_end": 72.04,
+          "margin_seconds": 0.319,
+          "stereo_correlation_to_expected_mix": 0.9999947089944637,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.780897693906812
+        },
+        {
+          "id": "28_phone",
+          "text": "On your phone.",
+          "audible_start": 72.43,
+          "audible_end": 73.394,
+          "window_end": 73.61,
+          "margin_seconds": 0.216,
+          "stereo_correlation_to_expected_mix": 0.999993847808433,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.69170512350596
+        },
+        {
+          "id": "29_spatial",
+          "text": "One day, beyond the screen.",
+          "audible_start": 73.9,
+          "audible_end": 75.493,
+          "window_end": 75.82,
+          "margin_seconds": 0.327,
+          "stereo_correlation_to_expected_mix": 0.9999938686778221,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.809294203277332
+        },
+        {
+          "id": "30_answer",
+          "text": "More than an answer.",
+          "audible_start": 76.55,
+          "audible_end": 77.869,
+          "window_end": 78.3,
+          "margin_seconds": 0.431,
+          "stereo_correlation_to_expected_mix": 0.9999934077309585,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.90096058517148
+        },
+        {
+          "id": "31_understand",
+          "text": "Your own way to understand.",
+          "audible_start": 78.86,
+          "audible_end": 80.46,
+          "window_end": 81.2,
+          "margin_seconds": 0.74,
+          "stereo_correlation_to_expected_mix": 0.9999950752872424,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -18.65578710264292
+        },
+        {
+          "id": "32_brand",
+          "text": "Lumap.",
+          "audible_start": 82.08,
+          "audible_end": 82.76,
+          "window_end": 83.55,
+          "margin_seconds": 0.79,
+          "stereo_correlation_to_expected_mix": 0.9999935804471024,
+          "inside_scheduled_window": true,
+          "decoded_rms_dbfs": -19.71652082951981
+        }
+      ],
+      "measured_loudness": {
+        "input_i": "-16.62",
+        "input_tp": "-2.99",
+        "input_lra": "4.10",
+        "input_thresh": "-27.88"
+      },
+      "subtitle_cues": 32,
+      "subtitle_default_flag": 1,
+      "subtitle_note": "English captions are a separate non-forced mov_text track, not burned into the picture. MP4 marks the sole subtitle track default; player display preferences may apply."
+    }
+  },
+  "package_checks": {
+    "staged_voice_matches_manifest_master": true,
+    "staged_srt_matches_final_srt": true,
+    "staged_32_cues_match_manifest": true,
+    "picture_source_files_unchanged": true
+  },
+  "voice_master_sha256": "c426f80a9cc7a3ca3575f69fe63499802e51d0f72de2622270d92ae6845d0e8a",
+  "narration_cues": 32,
+  "pronunciation": "Lumap: LOO-map; Lumi: LOO-mee; custom local lexicon",
+  "audio_processing": "Phrase-level native synthesis rates0.74–0.93; explicit custom brand lexicon; voiced-RMS gain matching and mild compression/EQ, plus3dB overall gain with oversampled transient limiting and compensated lookahead; no time stretching, pitch shift, denoising or reverb.",
+  "speech_recognition": {
+    "method": {
+      "implementation": "faster-whisper",
+      "version": "1.2.1",
+      "models": [
+        "small.en",
+        "base.en"
+      ],
+      "execution": "local CPU int8; cached models; offline=True",
+      "prompts": null,
+      "passes": [
+        "full master",
+        "isolated cues"
+      ]
+    },
+    "ordinary_word_disagreement_cues": [],
+    "classification_note": "Brand spellings and the hear/here homophone are not classified as pronunciation errors. A recognizer disagreement alone does not prove a speech defect.",
+    "pace_comparison": [
+      {
+        "comparison": "source_prompt",
+        "v2_text": "Bring a paper, a webpage, or your own notes.",
+        "v2_isolated_asr_span": [
+          19.35,
+          21.41
+        ],
+        "v2_script_words": 9,
+        "v2_asr_span_wpm": 262.1,
+        "v3_text": "Bring what sparked your curiosity.",
+        "v3_isolated_asr_span": [
+          20.99,
+          22.67
+        ],
+        "v3_script_words": 5,
+        "v3_asr_span_wpm": 178.6,
+        "v3_energy_span_wpm": 160.1,
+        "same_sentence": false,
+        "rate_reduction_percent": 31.9
+      },
+      {
+        "comparison": "paper_story",
+        "v2_text": "Turn a paper into a story.",
+        "v2_isolated_asr_span": [
+          49.67,
+          51.11
+        ],
+        "v2_script_words": 6,
+        "v2_asr_span_wpm": 250.0,
+        "v3_text": "Turn a paper into a story.",
+        "v3_isolated_asr_span": [
+          49.57,
+          51.45
+        ],
+        "v3_script_words": 6,
+        "v3_asr_span_wpm": 191.5,
+        "v3_energy_span_wpm": 170.1,
+        "same_sentence": true,
+        "rate_reduction_percent": 23.4
+      },
+      {
+        "comparison": "lesson",
+        "v2_text": "A lesson into something you can do.",
+        "v2_isolated_asr_span": [
+          51.71,
+          53.57
+        ],
+        "v2_script_words": 7,
+        "v2_asr_span_wpm": 225.8,
+        "v3_text": "Hear the lesson come alive.",
+        "v3_isolated_asr_span": [
+          53.33,
+          54.75
+        ],
+        "v3_script_words": 5,
+        "v3_asr_span_wpm": 211.3,
+        "v3_energy_span_wpm": 183.5,
+        "same_sentence": false,
+        "rate_reduction_percent": 6.4
+      }
+    ],
+    "key_word_moments": [
+      {
+        "scene": "11_path",
+        "target_words": [
+          "emerge"
+        ],
+        "small_en_full_words": [
+          {
+            "start": 28.6,
+            "end": 28.96,
+            "word": "emerge,",
+            "probability": 0.9988738894462585
+          }
+        ],
+        "small_en_isolated_words": [
+          {
+            "start": 28.61,
+            "end": 28.87,
+            "word": "emerge.",
+            "probability": 0.9986518025398254
+          }
+        ]
+      },
+      {
+        "scene": "26_nextstep",
+        "target_words": [
+          "next",
+          "step"
+        ],
+        "small_en_full_words": [
+          {
+            "start": 68.61,
+            "end": 68.83,
+            "word": "next",
+            "probability": 0.999555766582489
+          },
+          {
+            "start": 68.83,
+            "end": 69.25,
+            "word": "step.",
+            "probability": 0.9995947480201721
+          }
+        ],
+        "small_en_isolated_words": [
+          {
+            "start": 68.61,
+            "end": 68.85,
+            "word": "next",
+            "probability": 0.9992030262947083
+          },
+          {
+            "start": 68.85,
+            "end": 69.21,
+            "word": "step.",
+            "probability": 0.9996792078018188
+          }
+        ]
+      },
+      {
+        "scene": "19_lumi",
+        "target_words": [
+          "lumi"
+        ],
+        "small_en_full_words": [
+          {
+            "start": 47.3,
+            "end": 47.84,
+            "word": "Loomy.",
+            "probability": 0.7366062899430593
+          }
+        ],
+        "small_en_isolated_words": [
+          {
+            "start": 47.29,
+            "end": 47.63,
+            "word": "Lume.",
+            "probability": 0.5977058559656143
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "No subjective audition was performed.",
+      "ASR word timestamps are approximate, not phonetic forced alignment.",
+      "ASR boundaries often exclude acoustic tails or start before energy onset; WPM is method-dependent.",
+      "Source and lesson comparisons use rewritten text; paper/story is the same sentence.",
+      "Recognition probabilities are model token scores, not calibrated intelligibility measurements."
+    ],
+    "cue16_resolution": {
+      "text": "See it move.",
+      "audible_window": [
+        42.7,
+        43.559
+      ],
+      "raw_head_trim_seconds": 0.275,
+      "both_models_full_and_isolated_recognize_exactly": true,
+      "acoustic_sample_rate": 48000,
+      "consonant_like_high_frequency_onset": [
+        42.7,
+        42.795
+      ],
+      "first_strong_voiced_vowel_onset_approx": 42.8,
+      "evidence": "final-see-onset.json",
+      "assessment": "The final onset preserves approximately 100 ms of high-frequency nonperiodic frication before the vowel; the earlier pre-fricative voiced burst is removed."
+    }
+  },
+  "limitations": [
+    "ASR is diagnostic, not a substitute for subjective listening.",
+    "Cue boundaries are source energy measurements; mix correlations establish retention and placement, not phonetic correctness.",
+    "Product visuals inherit the prior approved visual review because their encoded picture stream is identical."
+  ],
+  "product_context": "Picture and application status are unchanged from the approved launch film. Synthetic fixtures/editorial illustrations and spatial-concept labels retain their original context. No new app validation or learning-effectiveness claim."
+}

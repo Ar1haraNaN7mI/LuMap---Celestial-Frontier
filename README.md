@@ -10,7 +10,7 @@
     <img alt="iOS 18 or newer" src="https://img.shields.io/badge/iOS-18%2B-151D31?style=flat-square&logo=apple" />
     <img alt="Status: working MVP" src="https://img.shields.io/badge/status-working_MVP-48AD96?style=flat-square" />
   </p>
-  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01">▶ Watch the launch film · Video release</a></strong></p>
+  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-immersive-2026-10-01">▶ Watch the launch film · Video release</a></strong></p>
   <p><a href="#get-started">Get started</a> · <a href="#watch-the-product-film">Product film</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
 </div>
 
@@ -22,19 +22,21 @@ The aim is to help people discover what they want to understand—and make progr
 
 ## Watch the product film
 
-**[Open the launch film on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01)** — the new 85-second introduction to Lumap, with downloadable MP4s, optional English captions and an editable project.
+**[Open the launch film on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-immersive-2026-10-01)** — the immersive voice edition of Lumap’s 85-second introduction, with downloadable MP4s, optional English captions and an editable project.
 
-[![Lumap launch film: your own way to understand](docs/images/lumap-launch-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film.mp4)
+[![Lumap launch film: your own way to understand](docs/images/lumap-launch-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Film_Immersive.mp4)
 
 **85 seconds · 1080p · 30 fps.** A new composition follows a question through trusted sources, an individual learning path, changing explanations, interactive stories, narrated lessons, quiz feedback and saved progress. A supplied ten-second opening, originally 720p, is upscaled into the film; subsequent scenes combine code animation with actual Mac/iPhone captures and labeled illustrative examples.
 
-[Watch / download the launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film.mp4) · [Without background music](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film_No_Music.mp4) · [Editable project ZIP](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Editable_Project.zip) · [English captions (SRT)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_English.srt)
+[Watch / download the launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Film_Immersive.mp4) · [Without background music](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Film_Immersive_No_Music.mp4) · [Editable project ZIP](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Immersive_Editable_Project.zip) · [English captions (SRT)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Immersive_English.srt)
 
-Voice, music and sound effects have independent tracks; the no-music edition retains narration and sound effects. The editable Remotion project includes the selected media, deterministic animation, audio stems and shot timing. Read the [editing and provenance guide](docs/product-film/launch-film.md) and [film verification report](docs/examples/launch-film-verification.json).
+The approved picture is unchanged. **32 freshly synthesized spoken cues** replace the original sentence blocks, with clearer brand pronunciation, slower dense phrases and words aligned to visible learning modes. The original score now follows the new breathing spaces. Local speech recognition is used as an additional wording/timing diagnostic, not a substitute for subjective listening.
+
+Voice, music and sound effects have independent tracks; the no-music edition retains narration and sound effects. The editable Remotion project includes the selected media, deterministic animation, audio stems and shot timing. Read the [editing and provenance guide](docs/product-film/launch-film.md) and [film verification report](docs/examples/launch-film-immersive-verification.json).
 
 The gold-chain and Paper2Galgame captures use actual renderers with synthetic example lessons; illustrated experiments and learning paths are editorial visualizations. Spatial learning remains a labeled concept, and cross-device availability does not imply automatic cloud sync. The film makes no claim of deployed trained RL or measured learning effectiveness.
 
-The previous [105-second Journey film and clearer-audio editions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30) remain archived, with their [verification](docs/examples/journey-film-verification.json), [audio report](docs/examples/hq-audio-verification.json) and [earlier animation source bundle](docs/product-film/README.md). Large videos and the editable archive live in Releases to keep the source repository lightweight.
+The [original launch audio edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01) and the previous [105-second Journey film and clearer-audio editions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30) remain archived, with their [verification](docs/examples/journey-film-verification.json), [audio report](docs/examples/hq-audio-verification.json) and [earlier animation source bundle](docs/product-film/README.md). Large videos and the editable archive live in Releases to keep the source repository lightweight.
 
 ## Feature highlights
 

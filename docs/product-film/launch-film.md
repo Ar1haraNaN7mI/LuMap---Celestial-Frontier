@@ -1,15 +1,21 @@
 # Lumap launch film — editing and provenance
 
-The [1 October launch release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01) contains a new **85-second, 1920 × 1080, 30 fps** film for Celestial Frontier. It combines the project owner's supplied ten-second opening, new code animation, real product captures, English narration and an original score. The supplied opening is 1280 × 720, scaled into the final composition without reframing. No previously assembled Lumap film is used as an input.
+The [1 October launch release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-immersive-2026-10-01) contains a new **85-second, 1920 × 1080, 30 fps** film for Celestial Frontier. It combines the project owner's supplied ten-second opening, new code animation, real product captures, English narration and an original score. The supplied opening is 1280 × 720, scaled into the final composition without reframing. The original composition did not reuse a previously assembled Lumap film. This immersive voice refinement intentionally copies the approved launch picture stream unchanged and replaces only narration, audio mixing and captions.
+
+## Voice refinement
+
+Thirty-two new spoken cues replace fifteen sentence-sized blocks. Short learning-mode words follow the actual cuts; source and lesson descriptions now land with their corresponding panels. Dense phrases are synthesized more slowly, with explicit Lumap/Lumi pronunciations and consonant-safe timing. The voice remains centered and dry; the original score is gain-ridden around the new phrases. No time stretching or pitch shifting is used. Local ASR checks wording and approximate word placement; the delivery report distinguishes those diagnostics from subjective listening.
+
+The [original launch edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01) remains available.
 
 ## Download and edit
 
 | File | Purpose |
 | --- | --- |
-| [Launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film.mp4) | Finished MP4 with music, narration and sound effects. |
-| [No-music edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film_No_Music.mp4) | Same picture, with narration and sound effects retained. |
-| [Editable project](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Editable_Project.zip) | Remotion source, selected media, separate audio stems and production notes. |
-| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_English.srt) | Optional SRT captions for a compatible player or editor. |
+| [Launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Film_Immersive.mp4) | Finished MP4 with music, narration and sound effects. |
+| [No-music edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Film_Immersive_No_Music.mp4) | Same picture, with narration and sound effects retained. |
+| [Editable project](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Immersive_Editable_Project.zip) | Remotion source, selected media, separate audio stems and production notes. |
+| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-immersive-2026-10-01/Lumap_Launch_Immersive_English.srt) | Optional SRT captions for a compatible player or editor. |
 
 Unzip the project and open a terminal in the directory containing its `package.json`. With Node.js and npm installed:
 
@@ -66,4 +72,4 @@ Paper2Galgame and the golden-chain snapshot use actual renderers with disclosed 
 
 Brand assets and the opening were supplied by the project owner. Narration was synthesized locally with Kokoro v1.0 FP32; the musical score and quiet accents were composed for this film. Audio provenance is included under `public/audio/`. Google DeepMind's launch video informed the visual direction; no Google footage, marks, narration or soundtrack is included.
 
-See the [launch-film verification](../examples/launch-film-verification.json) for delivery checks. Existing application validation remains documented separately in the [functional-integrity update](../updates/2026-09-30-functional-integrity.md) and [golden-journey update](../updates/2026-09-30-golden-journey.md). The [previous film's editing source](README.md) is retained for archival use.
+See the [launch-film verification](../examples/launch-film-immersive-verification.json) for delivery checks. Existing application validation remains documented separately in the [functional-integrity update](../updates/2026-09-30-functional-integrity.md) and [golden-journey update](../updates/2026-09-30-golden-journey.md). The [previous film's editing source](README.md) is retained for archival use.
