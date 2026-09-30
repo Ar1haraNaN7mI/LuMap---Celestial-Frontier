@@ -9,14 +9,15 @@ struct LearningMethodModuleView: View {
     let topic: String
     let sourceExcerpt: String?
     let sourceLabel: String?
-    let complete: (String) -> Void
+    let complete: (String) throws -> Void
+    @State private var completionError: String?
 
     init(
         method: LearningMethod,
         topic: String,
         sourceExcerpt: String? = nil,
         sourceLabel: String? = nil,
-        complete: @escaping (String) -> Void
+        complete: @escaping (String) throws -> Void
     ) {
         self.method = method
         self.topic = topic
@@ -29,7 +30,7 @@ struct LearningMethodModuleView: View {
     var body: some View {
         switch method {
         case .spatialAR:
-            SpatialARModule(topic: topic, complete: complete)
+            SpatialARModule(topic: topic, complete: completeLegacyActivity)
         case .narratedDeck:
             NarratedLessonPlayerView(
                 topic: topic,
@@ -40,6 +41,14 @@ struct LearningMethodModuleView: View {
         default:
             AgentLearningActivityView(method: method, topic: topic, complete: complete)
         }
+        if let completionError { Text(completionError).font(.caption).foregroundStyle(.red) }
+    }
+
+    private func completeLegacyActivity(_ artifact: String) {
+        do {
+            try complete(artifact)
+            completionError = nil
+        } catch { completionError = error.localizedDescription }
     }
 }
 

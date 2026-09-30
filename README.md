@@ -65,7 +65,7 @@ English is the default. Interface language and teaching language can be changed 
 
 ### Sequential by design
 
-The initial planner requests **2–12 sections**, with **1–3 ordered methods per section** and at least one active exercise. These are personalized planning instructions, not a promise that everyone receives the same number of steps. The initial-plan validator accepts up to five methods for compatibility; next-section adaptation strictly validates one to three methods and an active exercise. Remediation can add another method to the current section.
+The initial planner requests **2–12 sections**, with **1–3 ordered methods per section** and at least one active exercise. These are personalized planning instructions, not a promise that everyone receives the same number of steps. Both initial planning and next-section adaptation validate one to three methods and an active exercise; malformed responses receive at most one repair request within the generation deadline. Remediation can add another method to the current section.
 
 ```mermaid
 flowchart TD
@@ -586,9 +586,11 @@ xcodebuild -project Lumap.xcodeproj -scheme LumapiOS \
   -derivedDataPath .build/iOSDerivedData build
 ```
 
-The Mac build is written to `.build/DerivedData/Build/Products/Debug/Lumap.app`.
+The Mac build is written to `.build/DerivedData/Build/Products/Debug/Lumap.app`. For a local Release bundle, the [packaging helper](Scripts/package-local-macos.py) stages the built app, corrects known malformed dependency symlinks and verifies ad-hoc signatures; it does not notarize the app.
 
 ## Tests and a reproducible demo
+
+The [latest functional-integrity update](docs/updates/2026-09-30-functional-integrity.md) verifies **109 default tests passed** (3 explicit opt-ins skipped), **3 separate real-service checks passed**, both platform builds, and a freshly generated **six-slide, 650-word, 247-second narrated lesson**. It completes method-specific interactions, protects evidence-based progression and cancellation, aligns Handoff with saved progress, and verifies full PPTX/script/audio/video exports.
 
 The [30 September learning-flow update](docs/updates/2026-09-30-learning-polish.md) adds iPhone optional assessments and project resume, reliable terminal course status, cancellable section adaptation, quiz-safe narration, and recommendation invalidation after profile changes. Its verification run passed **81 default tests** (3 explicit opt-ins skipped), both platform builds, and a separate real-provider assessment test. The update includes actual synthetic-input model output and a manual walkthrough.
 
@@ -618,18 +620,18 @@ The two skipped tests require explicit opt-in for live workspace and narrated-mo
 <details>
 <summary><strong>Run the opt-in integration checks</strong></summary>
 
-These two development tests currently pin `https://api.ikuncode.cc/v1`, Responses and `gpt-5.6-sol`, and read the `active-provider` credential from the test host's Keychain. Use a credential valid for that gateway; to test a different provider, update the test configuration first. Install the local voice pack for the narrated test. The checks send model requests and can consume provider quota. Their output directories should remain local and untracked.
+These development tests currently pin `https://api.ikuncode.cc/v1`, Responses and `gpt-5.6-sol`, and read the `active-provider` credential from the test host's Keychain. Use a credential valid for that gateway; to test a different provider, update the test configuration first. Install the local voice pack for the narrated test. The checks send model requests and can consume provider quota. Their output directories should remain local and untracked. A signed sandboxed test host must write inside its app container, as in the commands below; a repository output path can fail with a permission error after the model request has already completed.
 
 ```bash
 # Grounded material Q&A and source-only course generation
-TEST_RUNNER_LUMAP_LIVE_WORKSPACE_OUTPUT="$PWD/tmp/live-workspace" \
+TEST_RUNNER_LUMAP_LIVE_WORKSPACE_OUTPUT="$HOME/Library/Containers/com.local.lumap/Data/tmp/live-workspace" \
 xcodebuild -project Lumap.xcodeproj -scheme Lumap \
   -configuration Debug -destination 'platform=macOS' \
   -derivedDataPath .build/DerivedData \
   -only-testing:LumapTests/LearningWorkspaceTests/testLiveGroundedQuestionAndSourceOnlyCourse test
 
 # Real research, a complete lesson and narrated video export
-TEST_RUNNER_LUMAP_LIVE_NARRATED_OUTPUT="$PWD/tmp/live-narrated" \
+TEST_RUNNER_LUMAP_LIVE_NARRATED_OUTPUT="$HOME/Library/Containers/com.local.lumap/Data/tmp/live-narrated" \
 xcodebuild -project Lumap.xcodeproj -scheme Lumap \
   -configuration Debug -destination 'platform=macOS' \
   -derivedDataPath .build/DerivedData \

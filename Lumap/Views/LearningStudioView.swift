@@ -287,12 +287,13 @@ struct LearningStudioView: View {
         }
     }
 
-    private func completeCurrent(_ artifact: String) {
+    private func completeCurrent(_ artifact: String) throws {
         do {
             _ = try store.completeActivity(method: store.currentMethod, artifact: artifact)
             errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription
+            throw error
         }
     }
 }

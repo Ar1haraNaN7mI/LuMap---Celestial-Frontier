@@ -223,6 +223,122 @@ final class LearningAgentServiceTests: XCTestCase {
     }
 
     @MainActor
+    func testPlanRepairsPassiveOverloadedOrMisorderedMethodSequences() async throws {
+        let valid = try planJSON(topic: "Photosynthesis")
+        for invalidMethods in [["guidedExplanation", "narratedDeck"],
+                               ["guidedExplanation", "workedExample", "flashRecall", "teachBack"],
+                               ["workedExample", "guidedExplanation"]] {
+            var payload = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(valid.utf8)) as? [String: Any])
+            var nodes = try XCTUnwrap(payload["nodes"] as? [[String: Any]])
+            nodes[0]["methodIDs"] = invalidMethods
+            payload["nodes"] = nodes
+            let invalid = String(data: try JSONSerialization.data(withJSONObject: payload), encoding: .utf8)!
+            let session = fixtureSession(replies: [invalid, valid])
+            defer { session.invalidateAndCancel() }
+            let plan = try await LearningAgentService.plan(goal: "Photosynthesis", learnerContext: "English", configuration: provider,
+                materialText: "Plants use light energy to fix carbon dioxide into organic molecules.", session: session)
+            XCTAssertEqual(plan.nodes[0].methodIDs, ["guidedExplanation", "workedExample"])
+            XCTAssertEqual(LearningAgentFixtureProtocol.requestSnapshot().count, 2, "Invalid sequence must be repaired: \(invalidMethods)")
+        }
+    }
+
+    @MainActor
+    func testCompleteActivitiesForEveryModeMeetValidationContract() throws {
+        for methodID in LearningAgentService.methodIDs {
+            let activity = activityFixture(methodID: methodID)
+            XCTAssertNoThrow(try LearningAgentService.validateActivity(activity, plan: adaptationFixturePlan(), nodeID: "n1", methodID: methodID), methodID)
+        }
+    }
+
+    @MainActor
+    func testActivitiesRejectInvisibleTeachingAndDuplicateInteractions() throws {
+        let blankHints = try activityFixture(methodID: "guidedExplanation", replacing: ["hints": [" \n\t "]])
+        let blankStep = try activityFixture(methodID: "workedExample", replacing: ["steps": ["First", "Second", "Third", " \n "]])
+        let blankBack = try activityFixture(methodID: "flashRecall", replacing: ["cards": (1...5).map { ["front": "Question \($0)", "back": " \n "] }])
+        let repeatedCard = try activityFixture(methodID: "flashRecall", replacing: ["cards": (1...5).map { ["front": $0 == 1 ? " CARBON " : "carbon", "back": "Carbon comes from carbon dioxide."] }])
+        let repeatedChoice = try activityFixture(methodID: "simulation", replacing: ["choices": (1...3).map { ["id": "choice\($0)", "text": $0 == 1 ? " MORE LIGHT " : "more light", "feedback": "Light increases photosynthesis until another input limits growth."] }])
+        for activity in [blankHints, blankStep, blankBack, repeatedCard, repeatedChoice] {
+            XCTAssertThrowsError(try LearningAgentService.validateActivity(activity, plan: adaptationFixturePlan(), nodeID: "n1", methodID: activity.methodID), activity.methodID)
+        }
+    }
+
+    @MainActor
+    func testIncompleteMethodPayloadsAreRejectedBeforeDisplay() throws {
+        let missing: [(String, [String: Any])] = [
+            ("guidedExplanation", ["steps": []]),
+            ("workedExample", ["steps": ["First", "Second", "Third"]]),
+            ("analogy", ["steps": []]),
+            ("deliberatePractice", ["examples": []]),
+            ("socraticDialogue", ["hints": ["One hint"]]),
+            ("flashRecall", ["cards": [["front": "Where does plant carbon originate?", "back": "Carbon dioxide."]]]),
+            ("visualMap", ["connections": []]),
+            ("story", ["steps": []]),
+            ("simulation", ["steps": []]),
+            ("misconceptionDiagnosis", ["correctChoiceID": NSNull()]),
+            ("narratedDeck", ["steps": ["One scene", "Second scene", "Third scene"]])
+        ]
+        for (methodID, fields) in missing {
+            let activity = try activityFixture(methodID: methodID, replacing: fields)
+            XCTAssertThrowsError(try LearningAgentService.validateActivity(activity, plan: adaptationFixturePlan(), nodeID: "n1", methodID: methodID), methodID)
+        }
+    }
+
+    @MainActor
+    func testIncompleteActivityGetsOneRepairAndKeepsRealGeneratedContent() async throws {
+        let incomplete = try activityFixture(methodID: "simulation", replacing: ["steps": ["Only one setup step"]])
+        let complete = activityFixture(methodID: "simulation")
+        let replies = try [incomplete, complete].map { String(data: try JSONEncoder().encode($0), encoding: .utf8)! }
+        let session = fixtureSession(replies: replies)
+        defer { session.invalidateAndCancel() }
+        let activity = try await LearningAgentService.activity(plan: adaptationFixturePlan(), nodeID: "n1", methodID: "simulation", learnerContext: "English", configuration: provider, session: session)
+        XCTAssertEqual(activity.steps, complete.steps)
+        XCTAssertEqual(activity.choices, complete.choices)
+        XCTAssertNotEqual(activity.id, complete.id)
+        XCTAssertEqual(LearningAgentFixtureProtocol.requestSnapshot().count, 2)
+    }
+
+    @MainActor
+    func testWhitespaceEvaluationIsRepairedBeforeBecomingEvidence() async throws {
+        let valid = LearningEvaluation(score: 75, feedback: "You correctly traced carbon from carbon dioxide into organic matter.", misconceptions: [], nextMethodID: "workedExample", nextNodeID: "n1", reason: "Apply your carbon tracing to a new example.")
+        let blank = LearningEvaluation(score: 75, feedback: " \n ", misconceptions: [], nextMethodID: "workedExample", nextNodeID: "n1", reason: " \t ")
+        let replies = try [blank, valid].map { String(data: try JSONEncoder().encode($0), encoding: .utf8)! }
+        let session = fixtureSession(replies: replies)
+        defer { session.invalidateAndCancel() }
+        let evaluation = try await LearningAgentService.evaluate(plan: adaptationFixturePlan(), activity: activityFixture(methodID: "guidedExplanation"), response: "The carbon atoms come from carbon dioxide.", learnerContext: "English", configuration: provider, session: session)
+        XCTAssertEqual(evaluation, valid)
+        XCTAssertEqual(LearningAgentFixtureProtocol.requestSnapshot().count, 2)
+    }
+
+    @MainActor
+    private func activityFixture(methodID: String, replacing fields: [String: Any]) throws -> LearningGeneratedActivity {
+        let data = try JSONEncoder().encode(activityFixture(methodID: methodID))
+        var payload = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        payload.merge(fields) { _, replacement in replacement }
+        return try JSONDecoder().decode(LearningGeneratedActivity.self, from: JSONSerialization.data(withJSONObject: payload))
+    }
+
+    @MainActor
+    private func activityFixture(methodID: String) -> LearningGeneratedActivity {
+        let stepCounts = ["guidedExplanation": 2, "workedExample": 4, "analogy": 3, "deliberatePractice": 3, "simulation": 3, "story": 3, "narratedDeck": 6]
+        let hasChoices = ["story", "simulation", "counterfactualLab", "misconceptionDiagnosis", "curiosityBranch"].contains(methodID)
+        let concepts: [LearningConcept] = methodID == "visualMap" ? (1...5).map {
+            .init(id: "c\($0)", label: "Carbon stage \($0)", detail: "Trace the carbon atoms through stage \($0) of photosynthesis.")
+        } : []
+        return LearningGeneratedActivity(id: "fixture-activity", methodID: methodID, nodeID: "n1", title: "Trace plant carbon",
+            explanation: "Plants use carbon dioxide as a source of carbon for organic molecules. Light supplies the energy for photosynthesis, while matter comes from carbon dioxide and water. The carbon atoms stay identifiable as matter changes form. [S1]",
+            prompt: "Explain where the carbon in a growing plant originates.",
+            steps: (0..<(stepCounts[methodID] ?? 0)).map { "Stage \($0 + 1): trace carbon atoms from carbon dioxide into the plant's organic molecules." },
+            examples: ["A growing plant takes carbon dioxide from the air to build organic matter."],
+            choices: hasChoices ? (1...3).map { .init(id: "a\($0)", text: "Investigate carbon input \($0)", feedback: "Trace the carbon atoms through this input to identify whether it supplies matter.") } : [],
+            correctChoiceID: methodID == "misconceptionDiagnosis" ? "a1" : nil,
+            answerExplanation: "Carbon dioxide supplies the carbon atoms; sunlight supplies energy, not carbon matter.",
+            cards: methodID == "flashRecall" ? (1...5).map { .init(front: "Trace carbon at stage \($0).", back: "Carbon dioxide supplies the carbon atoms.") } : [],
+            concepts: concepts,
+            connections: methodID == "visualMap" ? (1...4).map { .init(from: "c\($0)", to: "c\($0 + 1)", label: "Carbon flows to the next stage") } : [],
+            hints: ["Which input contains carbon atoms?", "Distinguish energy from matter.", "Trace the carbon in carbon dioxide."], sourceIDs: ["S1"])
+    }
+
+    @MainActor
     private func adaptationFixturePlan() -> LearningCoursePlan {
         let first = LearningPathNode(id: "n1", title: "Inputs and outputs", objective: "Identify inputs and outputs of photosynthesis.", prerequisiteIDs: [], estimatedMinutes: 10, methodIDs: ["guidedExplanation", "workedExample"])
         let second = LearningPathNode(id: "n2", title: "Balance the equation", objective: "Trace carbon atoms through the photosynthesis equation.", prerequisiteIDs: ["n1"], estimatedMinutes: 10, methodIDs: ["guidedExplanation", "workedExample"])

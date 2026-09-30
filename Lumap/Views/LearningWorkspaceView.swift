@@ -14,6 +14,7 @@ struct LearningWorkspaceView: View {
     @State private var courseGoal = ""
     @State private var publicLink = ""
     @State private var answer: WorkspaceAnswer?
+    @State private var answeredQuestion = ""
     @State private var answeredSources: [LearningSource] = []
     @State private var error: String?
     @State private var isWorking = false
@@ -87,9 +88,10 @@ struct LearningWorkspaceView: View {
     }
 
     private var availableSources: [LearningSource] {
-        materials.filter { !$0.excerpt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.map {
+        let materialSources = materials.map {
             LearningSource(id: "M-\($0.id.uuidString)", title: "\($0.fileName) · \($0.citationLabel)", url: "", excerpt: $0.excerpt, retrievedAt: $0.importedAt)
-        } + (store.activePlan?.sources ?? [])
+        }
+        return LearningWorkspaceService.selectableSources(materials: materialSources, course: store.activePlan?.sources ?? [])
     }
     private var selectedSources: [LearningSource] { availableSources.filter { selectedSourceIDs.contains($0.id) } }
 
@@ -136,12 +138,14 @@ struct LearningWorkspaceView: View {
                         let result = try await store.askWorkspaceQuestion(submittedQuestion, sources: sources)
                         try Task.checkCancellation()
                         answeredSources = sources
+                        answeredQuestion = submittedQuestion
                         answer = result
                     }
                 }.buttonStyle(.borderedProminent)
                     .disabled(isWorking || selectedSources.isEmpty || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 if let answer {
                     Divider()
+                    Text(answeredQuestion).font(.subheadline.weight(.semibold)).textSelection(.enabled)
                     Text(answer.answer).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
                     ForEach(answer.citations) { citation in
                         if let source = answeredSources.first(where: { $0.id == citation.sourceID }) {

@@ -12,13 +12,14 @@ struct AgentLearningActivityView: View {
     @EnvironmentObject private var store: LumapStore
     let method: LearningMethod
     let topic: String
-    let complete: (String) -> Void
+    let complete: (String) throws -> Void
 
     @State private var response = ""
     @State private var prediction = ""
     @State private var adjustment = ""
     @State private var selectedChoice: String?
     @State private var revealedSteps = 1
+    @State private var stepPredictions: [String] = []
     @State private var revealedHints = 0
     @State private var recallIndex = 0
     @State private var recallRevealed = false
@@ -33,6 +34,7 @@ struct AgentLearningActivityView: View {
     @State private var submittedResponse = ""
     @State private var isWorking = false
     @State private var interactionRequestID = UUID()
+    @State private var interactionTask: Task<Void, Never>?
     @State private var errorMessage: String?
     @State private var saved = false
     @State private var showingPortraitPicker = false
@@ -41,7 +43,8 @@ struct AgentLearningActivityView: View {
     @AppStorage("lumap.story.guideName") private var guideName = "Lumi"
 
     private var activity: LearningGeneratedActivity? {
-        guard let activity = store.activeActivity, activity.methodID == method.rawValue else { return nil }
+        guard let activity = store.activeActivity, activity.methodID == method.rawValue,
+              activity.nodeID == store.currentLearningNode?.id else { return nil }
         return activity
     }
 
@@ -50,9 +53,11 @@ struct AgentLearningActivityView: View {
             if let activity {
                 activityHeader(activity)
                 activityBody(activity)
+                    .disabled(isWorking)
                 if method != .socraticDialogue && method != .flashRecall {
                     submitButton(activity)
                 }
+                workingIndicator
                 if let errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.orange)
@@ -102,15 +107,13 @@ struct AgentLearningActivityView: View {
             await store.ensureLearningActivity(method: method)
         }
         .onChange(of: activity?.id) { _, _ in resetInteraction() }
-        .onChange(of: response) { _, _ in if !isWorking { evaluation = nil; saved = false } }
-        .onChange(of: prediction) { _, _ in evaluation = nil; saved = false }
-        .onChange(of: adjustment) { _, _ in evaluation = nil; saved = false }
-        .onChange(of: selectedChoice) { _, _ in evaluation = nil; saved = false }
+        .onDisappear { cancelInteraction() }
         .fileImporter(isPresented: $showingPortraitPicker, allowedContentTypes: [.image]) { result in
             importPortrait(result)
         }
         .onAppear {
             if !portraitPath.isEmpty { portraitData = try? Data(contentsOf: URL(fileURLWithPath: portraitPath)) }
+            restoreAssessedResponse()
         }
     }
 
@@ -173,7 +176,13 @@ struct AgentLearningActivityView: View {
                 }
             }
             if revealedSteps < activity.steps.count {
-                Button(store.t("Reveal next step", "揭晓下一步"), systemImage: "arrow.down.circle") { revealedSteps += 1 }
+                Button(store.t("Reveal next step", "揭晓下一步"), systemImage: "arrow.down.circle") {
+                    if method == .workedExample {
+                        stepPredictions.append("Prediction before step \(revealedSteps + 1): \(prediction.trimmingCharacters(in: .whitespacesAndNewlines))")
+                        prediction = ""
+                    }
+                    revealedSteps += 1
+                }
                     .buttonStyle(.bordered)
                     .disabled(method == .workedExample && prediction.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             } else {
@@ -195,7 +204,7 @@ struct AgentLearningActivityView: View {
                 Button {
                     let message = response.trimmingCharacters(in: .whitespacesAndNewlines)
                     guard !message.isEmpty else { return }
-                    Task { await sendDialogue(message) }
+                    interactionTask = Task { await sendDialogue(message) }
                 } label: {
                     Label(store.t("Continue dialogue", "继续对话"), systemImage: "arrow.up.message")
                 }
@@ -203,13 +212,13 @@ struct AgentLearningActivityView: View {
                 .disabled(isWorking || response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 if !chat.isEmpty {
                     Button(store.t("Review my reasoning", "反馈我的推理")) {
-                        Task { await evaluate(chat.map { "\($0.role): \($0.content)" }.joined(separator: "\n")) }
+                        interactionTask = Task { await evaluate(chat.map { "\($0.role): \($0.content)" }.joined(separator: "\n")) }
                     }
                     .buttonStyle(.bordered)
                     .disabled(isWorking)
                 }
             }
-            workingIndicator
+            hints(activity)
         }
     }
 
@@ -264,6 +273,7 @@ struct AgentLearningActivityView: View {
                     customConnections.append(.init(from: connectionFrom, to: connectionTo, label: connectionLabel))
                     connectionLabel = ""
                     evaluation = nil
+                    saved = false
                 }
                 .buttonStyle(.bordered)
                 .disabled(connectionFrom.isEmpty || connectionTo.isEmpty || connectionFrom == connectionTo || connectionLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -292,6 +302,7 @@ struct AgentLearningActivityView: View {
                     Text(store.t("Your portrait stays on this device.", "立绘仅保存在这台设备上。")).font(.caption).foregroundStyle(.secondary)
                 }.padding(.top, 10)
             }
+            numberedSteps(activity.steps, title: store.t("Story scenes", "剧情场景"))
             Text(activity.prompt).font(.headline)
             choiceButtons(activity)
             if let choice = activity.choices.first(where: { $0.id == selectedChoice }) {
@@ -330,15 +341,16 @@ struct AgentLearningActivityView: View {
                 Text(store.t("Your original answers will be assessed against the researched material.", "你的原始回答将依据检索到的材料进行评估。"))
                     .foregroundStyle(.secondary)
                 Button(store.t("Assess my recall", "评估回忆效果")) {
-                    Task { await evaluate(recallAnswers.joined(separator: "\n\n")) }
+                    interactionTask = Task { await evaluate(recallAnswers.joined(separator: "\n\n")) }
                 }.buttonStyle(.borderedProminent).disabled(isWorking || recallAnswers.isEmpty)
-                workingIndicator
             }
         }
     }
 
     private func scenario(_ activity: LearningGeneratedActivity) -> some View {
         VStack(alignment: .leading, spacing: 16) {
+            numberedSteps(activity.steps, title: method == .simulation
+                ? store.t("Simulation setup", "模拟设置") : store.t("Scenario setup", "情境设置"))
             examples(activity)
             Text(activity.prompt).font(.headline)
             choiceButtons(activity)
@@ -355,6 +367,10 @@ struct AgentLearningActivityView: View {
 
     private func practice(_ activity: LearningGeneratedActivity) -> some View {
         VStack(alignment: .leading, spacing: 16) {
+            if method == .deliberatePractice {
+                examples(activity)
+                numberedSteps(activity.steps, title: store.t("Practice problems", "练习题"))
+            }
             Text(activity.prompt).font(.headline)
             choiceButtons(activity)
             responseField(method == .misconceptionDiagnosis
@@ -405,6 +421,8 @@ struct AgentLearningActivityView: View {
             ForEach(activity.choices) { choice in
                 Button {
                     selectedChoice = choice.id
+                    evaluation = nil
+                    saved = false
                 } label: {
                     HStack(alignment: .top, spacing: 10) {
                         Image(systemName: selectedChoice == choice.id ? "checkmark.circle.fill" : "circle")
@@ -433,6 +451,23 @@ struct AgentLearningActivityView: View {
         }
     }
 
+    @ViewBuilder private func numberedSteps(_ steps: [String], title: String) -> some View {
+        if !steps.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(title).font(.headline)
+                ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
+                    HStack(alignment: .top, spacing: 12) {
+                        Text("\(index + 1)").font(.callout.bold())
+                            .frame(width: 28, height: 28)
+                            .background(.tint.opacity(0.12), in: Circle())
+                        Text(step).textSelection(.enabled)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            }
+        }
+    }
+
     @ViewBuilder private func hints(_ activity: LearningGeneratedActivity) -> some View {
         if !activity.hints.isEmpty {
             VStack(alignment: .leading, spacing: 9) {
@@ -450,7 +485,14 @@ struct AgentLearningActivityView: View {
     private func responseField(_ title: String, text: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.headline).fixedSize(horizontal: false, vertical: true)
-            TextField(store.t("Write your thoughts…", "写下你的想法……"), text: text, axis: .vertical)
+            TextField(store.t("Write your thoughts…", "写下你的想法……"), text: Binding(
+                get: { text.wrappedValue },
+                set: {
+                    text.wrappedValue = $0
+                    evaluation = nil
+                    saved = false
+                }
+            ), axis: .vertical)
                 .lineLimit(3...10)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityLabel(title)
@@ -461,13 +503,12 @@ struct AgentLearningActivityView: View {
     private func submitButton(_ activity: LearningGeneratedActivity) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Button {
-                Task { await evaluate(assembledResponse(activity)) }
+                interactionTask = Task { await evaluate(assembledResponse(activity)) }
             } label: {
                 Label(store.t("Get feedback on my reasoning", "获取我的推理反馈"), systemImage: "sparkle.magnifyingglass")
             }
             .buttonStyle(.borderedProminent)
             .disabled(isWorking || !readyToEvaluate(activity))
-            workingIndicator
         }
     }
 
@@ -476,6 +517,8 @@ struct AgentLearningActivityView: View {
             HStack(spacing: 9) {
                 ProgressView().controlSize(.small)
                 Text(store.t("Your tutor is reading your reasoning…", "导师正在阅读你的推理……")).font(.callout).foregroundStyle(.secondary)
+                Button(store.t("Stop waiting", "停止等待")) { cancelInteraction() }
+                    .buttonStyle(.bordered)
             }
         }
     }
@@ -488,12 +531,21 @@ struct AgentLearningActivityView: View {
                 Text("\(result.score)/100").font(.headline.monospacedDigit())
             }
             Text(result.feedback).textSelection(.enabled)
+            DisclosureGroup(store.t("Assessed answer", "已评估的回答")) {
+                Text(submittedResponse).font(.callout).textSelection(.enabled)
+                    .padding(.top, 8)
+            }
             ForEach(Array(result.misconceptions.enumerated()), id: \.offset) { _, misconception in
                 Label(misconception, systemImage: "arrow.uturn.backward.circle").font(.callout)
             }
             Button {
-                complete("\(topic) · \(method.rawValue)\n\(submittedResponse)\nTutor feedback: \(result.feedback)\nScore: \(result.score)/100")
-                saved = true
+                do {
+                    try complete("\(topic) · \(method.rawValue)\n\(submittedResponse)\nTutor feedback: \(result.feedback)\nScore: \(result.score)/100")
+                    saved = true
+                    errorMessage = nil
+                } catch {
+                    errorMessage = error.localizedDescription
+                }
             } label: {
                 Label(saved ? store.t("Evidence saved", "学习证据已保存") : store.t("Save learning evidence", "保存学习证据"), systemImage: saved ? "checkmark.circle.fill" : "checkmark.circle")
             }
@@ -559,7 +611,9 @@ struct AgentLearningActivityView: View {
         if method == .guidedExplanation || method == .workedExample {
             return hasResponse && revealedSteps >= activity.steps.count
         }
-        if method == .story { return hasResponse && selectedChoice != nil }
+        if [.story, .misconceptionDiagnosis, .curiosityBranch].contains(method) {
+            return hasResponse && selectedChoice != nil
+        }
         if method == .simulation || method == .counterfactualLab {
             return hasResponse && !prediction.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && (activity.choices.isEmpty || selectedChoice != nil)
         }
@@ -569,6 +623,7 @@ struct AgentLearningActivityView: View {
     private func assembledResponse(_ activity: LearningGeneratedActivity) -> String {
         var parts: [String] = []
         if let choice = activity.choices.first(where: { $0.id == selectedChoice }) { parts.append("Selected choice: \(choice.text)") }
+        parts.append(contentsOf: stepPredictions)
         if !prediction.isEmpty { parts.append("Prediction: \(prediction)") }
         parts.append("Learner response: \(response)")
         if !adjustment.isEmpty { parts.append("Reflection / limitations: \(adjustment)") }
@@ -580,7 +635,7 @@ struct AgentLearningActivityView: View {
     }
 
     @MainActor private func evaluate(_ answer: String) async {
-        guard !isWorking else { return }
+        guard !isWorking, !Task.isCancelled else { return }
         let requestID = UUID()
         interactionRequestID = requestID
         isWorking = true
@@ -599,7 +654,7 @@ struct AgentLearningActivityView: View {
     }
 
     @MainActor private func sendDialogue(_ message: String) async {
-        guard !isWorking else { return }
+        guard !isWorking, !Task.isCancelled else { return }
         let requestID = UUID()
         interactionRequestID = requestID
         isWorking = true
@@ -618,13 +673,31 @@ struct AgentLearningActivityView: View {
     }
 
     private func resetInteraction() {
-        interactionRequestID = UUID()
-        isWorking = false
+        cancelInteraction()
         response = ""; prediction = ""; adjustment = ""; selectedChoice = nil
-        revealedSteps = 1; revealedHints = 0; recallIndex = 0; recallRevealed = false
+        revealedSteps = 1; stepPredictions = []; revealedHints = 0; recallIndex = 0; recallRevealed = false
         recallAnswers = []; recallAttempt = ""; chat = []; customConnections = []
         connectionFrom = ""; connectionTo = ""; connectionLabel = ""
         evaluation = nil; submittedResponse = ""; errorMessage = nil; saved = false
+        restoreAssessedResponse()
+    }
+
+    private func restoreAssessedResponse() {
+        guard evaluation == nil, submittedResponse.isEmpty, let activity else { return }
+        chat = store.dialogueMessages
+        guard let attempt = store.sessionEvidence.attempts.last(where: {
+            $0.activityID == activity.id && $0.nodeID == activity.nodeID && $0.methodID == method.rawValue
+        }) else { return }
+        submittedResponse = attempt.response
+        evaluation = attempt.evaluation
+        saved = store.sessionEvidence.savedActivityIDs.contains(activity.id)
+    }
+
+    private func cancelInteraction() {
+        interactionTask?.cancel()
+        interactionTask = nil
+        interactionRequestID = UUID()
+        isWorking = false
     }
 
     private func importPortrait(_ result: Result<URL, Error>) {

@@ -118,6 +118,66 @@ final class NarratedLessonMVPTests: XCTestCase {
         } catch { XCTAssertTrue(error is NarratedDeckGenerationError) }
     }
 
+    func testAmbiguousQuizOptionsAreRejectedEvenWithDistinctIDs() async throws {
+        let fixture = try await validFixture()
+        var slides = fixture.deck.slides
+        let index = try XCTUnwrap(slides.firstIndex { $0.quiz != nil })
+        let slide = slides[index]
+        let quiz = try XCTUnwrap(slide.quiz)
+        let ambiguous = NarratedDeckQuiz(id: quiz.id, prompt: quiz.prompt,
+            options: [.init(id: "a", text: "The same answer"), .init(id: "b", text: "  THE  same\nanswer ")],
+            correctOptionID: "b", explanation: quiz.explanation)
+        slides[index] = .init(id: slide.id, index: slide.index, eyebrow: slide.eyebrow, title: slide.title,
+                              bullets: slide.bullets, narration: slide.narration, visual: slide.visual, quiz: ambiguous)
+        XCTAssertThrowsError(try decode(replacingSlides(in: fixture, slides: slides)))
+    }
+
+    func testRepeatedQuizPromptsCannotCountAsDistinctRetrievalChecks() async throws {
+        let fixture = try await validFixture()
+        var slides = fixture.deck.slides
+        let indices = slides.indices.filter { slides[$0].quiz != nil }
+        let firstQuiz = try XCTUnwrap(slides[indices[0]].quiz)
+        let slide = slides[indices[1]]
+        let quiz = try XCTUnwrap(slide.quiz)
+        let repeated = NarratedDeckQuiz(id: quiz.id, prompt: "  " + firstQuiz.prompt.uppercased() + "\n",
+            options: quiz.options, correctOptionID: quiz.correctOptionID, explanation: quiz.explanation)
+        slides[indices[1]] = .init(id: slide.id, index: slide.index, eyebrow: slide.eyebrow, title: slide.title,
+                                  bullets: slide.bullets, narration: slide.narration, visual: slide.visual, quiz: repeated)
+        XCTAssertThrowsError(try decode(replacingSlides(in: fixture, slides: slides)))
+    }
+
+    func testCancelledVideoExportExitsBeforeVoicePackOrRenderingWork() async throws {
+        let fixture = try await validFixture()
+        let task = Task { @MainActor in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return try await LessonVideoExporter.export(deck: fixture.deck, languageCode: "en") { _, _ in
+                XCTFail("Cancelled exports must not start synthesis or rendering.")
+            }
+        }
+        do {
+            _ = try await task.value
+            XCTFail("A cancelled video export must not produce a file.")
+        } catch { XCTAssertTrue(error is CancellationError) }
+    }
+
+    func testDiscardedVideoExportOnlyRemovesItsOwnedTemporaryFolder() throws {
+        let root = FileManager.default.temporaryDirectory
+        let owned = root.appending(path: "LumapLesson-\(UUID().uuidString)", directoryHint: .isDirectory)
+        let unrelated = root.appending(path: "SavedLesson-\(UUID().uuidString)", directoryHint: .isDirectory)
+        defer {
+            try? FileManager.default.removeItem(at: owned)
+            try? FileManager.default.removeItem(at: unrelated)
+        }
+        for directory in [owned, unrelated] {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            try Data("video fixture".utf8).write(to: directory.appending(path: "Lumap-lesson.mp4"))
+        }
+        LessonVideoExporter.discardTemporaryExport(at: unrelated.appending(path: "Lumap-lesson.mp4"))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: unrelated.path), "User-selected copies are never deleted.")
+        LessonVideoExporter.discardTemporaryExport(at: owned.appending(path: "Lumap-lesson.mp4"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: owned.path))
+    }
+
     func testTeachingScriptExportsEverySlideAndQuiz() async throws {
         let fixture = try await validFixture()
         let script = fixture.deck.teachingScript
@@ -154,6 +214,25 @@ final class NarratedLessonMVPTests: XCTestCase {
         }
         XCTAssertTrue(xml.contains("presentationml.presentation.main+xml"))
         XCTAssertTrue(xml.contains("Teaching script"))
+    }
+
+    func testPowerPointXMLRemainsParseableWithImportedSpecialCharacters() async throws {
+        let fixture = try await validFixture()
+        let special = "Light < water & \"carbon\" > oxygen\u{0001}\u{FFFE}\u{FFFF} 🌱"
+        let deck = NarratedLearningDeck(id: fixture.deck.id, title: special, subtitle: special,
+            sourceLabel: special, slides: fixture.deck.slides.map { slide in
+                .init(id: slide.id, index: slide.index, eyebrow: slide.eyebrow, title: special,
+                      bullets: slide.bullets + [special], narration: slide.narration + special,
+                      visual: slide.visual, quiz: slide.quiz)
+            })
+        let members = try storedZIPMembers(LessonPresentationExporter.data(deck: deck))
+        XCTAssertEqual(members.keys.filter { $0.hasPrefix("ppt/slides/slide") && $0.hasSuffix(".xml") }.count, deck.slides.count)
+        for (path, data) in members where path.hasSuffix(".xml") || path.hasSuffix(".rels") {
+            let parser = XMLParser(data: data)
+            XCTAssertTrue(parser.parse(), "Invalid XML in \(path): \(String(describing: parser.parserError))")
+        }
+        let titlePart = String(decoding: try XCTUnwrap(members["docProps/core.xml"]), as: UTF8.self)
+        XCTAssertTrue(titlePart.contains("Light &lt; water &amp; &quot;carbon&quot; &gt; oxygen 🌱"))
     }
 
     func testKokoroRendersAllSentencesWhenVoicePackIsInstalled() async throws {
@@ -250,6 +329,32 @@ final class NarratedLessonMVPTests: XCTestCase {
 
     private func validFixture() async throws -> NarratedDeckGenerationResponse {
         try await LocalNarratedDeckGenerator().generate(.init(topic: "Feedback loops", languageCode: "en", maximumSlideCount: 5))
+    }
+
+    private func storedZIPMembers(_ data: Data) throws -> [String: Data] {
+        var offset = 0
+        var members: [String: Data] = [:]
+        func integer(at position: Int, bytes: Int) throws -> Int {
+            guard position >= 0, position + bytes <= data.count else {
+                throw CocoaError(.fileReadCorruptFile)
+            }
+            return data[position..<(position + bytes)].enumerated().reduce(0) { value, byte in
+                value | (Int(byte.element) << (byte.offset * 8))
+            }
+        }
+        while try integer(at: offset, bytes: 4) == 0x04034B50 {
+            guard try integer(at: offset + 8, bytes: 2) == 0 else { throw CocoaError(.fileReadCorruptFile) }
+            let size = try integer(at: offset + 18, bytes: 4)
+            let nameSize = try integer(at: offset + 26, bytes: 2)
+            let extraSize = try integer(at: offset + 28, bytes: 2)
+            let nameStart = offset + 30
+            let contentStart = nameStart + nameSize + extraSize
+            guard contentStart + size <= data.count else { throw CocoaError(.fileReadCorruptFile) }
+            let name = String(decoding: data[nameStart..<(nameStart + nameSize)], as: UTF8.self)
+            members[name] = Data(data[contentStart..<(contentStart + size)])
+            offset = contentStart + size
+        }
+        return members
     }
 
     private func replacingSlides(in response: NarratedDeckGenerationResponse, slides: [NarratedDeckSlide]) -> NarratedDeckGenerationResponse {

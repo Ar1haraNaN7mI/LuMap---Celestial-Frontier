@@ -541,10 +541,12 @@ struct RemoteNarratedDeckGenerator: NarratedDeckGenerating {
 
             if let quiz = slide.quiz {
                 let optionIDs = quiz.options.map(\.id)
+                let optionTexts = quiz.options.map { normalisedQuizText($0.text) }
                 guard hasText(quiz.id),
                       hasText(quiz.prompt),
                       (2...4).contains(quiz.options.count),
                       Set(optionIDs).count == optionIDs.count,
+                      Set(optionTexts).count == optionTexts.count,
                       quiz.options.allSatisfy({ hasText($0.id) && hasText($0.text) }),
                       optionIDs.contains(quiz.correctOptionID),
                       hasText(quiz.explanation) else {
@@ -554,13 +556,19 @@ struct RemoteNarratedDeckGenerator: NarratedDeckGenerating {
         }
 
         let quizIDs = deck.slides.compactMap { $0.quiz?.id }
-        guard quizIDs.count >= 2, Set(quizIDs).count == quizIDs.count else {
+        let quizPrompts = deck.slides.compactMap(\.quiz).map { normalisedQuizText($0.prompt) }
+        guard quizIDs.count >= 2, Set(quizIDs).count == quizIDs.count,
+              Set(quizPrompts).count == quizPrompts.count else {
             throw NarratedDeckGenerationError.malformedProviderResponse
         }
     }
 
     private static func hasText(_ value: String) -> Bool {
         !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private static func normalisedQuizText(_ value: String) -> String {
+        value.split(whereSeparator: \.isWhitespace).joined(separator: " ").lowercased()
     }
 }
 

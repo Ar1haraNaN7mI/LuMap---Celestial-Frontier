@@ -69,7 +69,8 @@ struct MobileMethodExperienceView: View {
                 if store.currentMethod == .narratedDeck {
                     NarratedLessonPlayerView(topic: store.currentLearningNode?.title ?? store.activeTopic,
                         sourceExcerpt: store.lessonSourceText, sourceLabel: store.activePlan?.title) { artifact in
-                        save(artifact, method: .narratedDeck)
+                        _ = try store.completeActivity(method: .narratedDeck, artifact: artifact)
+                        errorMessage = nil
                     }
                     .id("\(store.currentLearningNode?.id ?? ""):narratedDeck")
                 } else if store.currentMethod == .spatialAR {
@@ -77,7 +78,7 @@ struct MobileMethodExperienceView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     AgentLearningActivityView(method: store.currentMethod, topic: store.activeTopic) { artifact in
-                        save(artifact, method: store.currentMethod)
+                        try save(artifact, method: store.currentMethod)
                     }
                     .id("\(store.currentLearningNode?.id ?? ""):\(store.currentMethod.rawValue)")
                 }
@@ -95,8 +96,8 @@ struct MobileMethodExperienceView: View {
         } message: { Text(errorMessage ?? "") }
     }
 
-    private func save(_ artifact: String, method: LearningMethod) {
+    private func save(_ artifact: String, method: LearningMethod) throws {
         do { _ = try store.completeActivity(method: method, artifact: artifact) }
-        catch { errorMessage = error.localizedDescription }
+        catch { errorMessage = error.localizedDescription; throw error }
     }
 }

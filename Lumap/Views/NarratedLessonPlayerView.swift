@@ -12,7 +12,7 @@ struct NarratedLessonPlayerView: View {
     let topic: String
     let sourceExcerpt: String?
     let sourceLabel: String?
-    let complete: (String) -> Void
+    let complete: (String) throws -> Void
 
     @StateObject private var narration = NarrationSession.makeDefault()
     @State private var deck: NarratedLearningDeck?
@@ -101,7 +101,7 @@ struct NarratedLessonPlayerView: View {
                         do {
                             try store.recordNarratedLessonOutcome(deck: deck, narratedSlideNumbers: narratedSlides.sorted(),
                                                                   quizResults: quizResults.values.sorted { $0.quizID < $1.quizID })
-                            complete(artifact.activityText(languageCode: store.learningLanguage.rawValue))
+                            try complete(artifact.activityText(languageCode: store.learningLanguage.rawValue))
                             didSave = true
                             completionError = nil
                         } catch { completionError = error.localizedDescription }
@@ -300,6 +300,7 @@ struct NarratedLessonPlayerView: View {
             lessonProgress.cancelPlayback()
             narration.stop()
             exportError = nil
+            if let exportedVideo { LessonVideoExporter.discardTemporaryExport(at: exportedVideo) }
             exportedVideo = nil
             exportProgress = 0
             exportStatus = text("Preparing full audio…", "正在准备完整音频……")
@@ -312,7 +313,10 @@ struct NarratedLessonPlayerView: View {
                         guard exportRequestID == requestID else { return }
                         exportProgress = value; exportStatus = status
                     }
-                    guard !Task.isCancelled, exportRequestID == requestID else { return }
+                    guard !Task.isCancelled, exportRequestID == requestID else {
+                        LessonVideoExporter.discardTemporaryExport(at: url)
+                        return
+                    }
                     exportedVideo = url
                 } catch is CancellationError {
                     return
@@ -331,6 +335,7 @@ struct NarratedLessonPlayerView: View {
 
     private func generate() async {
         cancelExport()
+        if let exportedVideo { LessonVideoExporter.discardTemporaryExport(at: exportedVideo) }
         exportedVideo = nil
         exportError = nil
         autoplay = false

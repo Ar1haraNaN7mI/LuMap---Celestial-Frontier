@@ -87,7 +87,12 @@ enum LessonPresentationExporter {
     }
 
     private static func escape(_ value: String) -> String {
-        String(value.unicodeScalars.filter { $0.value >= 32 || [9, 10, 13].contains($0.value) })
+        // XML 1.0 excludes U+FFFE/U+FFFF as well as most C0 controls.
+        // Valid Unicode text can contain these scalars in uploaded material.
+        String(value.unicodeScalars.filter {
+            [9, 10, 13].contains($0.value) || (0x20...0xD7FF).contains($0.value)
+                || (0xE000...0xFFFD).contains($0.value) || (0x10000...0x10FFFF).contains($0.value)
+        })
             .replacingOccurrences(of: "&", with: "&amp;").replacingOccurrences(of: "<", with: "&lt;")
             .replacingOccurrences(of: ">", with: "&gt;").replacingOccurrences(of: "\"", with: "&quot;")
     }

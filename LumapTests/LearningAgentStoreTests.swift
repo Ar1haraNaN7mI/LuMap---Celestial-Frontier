@@ -32,12 +32,26 @@ final class LearningAgentStoreTests: XCTestCase {
               nextMethodID: "workedExample", nextNodeID: score < 70 ? "n1" : "n2", reason: "Follow evidence")
     }
 
+    @MainActor private func recordAssessment(_ store: LumapStore, score: Int, response: String = "Assessed reasoning") {
+        guard let activity = store.activeActivity, let method = LearningMethod(rawValue: activity.methodID) else {
+            return XCTFail("An assessed activity is required for this fixture")
+        }
+        let result = evaluation(score: score)
+        store.currentGoal?.agentNodeID = activity.nodeID
+        store.currentMethod = method
+        store.sessionEvidence.activities[store.activityCacheKey(nodeID: activity.nodeID, method: method)] = activity
+        store.sessionEvidence.attempts.append(.init(id: UUID(), nodeID: activity.nodeID, activityID: activity.id,
+            methodID: activity.methodID, response: response, evaluation: result, durationSeconds: 20, createdAt: .now))
+        store.activityFeedback = result
+        store.evaluatedResponse = response
+    }
+
     @MainActor func testNewTopicClearsPreviousGeneratedContentAndFeedback() throws {
         let (s, _) = try store()
         try s.startLearning(topic: "Photosynthesis")
         s.activePlan = plan("Photosynthesis")
         s.activeActivity = activity("a1", node: "n1")
-        s.activityFeedback = evaluation(score: 90)
+        recordAssessment(s, score: 90)
         try s.startLearning(topic: "Eigenvectors")
         XCTAssertNil(s.activePlan)
         XCTAssertNil(s.activeActivity)
@@ -53,7 +67,7 @@ final class LearningAgentStoreTests: XCTestCase {
         for index in 1...2 {
             s.currentGoal?.agentNodeID = "n\(index)"
             s.activeActivity = activity("a\(index)", node: "n\(index)")
-            s.activityFeedback = evaluation(score: 80)
+            recordAssessment(s, score: 80)
             XCTAssertTrue(try s.completeActivity(method: .workedExample, artifact: "Valid submitted reasoning"))
             XCTAssertFalse(try s.completeActivity(method: .workedExample, artifact: "Same activity"))
         }
@@ -75,7 +89,7 @@ final class LearningAgentStoreTests: XCTestCase {
         s.activePlan = plan("Photosynthesis")
         s.currentGoal?.agentNodeID = "n1"
         s.activeActivity = activity("a1", node: "n1")
-        s.activityFeedback = evaluation(score: 25)
+        recordAssessment(s, score: 25)
         _ = try s.completeActivity(method: .workedExample, artifact: "An attempted answer")
         XCTAssertEqual(s.currentGoal?.progress, 0)
         XCTAssertTrue(s.sessionEvidence.completedNodeIDs.isEmpty)
@@ -103,9 +117,9 @@ final class LearningAgentStoreTests: XCTestCase {
         s.activePlan = plan("Photosynthesis")
         s.currentGoal?.agentNodeID = "n1"
         s.activeActivity = activity("a1", node: "n1")
-        s.activityFeedback = evaluation(score: 25)
+        recordAssessment(s, score: 25)
         XCTAssertTrue(try s.completeActivity(method: .workedExample, artifact: "First attempt"))
-        s.activityFeedback = evaluation(score: 90)
+        recordAssessment(s, score: 90)
         XCTAssertFalse(try s.completeActivity(method: .workedExample, artifact: "Corrected explanation"))
         XCTAssertEqual(s.currentGoal?.progress, 0.5)
         XCTAssertEqual(s.rewardBalance, 10)
@@ -126,7 +140,7 @@ final class LearningAgentStoreTests: XCTestCase {
         s.currentGoal?.agentNodeID = "n1"
         s.currentMethod = .workedExample
         s.activeActivity = activity("a1", node: "n1")
-        s.activityFeedback = evaluation(score: 90)
+        recordAssessment(s, score: 90)
         XCTAssertFalse(s.canContinueLearningSection)
         XCTAssertThrowsError(try s.selectLearningNode("n2"))
         _ = try s.completeGeneratedActivity(method: .workedExample, artifact: "A correct explanation")
@@ -140,12 +154,42 @@ final class LearningAgentStoreTests: XCTestCase {
             explanation: a.explanation, prompt: a.prompt, steps: a.steps, examples: a.examples,
             choices: [], correctChoiceID: nil, answerExplanation: a.answerExplanation, cards: [],
             concepts: [], connections: [], hints: [], sourceIDs: a.sourceIDs)
-        s.activityFeedback = evaluation(score: 80)
+        recordAssessment(s, score: 80)
         _ = try s.completeGeneratedActivity(method: .flashRecall, artifact: "Retrieved the key ideas")
         XCTAssertTrue(s.currentSectionIsComplete)
         XCTAssertEqual(s.currentGoal?.progress, 0.5)
         try s.selectLearningNode("n2", unlocking: true)
         XCTAssertEqual(s.currentLearningNode?.id, "n2")
+    }
+
+    @MainActor func testOldPassingEvidenceCannotRepairALaterFailedMethod() throws {
+        let (s, _) = try store()
+        try s.startLearning(topic: "Photosynthesis")
+        let base = plan("Photosynthesis")
+        s.activePlan = LearningCoursePlan(id: base.id, title: base.title, summary: base.summary, goal: base.goal,
+            nodes: [.init(id: "n1", title: "Foundation", objective: "Explain and retrieve", prerequisiteIDs: [],
+                          estimatedMinutes: 8, methodIDs: ["workedExample", "flashRecall"]), base.nodes[1]],
+            sources: base.sources, recommendedMethodID: "workedExample", recommendationReason: "Mix methods",
+            diagnosticQuestion: base.diagnosticQuestion, generatedAt: .now, model: base.model)
+        let passingActivity = activity("passing", node: "n1")
+        s.activeActivity = passingActivity
+        recordAssessment(s, score: 90)
+        _ = try s.completeGeneratedActivity(method: .workedExample, artifact: "Earlier correct reasoning")
+        s.activeActivity = .init(id: "later-failure", methodID: "flashRecall", nodeID: "n1", title: "Recall",
+            explanation: "Recall the concept", prompt: "Explain", steps: [], examples: [], choices: [],
+            correctChoiceID: nil, answerExplanation: "Rubric", cards: [], concepts: [], connections: [], hints: [], sourceIDs: ["S1"])
+        recordAssessment(s, score: 25)
+        _ = try s.completeGeneratedActivity(method: .flashRecall, artifact: "Later incomplete answer")
+        s.activeActivity = passingActivity
+        s.currentMethod = .workedExample
+        XCTAssertFalse(try s.completeGeneratedActivity(method: .workedExample, artifact: "Earlier correct reasoning"))
+        XCTAssertFalse(s.currentSectionIsComplete)
+        XCTAssertEqual(s.sessionEvidence.completedSectionMethods?["n1"], ["workedExample"])
+        XCTAssertThrowsError(try s.selectLearningNode("n2", unlocking: true))
+        recordAssessment(s, score: 90, response: "Fresh successful repair after the failed recall")
+        _ = try s.completeGeneratedActivity(method: .workedExample, artifact: "New repair")
+        XCTAssertTrue(s.currentSectionIsComplete)
+        XCTAssertEqual(s.rewardBalance, 20, "Neither re-saving nor repairing duplicates the activity reward")
     }
 
     @MainActor func testGenerationDeadlineStopsSpinnerAndIgnoresOldRequest() throws {
@@ -349,6 +393,110 @@ final class LearningAgentStoreTests: XCTestCase {
         }
         XCTAssertFalse(s.isPlanning)
         XCTAssertNil(s.activePlan)
+    }
+
+    @MainActor func testDisplayFeedbackCannotReplaceAssessedEvidenceWhenSaving() throws {
+        let (s, _) = try store()
+        try s.startLearning(topic: "Photosynthesis")
+        s.activePlan = plan("Photosynthesis")
+        s.currentGoal?.agentNodeID = "n1"
+        s.currentMethod = .workedExample
+        s.activeActivity = activity("a1", node: "n1")
+        s.activityFeedback = evaluation(score: 95)
+        XCTAssertThrowsError(try s.completeGeneratedActivity(method: .workedExample, artifact: "Ungraded answer"))
+        XCTAssertEqual(s.rewardBalance, 0)
+        XCTAssertTrue(s.sessionEvidence.completedNodeIDs.isEmpty)
+        recordAssessment(s, score: 25)
+        s.activityFeedback = evaluation(score: 95)
+        _ = try s.completeGeneratedActivity(method: .workedExample, artifact: "Attempt with actual low assessment")
+        XCTAssertEqual(s.currentGoal?.progress, 0, "Only the bound assessment score can count toward completion")
+    }
+
+    @MainActor func testCancelledLateFeedbackDoesNotPersistAnAttempt() async throws {
+        let (s, _) = try store()
+        let endpoint = s.providerEndpoint
+        s.providerEndpoint = "http://127.0.0.1:1/v1"
+        defer { s.providerEndpoint = endpoint }
+        try s.startLearning(topic: "Photosynthesis")
+        s.activePlan = plan("Photosynthesis")
+        s.currentGoal?.agentNodeID = "n1"
+        s.currentMethod = .workedExample
+        s.activeActivity = activity("a1", node: "n1")
+        var pending: CheckedContinuation<LearningEvaluation, Error>?
+        s.activityEvaluator = { _, _, _, _, _ in
+            try await withCheckedThrowingContinuation { pending = $0 }
+        }
+        let task = Task { try await s.evaluateActivityResponse("A reasoned answer") }
+        for _ in 0..<100 where pending == nil { await Task.yield() }
+        let reply = try XCTUnwrap(pending)
+        task.cancel()
+        reply.resume(returning: evaluation(score: 90))
+        do { _ = try await task.value; XCTFail("Cancelled feedback must be discarded") }
+        catch is CancellationError {} catch { XCTFail("Unexpected error: \(error)") }
+        XCTAssertTrue(s.sessionEvidence.attempts.isEmpty)
+        XCTAssertNil(s.activityFeedback)
+        XCTAssertFalse(s.isEvaluatingActivity)
+    }
+
+    @MainActor func testReturningToCachedActivityRestoresItsOwnFeedback() async throws {
+        let (s, _) = try store()
+        try s.startLearning(topic: "Photosynthesis")
+        s.activePlan = plan("Photosynthesis")
+        s.activeActivity = activity("a1", node: "n1")
+        recordAssessment(s, score: 80, response: "My saved reasoning")
+        try s.setMethod(.teachBack)
+        XCTAssertNil(s.activityFeedback)
+        await s.ensureLearningActivity(method: .workedExample)
+        XCTAssertEqual(s.activeActivity?.id, "a1")
+        XCTAssertEqual(s.activityFeedback?.score, 80)
+        XCTAssertEqual(s.evaluatedResponse, "My saved reasoning")
+    }
+
+    @MainActor func testCompletedSectionCannotJumpPastNextEligibleSection() throws {
+        let (s, _) = try store()
+        try s.startLearning(topic: "Photosynthesis")
+        let base = plan("Photosynthesis")
+        s.activePlan = .init(id: base.id, title: base.title, summary: base.summary, goal: base.goal,
+            nodes: base.nodes + [.init(id: "n3", title: "Advanced", objective: "Transfer", prerequisiteIDs: ["n2"], estimatedMinutes: 5, methodIDs: ["teachBack"])],
+            sources: base.sources, recommendedMethodID: base.recommendedMethodID, recommendationReason: base.recommendationReason,
+            diagnosticQuestion: base.diagnosticQuestion, generatedAt: .now, model: base.model)
+        s.currentGoal?.agentNodeID = "n1"
+        s.sessionEvidence.completedNodeIDs = ["n1"]
+        s.sessionEvidence.completedSectionMethods = ["n1": ["workedExample"]]
+        XCTAssertThrowsError(try s.selectLearningNode("n3", unlocking: true))
+        XCTAssertEqual(s.currentLearningNode?.id, "n1")
+        try s.selectLearningNode("n2", unlocking: true)
+        XCTAssertEqual(s.currentLearningNode?.id, "n2")
+    }
+
+    @MainActor func testNarratedOutcomeRequiresValidEvidenceAndWaitsForArtifactSave() async throws {
+        let (s, _) = try store()
+        try s.startLearning(topic: "Feedback loops")
+        let base = plan("Feedback loops")
+        s.activePlan = .init(id: base.id, title: base.title, summary: base.summary, goal: base.goal,
+            nodes: [.init(id: "n1", title: "Foundation", objective: "Explain", prerequisiteIDs: [], estimatedMinutes: 5, methodIDs: ["narratedDeck"])],
+            sources: base.sources, recommendedMethodID: "narratedDeck", recommendationReason: base.recommendationReason,
+            diagnosticQuestion: base.diagnosticQuestion, generatedAt: .now, model: base.model)
+        s.currentGoal?.agentNodeID = "n1"
+        s.currentMethod = .narratedDeck
+        let deck = try await LocalNarratedDeckGenerator().generate(.init(topic: "Feedback loops", languageCode: "en")).deck
+        let answers = deck.slides.compactMap(\.quiz).map {
+            NarratedDeckQuizResult(quizID: $0.id, selectedOptionID: $0.correctOptionID, wasCorrect: true)
+        }
+        let bad = answers.map { NarratedDeckQuizResult(quizID: $0.quizID, selectedOptionID: "missing-option", wasCorrect: false) }
+        XCTAssertThrowsError(try s.recordNarratedLessonOutcome(deck: deck, narratedSlideNumbers: deck.slides.map(\.index), quizResults: bad))
+        XCTAssertThrowsError(try s.recordNarratedLessonOutcome(deck: deck, narratedSlideNumbers: deck.slides.map(\.index) + [999], quizResults: answers))
+        XCTAssertThrowsError(try s.recordNarratedLessonOutcome(deck: deck, narratedSlideNumbers: deck.slides.map(\.index), quizResults: answers + [answers[0]]))
+        XCTAssertTrue(s.sessionEvidence.attempts.isEmpty)
+        try s.recordNarratedLessonOutcome(deck: deck, narratedSlideNumbers: deck.slides.map(\.index), quizResults: answers)
+        XCTAssertFalse(s.currentSectionIsComplete)
+        XCTAssertEqual(s.currentGoal?.progress, 0)
+        XCTAssertFalse(s.canContinueLearningSection)
+        XCTAssertEqual(s.rewardBalance, 0)
+        _ = try s.completeGeneratedActivity(method: .narratedDeck, artifact: "Complete lesson artifact")
+        XCTAssertTrue(s.currentSectionIsComplete)
+        XCTAssertEqual(s.currentGoal?.status, "completed")
+        XCTAssertEqual(s.rewardBalance, 10)
     }
 
 }

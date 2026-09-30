@@ -105,6 +105,9 @@ final class LumapStore: ObservableObject {
     var sectionAdapter: (LearningCoursePlan, String, String, ProviderConfiguration) async throws -> LearningPathNode = { plan, nodeID, context, configuration in
         try await LearningAgentService.adaptSection(plan: plan, nodeID: nodeID, learnerContext: context, configuration: configuration)
     }
+    var activityEvaluator: (LearningCoursePlan, LearningGeneratedActivity, String, String, ProviderConfiguration) async throws -> LearningEvaluation = { plan, activity, response, context, configuration in
+        try await LearningAgentService.evaluate(plan: plan, activity: activity, response: response, learnerContext: context, configuration: configuration)
+    }
     var planningTask: Task<Void, Never>?
     var activityTask: Task<Void, Never>?
     var activityWatchdog: Task<Void, Never>?
@@ -445,7 +448,10 @@ final class LumapStore: ObservableObject {
             let topic = learningText("Study \(material.fileName)", "研读 \(material.fileName)")
             try startLearning(topic: topic, materialID: material.id)
         }
-        if activePlan != nil { currentMethod = sectionMethods.first { !completedCurrentSectionMethodIDs.contains($0.rawValue) } ?? sectionMethods.first ?? .guidedExplanation }
+        if activePlan != nil {
+            try setMethod(sectionMethods.first { !completedCurrentSectionMethodIDs.contains($0.rawValue) }
+                ?? sectionMethods.first ?? .guidedExplanation)
+        }
         selectedSection = .groundedStudy
         personaPrompt = learningText(
             "Start with the source claim. Keep evidence separate from your interpretation.",
@@ -483,6 +489,23 @@ final class LumapStore: ObservableObject {
     }
 
     func setMethod(_ method: LearningMethod, fixed: Bool = false) throws {
+        let shouldPersistMethod = activePlan != nil && sessionEvidence.currentMethodID != method.rawValue
+        if (shouldPersistMethod || fixed), let goal = currentGoal, let context {
+            var updatedEvidence = sessionEvidence
+            do {
+                if shouldPersistMethod {
+                    updatedEvidence.currentMethodID = method.rawValue
+                    goal.agentSessionData = try JSONEncoder().encode(updatedEvidence)
+                }
+                if fixed { goal.preferredMethodID = method.rawValue }
+                goal.updatedAt = .now
+                try commit(context)
+            } catch {
+                context.rollback()
+                throw error
+            }
+            if shouldPersistMethod { sessionEvidence = updatedEvidence }
+        }
         if currentMethod != method {
             evaluationRequestID = UUID()
             isEvaluatingActivity = false
@@ -498,10 +521,7 @@ final class LumapStore: ObservableObject {
             dialogueMessages = []
         }
         currentMethod = method
-        if fixed, let currentGoal, let context {
-            currentGoal.preferredMethodID = method.rawValue
-            currentGoal.updatedAt = .now
-            try commit(context)
+        if fixed, currentGoal != nil, context != nil {
             bannerMessage = t("Method preference saved. Effectiveness is not verified yet.", "学习方式偏好已保存，目前还没有足够证据判断效果。")
         }
     }

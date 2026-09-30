@@ -26,6 +26,7 @@ enum LessonVideoExporter {
         languageCode: String,
         progress: @escaping (Double, String) -> Void
     ) async throws -> URL {
+        try Task.checkCancellation()
         guard KokoroVoicePackManager.isInstalled() else { throw LessonVideoExportError.audioUnavailable }
         let directory = FileManager.default.temporaryDirectory.appending(path: "LumapLesson-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -57,6 +58,7 @@ enum LessonVideoExporter {
                 voiceID: chinese ? "zf_001" : "af_maple", speakingRate: 1
             ))
             audioURLs.append(audioURL)
+            try Task.checkCancellation()
             let audioFile = try AVAudioFile(forReading: audioURL)
             let duration = CMTime(value: audioFile.length, timescale: CMTimeScale(audioFile.processingFormat.sampleRate))
             guard duration.seconds.isFinite, duration.seconds > 0 else { throw LessonVideoExportError.audioUnavailable }
@@ -106,6 +108,7 @@ enum LessonVideoExporter {
                 // Constant-rate samples are portable across AVFoundation
                 // decoders; a pair of 30-second still samples is not.
                 while CMTime(value: frameNumber, timescale: 12) < end {
+                    try Task.checkCancellation()
                     while !input.isReadyForMoreMediaData {
                         try Task.checkCancellation()
                         guard writer.status == .writing else { throw writer.error ?? LessonVideoExportError.writing }
@@ -115,12 +118,14 @@ enum LessonVideoExporter {
                         throw writer.error ?? LessonVideoExportError.writing
                     }
                     frameNumber += 1
+                    if frameNumber.isMultiple(of: 24) { await Task.yield() }
                 }
                 position = end
             }
             writer.endSession(atSourceTime: position)
             input.markAsFinished()
             await writer.finishWriting()
+            try Task.checkCancellation()
             guard writer.status == .completed else { throw writer.error ?? LessonVideoExportError.writing }
         } catch {
             writer.cancelWriting()
@@ -161,8 +166,11 @@ enum LessonVideoExporter {
                         throw LessonVideoExportError.audioUnavailable
                     }
                     while source.framePosition < source.length {
+                        try Task.checkCancellation()
                         try source.read(into: buffer)
+                        guard buffer.frameLength > 0 else { throw LessonVideoExportError.audioUnavailable }
                         try output.write(from: buffer)
+                        await Task.yield()
                     }
                 } else {
                     var remaining = AVAudioFrameCount((stage.duration.seconds * sampleRate).rounded())
@@ -170,9 +178,11 @@ enum LessonVideoExporter {
                           let samples = silence.floatChannelData?[0] else { throw LessonVideoExportError.audioUnavailable }
                     samples.initialize(repeating: 0, count: 24_000)
                     while remaining > 0 {
+                        try Task.checkCancellation()
                         silence.frameLength = min(remaining, silence.frameCapacity)
                         try output.write(from: silence)
                         remaining -= silence.frameLength
+                        await Task.yield()
                     }
                 }
             }
@@ -188,18 +198,40 @@ enum LessonVideoExporter {
             throw LessonVideoExportError.writing
         }
         exporter.shouldOptimizeForNetworkUse = true
+        try Task.checkCancellation()
         if #available(macOS 15.0, iOS 18.0, *) {
             try await exporter.export(to: finalVideo, as: .mp4)
         } else {
+            // AVFoundation uses the same narrow escape in its async export
+            // implementation: only cancelExport may cross actor isolation.
+            nonisolated(unsafe) let exportSessionForCancellingOnly = exporter
             exporter.outputURL = finalVideo
             exporter.outputFileType = .mp4
-            await exporter.export()
-            guard exporter.status == .completed else { throw exporter.error ?? LessonVideoExportError.writing }
+            try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                await exporter.export()
+                try Task.checkCancellation()
+                guard exporter.status == .completed else { throw exporter.error ?? LessonVideoExportError.writing }
+            } onCancel: {
+                exportSessionForCancellingOnly.cancelExport()
+            }
         }
         try Task.checkCancellation()
         succeeded = true
         progress(1, chinese ? "视频已就绪" : "Teaching video ready")
         return finalVideo
+    }
+
+    /// Only remove the private temporary folder this exporter created, never a
+    /// user-selected copy or an unrelated folder passed by a caller.
+    static func discardTemporaryExport(at url: URL) {
+        let directory = url.standardizedFileURL.deletingLastPathComponent()
+        let prefix = "LumapLesson-"
+        guard url.isFileURL, url.lastPathComponent == "Lumap-lesson.mp4",
+              directory.deletingLastPathComponent() == FileManager.default.temporaryDirectory.standardizedFileURL,
+              directory.lastPathComponent.hasPrefix(prefix),
+              UUID(uuidString: String(directory.lastPathComponent.dropFirst(prefix.count))) != nil else { return }
+        try? FileManager.default.removeItem(at: directory)
     }
 
     private static func makePixelBuffer(_ image: CGImage) throws -> CVPixelBuffer {
