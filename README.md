@@ -10,7 +10,7 @@
     <img alt="iOS 18 or newer" src="https://img.shields.io/badge/iOS-18%2B-151D31?style=flat-square&logo=apple" />
     <img alt="Status: working MVP" src="https://img.shields.io/badge/status-working_MVP-48AD96?style=flat-square" />
   </p>
-  <p><a href="#get-started">Get started</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
+  <p><a href="#get-started">Get started</a> · <a href="#watch-the-product-film">Product film</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
 </div>
 
 ---
@@ -18,6 +18,16 @@
 Lumap starts with a simple question: **What would you like to learn today?** You can name a topic, bring your own document, or explore an idea suggested from interests you have confirmed. The learning agent researches the subject, plans the necessary foundations, and turns the current section into activities that ask you to explain, predict, experiment and apply.
 
 The aim is to help people discover what they want to understand—and make progress visible through evidence of understanding. The current product is a local-first MVP with real model calls, research, generated teaching materials, evaluation and persistence. The research architecture for a future trained reinforcement-learning policy is documented separately.
+
+## Watch the product film
+
+[![Lumap product film: native Mac and iPhone learning experiences](docs/images/lumap-product-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)
+
+**85 seconds · 1080p · 30 fps.** A continuous code-rendered opening and 16 geometric transitions connect real product demonstrations: topic input, sources, adaptive activities, a narrated lesson and quiz, learning evidence, Mac/iPhone views and spatial concept previews.
+
+[Watch / download with English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-2026-09-30/Lumap_Product_Film_Cinematic_Captions.mp4) · [Download with optional English / Chinese subtitles](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-2026-09-30/Lumap_Product_Film_Cinematic_Subtitles.mp4) · [All video assets and checksums](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)
+
+The film uses edited real app captures, synthetic English narration and original music. Generation waits are shortened. Spatial scenes are clearly labeled concept previews; no trained RL deployment, automatic cloud sync or working headset integration is claimed. Large video assets live in Releases so cloning the source repository stays lightweight. Optional subtitle tracks require a compatible player.
 
 ## Feature highlights
 
