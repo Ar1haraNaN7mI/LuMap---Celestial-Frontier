@@ -10,6 +10,7 @@
     <img alt="iOS 18 or newer" src="https://img.shields.io/badge/iOS-18%2B-151D31?style=flat-square&logo=apple" />
     <img alt="Status: working MVP" src="https://img.shields.io/badge/status-working_MVP-48AD96?style=flat-square" />
   </p>
+  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30">▶ Watch the product demo · Video release</a></strong></p>
   <p><a href="#get-started">Get started</a> · <a href="#watch-the-product-film">Product film</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
 </div>
 
@@ -20,6 +21,8 @@ Lumap starts with a simple question: **What would you like to learn today?** You
 The aim is to help people discover what they want to understand—and make progress visible through evidence of understanding. The current product is a local-first MVP with real model calls, research, generated teaching materials, evaluation and persistence. The research architecture for a future trained reinforcement-learning policy is documented separately.
 
 ## Watch the product film
+
+**[Open the video release on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)** — watch or download the demo, English captions, and optional English / Chinese subtitles.
 
 [![Lumap product film: native Mac and iPhone learning experiences](docs/images/lumap-product-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-2026-09-30)
 
