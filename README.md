@@ -10,7 +10,7 @@
     <img alt="iOS 18 or newer" src="https://img.shields.io/badge/iOS-18%2B-151D31?style=flat-square&logo=apple" />
     <img alt="Status: working MVP" src="https://img.shields.io/badge/status-working_MVP-48AD96?style=flat-square" />
   </p>
-  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30">▶ Watch the product demo · Video release</a></strong></p>
+  <p><strong><a href="https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01">▶ Watch the launch film · Video release</a></strong></p>
   <p><a href="#get-started">Get started</a> · <a href="#watch-the-product-film">Product film</a> · <a href="#feature-highlights">Highlights</a> · <a href="#architecture">Architecture</a> · <a href="#lumapath-rl">LumaPath-RL</a> · <a href="#project-documentation">Documentation</a></p>
 </div>
 
@@ -22,17 +22,19 @@ The aim is to help people discover what they want to understand—and make progr
 
 ## Watch the product film
 
-**[Open the video release on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)** — watch or download the demo, English captions, and optional English / Chinese subtitles.
+**[Open the launch film on GitHub](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-2026-10-01)** — the new 85-second introduction to Lumap, with downloadable MP4s, optional English captions and an editable project.
 
-[![Lumap product film: native Mac and iPhone learning experiences](docs/images/lumap-journey-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)
+[![Lumap launch film: your own way to understand](docs/images/lumap-launch-film-poster.jpg)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film.mp4)
 
-**105 seconds · 1080p · 30 fps.** A continuous code-rendered opening connects topic input, research, adaptive activities, a narrated lesson and quiz, learning evidence, Mac/iPhone views and spatial concept previews. The Journey edition adds an **eight-second golden-path insert** and a **twelve-second montage across 17 learning methods**, with directional cuts, light sweeps, focus portals and staggered panels.
+**85 seconds · 1080p · 30 fps.** A new composition follows a question through trusted sources, an individual learning path, changing explanations, interactive stories, narrated lessons, quiz feedback and saved progress. A supplied ten-second opening, originally 720p, is upscaled into the film; subsequent scenes combine code animation with actual Mac/iPhone captures and labeled illustrative examples.
 
-[Watch / download with clearer narration](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-journey-2026-09-30/Lumap_Product_Film_HQ_Audio.mp4) · [Voice-only edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-journey-2026-09-30/Lumap_Product_Film_HQ_Voice_Only.mp4) · [Original soundtrack with optional English / Chinese subtitles](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/product-film-journey-2026-09-30/Lumap_Product_Film_Journey_Subtitles.mp4) · [All video assets and checksums](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30)
+[Watch / download the launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film.mp4) · [Without background music](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Film_No_Music.mp4) · [Editable project ZIP](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_Editable_Project.zip) · [English captions (SRT)](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-2026-10-01/Lumap_Launch_English.srt)
 
-**Updated audio edition:** all 12 English narration segments were regenerated with the full-precision Kokoro v1.0 model, lightly equalized and mixed with quieter music. Procedural noise effects were removed. Both new editions retain the original picture stream and English captions exactly; full decoding and complete narration checks passed. The music edition measures −16.0 LUFS / −3.54 dBTP. See the [audio verification report](docs/examples/hq-audio-verification.json).
+Voice, music and sound effects have independent tracks; the no-music edition retains narration and sound effects. The editable Remotion project includes the selected media, deterministic animation, audio stems and shot timing. Read the [editing and provenance guide](docs/product-film/launch-film.md) and [film verification report](docs/examples/launch-film-verification.json).
 
-The film combines edited app captures, native SwiftUI and actual upstream Paper2Galgame renders with clearly labeled example lesson data, a code-authored journey motion study, synthetic English narration and original music. All three original Journey exports passed full-frame decoding; all 12 narration segments remain complete. See the [export verification](docs/examples/journey-film-verification.json) and [editing guide](docs/examples/journey-film-editing-guide.txt). The [animation source bundle](docs/product-film/README.md) includes a standalone eight-second golden-chain renderer; the full-film editor accepts locally supplied footage and narration. Generation waits are shortened. Spatial scenes are clearly labeled concept previews; no trained RL deployment, automatic cloud sync or working headset integration is claimed. Large video assets live in Releases so cloning the source repository stays lightweight. Optional subtitle tracks require a compatible player.
+The gold-chain and Paper2Galgame captures use actual renderers with synthetic example lessons; illustrated experiments and learning paths are editorial visualizations. Spatial learning remains a labeled concept, and cross-device availability does not imply automatic cloud sync. The film makes no claim of deployed trained RL or measured learning effectiveness.
+
+The previous [105-second Journey film and clearer-audio editions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/product-film-journey-2026-09-30) remain archived, with their [verification](docs/examples/journey-film-verification.json), [audio report](docs/examples/hq-audio-verification.json) and [earlier animation source bundle](docs/product-film/README.md). Large videos and the editable archive live in Releases to keep the source repository lightweight.
 
 ## Feature highlights
 

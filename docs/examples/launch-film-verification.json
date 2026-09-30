@@ -1,0 +1,516 @@
+{
+  "project": "Lumap",
+  "team": "Celestial Frontier",
+  "release": "launch-film-2026-10-01",
+  "date": "2026-10-01",
+  "delivery_passed": true,
+  "scope": "Independent visual and technical review of the finished media; not a new application test or learning-effectiveness study.",
+  "delivery": {
+    "duration_seconds": 85,
+    "frames": 2550,
+    "frame_rate": 30,
+    "width": 1920,
+    "height": 1080,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "audio_sample_rate": 48000,
+    "audio_encode_target_kbps": 320,
+    "optional_English_captions": true
+  },
+  "files": {
+    "Lumap_Launch_Film.mp4": {
+      "sha256": "389c49ce473683138ec8ea84a38043418a6c28456ba79b1808f44f494c099127",
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "duration": "85.000000",
+            "nb_frames": "2550",
+            "side_data_list": [
+              {}
+            ]
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "sample_rate": "48000",
+            "duration": "85.000000",
+            "nb_frames": "3986"
+          },
+          {
+            "index": 2,
+            "codec_name": "mov_text",
+            "duration": "82.700000",
+            "nb_frames": "31"
+          }
+        ],
+        "format": {
+          "duration": "85.000000"
+        }
+      },
+      "full_decode_passed": true,
+      "video_stream_sha256": "SHA256=a7660ee2f533803ba4c8cecf630a88ca81c740ae52a93f56b857b757d0ed81e6",
+      "audio_alignment_probes": [
+        {
+          "time_seconds": 1.2,
+          "lag_samples": 0,
+          "correlation": 0.9999892305941159
+        },
+        {
+          "time_seconds": 8,
+          "lag_samples": 0,
+          "correlation": 0.999992417780896
+        },
+        {
+          "time_seconds": 12,
+          "lag_samples": 0,
+          "correlation": 0.999993872274654
+        },
+        {
+          "time_seconds": 20,
+          "lag_samples": 0,
+          "correlation": 0.9999882304778669
+        },
+        {
+          "time_seconds": 26,
+          "lag_samples": 0,
+          "correlation": 0.9999835544444913
+        },
+        {
+          "time_seconds": 33,
+          "lag_samples": 0,
+          "correlation": 0.9999911534018006
+        },
+        {
+          "time_seconds": 39,
+          "lag_samples": 0,
+          "correlation": 0.9999801460592654
+        },
+        {
+          "time_seconds": 44,
+          "lag_samples": 0,
+          "correlation": 0.9999948019026239
+        },
+        {
+          "time_seconds": 51,
+          "lag_samples": 0,
+          "correlation": 0.999961786240609
+        },
+        {
+          "time_seconds": 59,
+          "lag_samples": 0,
+          "correlation": 0.9999919179745246
+        },
+        {
+          "time_seconds": 66,
+          "lag_samples": 0,
+          "correlation": 0.9999547870295463
+        },
+        {
+          "time_seconds": 73,
+          "lag_samples": 0,
+          "correlation": 0.9999971504686193
+        },
+        {
+          "time_seconds": 78,
+          "lag_samples": 0,
+          "correlation": 0.9999965113460738
+        },
+        {
+          "time_seconds": 82.1,
+          "lag_samples": 0,
+          "correlation": 0.9999837537111753
+        }
+      ],
+      "median_lag_samples": 0,
+      "narration_coverage": [
+        {
+          "id": "01_strengths",
+          "correlation": 0.9999940964327866,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "02_potential",
+          "correlation": 0.999994702243816,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "03_begins",
+          "correlation": 0.9999928749574649,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "04_methods",
+          "correlation": 0.9999945539225288,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "05_sources",
+          "correlation": 0.9999916382247982,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "06_connect",
+          "correlation": 0.9999947748314338,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "07_discover",
+          "correlation": 0.999994372800555,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "08_adapt",
+          "correlation": 0.9999901470981473,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "09_modalities",
+          "correlation": 0.9999949305468028,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "10_story",
+          "correlation": 0.9999943958679062,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "11_evidence",
+          "correlation": 0.9999934770308829,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "12_feedback",
+          "correlation": 0.9999946296357822,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "13_devices",
+          "correlation": 0.9999956346110785,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "14_understand",
+          "correlation": 0.9999944496745723,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "15_lumap",
+          "correlation": 0.9999895958447567,
+          "audible_end_within_window": true
+        }
+      ],
+      "measured_loudness": {
+        "input_i": "-16.55",
+        "input_tp": "-2.57",
+        "input_lra": "7.00",
+        "input_thresh": "-29.00"
+      },
+      "subtitle_cues": 15,
+      "subtitles_match_srt": true
+    },
+    "Lumap_Launch_Film_No_Music.mp4": {
+      "sha256": "dfe6d576bf590368d18ad0d2e76128c028993b44bc0512c88e2d9820312d9110",
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "duration": "85.000000",
+            "nb_frames": "2550",
+            "side_data_list": [
+              {}
+            ]
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "sample_rate": "48000",
+            "duration": "85.000000",
+            "nb_frames": "3986"
+          },
+          {
+            "index": 2,
+            "codec_name": "mov_text",
+            "duration": "82.700000",
+            "nb_frames": "31"
+          }
+        ],
+        "format": {
+          "duration": "85.000000"
+        }
+      },
+      "full_decode_passed": true,
+      "video_stream_sha256": "SHA256=a7660ee2f533803ba4c8cecf630a88ca81c740ae52a93f56b857b757d0ed81e6",
+      "audio_alignment_probes": [
+        {
+          "time_seconds": 1.2,
+          "lag_samples": 0,
+          "correlation": 0.9999868445490322
+        },
+        {
+          "time_seconds": 8,
+          "lag_samples": 0,
+          "correlation": 0.9999930086070098
+        },
+        {
+          "time_seconds": 12,
+          "lag_samples": 0,
+          "correlation": 0.9999895172125796
+        },
+        {
+          "time_seconds": 20,
+          "lag_samples": 0,
+          "correlation": 0.999982019983877
+        },
+        {
+          "time_seconds": 26,
+          "lag_samples": 0,
+          "correlation": 0.9999873169413501
+        },
+        {
+          "time_seconds": 33,
+          "lag_samples": 0,
+          "correlation": 0.999990885154567
+        },
+        {
+          "time_seconds": 39,
+          "lag_samples": 0,
+          "correlation": 0.9999825716601436
+        },
+        {
+          "time_seconds": 44,
+          "lag_samples": 0,
+          "correlation": 0.9999955761537049
+        },
+        {
+          "time_seconds": 51,
+          "lag_samples": 0,
+          "correlation": 0.9999401236906051
+        },
+        {
+          "time_seconds": 59,
+          "lag_samples": 0,
+          "correlation": 0.9999942771705241
+        },
+        {
+          "time_seconds": 66,
+          "lag_samples": 0,
+          "correlation": 0.9999275525241181
+        },
+        {
+          "time_seconds": 73,
+          "lag_samples": 0,
+          "correlation": 0.9999973548121375
+        },
+        {
+          "time_seconds": 78,
+          "lag_samples": 0,
+          "correlation": 0.9999943689964168
+        },
+        {
+          "time_seconds": 82.1,
+          "lag_samples": 0,
+          "correlation": 0.9999905143165431
+        }
+      ],
+      "median_lag_samples": 0,
+      "narration_coverage": [
+        {
+          "id": "01_strengths",
+          "correlation": 0.9999938905086249,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "02_potential",
+          "correlation": 0.9999937323131868,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "03_begins",
+          "correlation": 0.9999933581007096,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "04_methods",
+          "correlation": 0.999992874834626,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "05_sources",
+          "correlation": 0.9999912615618043,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "06_connect",
+          "correlation": 0.9999945994581046,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "07_discover",
+          "correlation": 0.9999930226294964,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "08_adapt",
+          "correlation": 0.999989899356006,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "09_modalities",
+          "correlation": 0.9999925401259568,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "10_story",
+          "correlation": 0.9999943894931389,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "11_evidence",
+          "correlation": 0.9999927975892591,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "12_feedback",
+          "correlation": 0.9999936083602382,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "13_devices",
+          "correlation": 0.999995125967244,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "14_understand",
+          "correlation": 0.9999936463017098,
+          "audible_end_within_window": true
+        },
+        {
+          "id": "15_lumap",
+          "correlation": 0.9999927968781944,
+          "audible_end_within_window": true
+        }
+      ],
+      "measured_loudness": {
+        "input_i": "-16.27",
+        "input_tp": "-2.95",
+        "input_lra": "7.90",
+        "input_thresh": "-27.56"
+      },
+      "subtitle_cues": 15,
+      "subtitles_match_srt": true
+    }
+  },
+  "video_streams_identical": true,
+  "decoded_picture_ssim": 1.0,
+  "sfx_window_checks": [
+    {
+      "target_frame": 300,
+      "correlation_to_expected_no_music": 0.9999889101929544,
+      "max_amplitude_difference": 0.0003345138393342495
+    },
+    {
+      "target_frame": 510,
+      "correlation_to_expected_no_music": 0.9999910369644333,
+      "max_amplitude_difference": 0.00027791038155555725
+    },
+    {
+      "target_frame": 900,
+      "correlation_to_expected_no_music": 0.9999886400163015,
+      "max_amplitude_difference": 0.000324200838804245
+    },
+    {
+      "target_frame": 1260,
+      "correlation_to_expected_no_music": 0.9999854335241396,
+      "max_amplitude_difference": 0.0004057111218571663
+    },
+    {
+      "target_frame": 1470,
+      "correlation_to_expected_no_music": 0.9999910369644333,
+      "max_amplitude_difference": 0.00027791038155555725
+    },
+    {
+      "target_frame": 1890,
+      "correlation_to_expected_no_music": 0.9999800115865711,
+      "max_amplitude_difference": 0.0009467117488384247
+    },
+    {
+      "target_frame": 2100,
+      "correlation_to_expected_no_music": 0.9999360902287624,
+      "max_amplitude_difference": 0.0010312758386135101
+    },
+    {
+      "target_frame": 2445,
+      "correlation_to_expected_no_music": 0.9999881463988761,
+      "max_amplitude_difference": 0.001304183155298233
+    }
+  ],
+  "user_opening": {
+    "source_resolution": [
+      1280,
+      720
+    ],
+    "source_seconds": 10,
+    "scaled_without_reframing": true,
+    "original_audio_muted": true,
+    "similarity_after_scaling_and_compression_SSIM": 0.996118
+  },
+  "brand_hold": {
+    "frames": 55,
+    "from_frame": 2495,
+    "duration_seconds": 1.8333333333333333,
+    "max_adjacent_mean_abs_difference_8bit": 0.003058127572016461,
+    "max_adjacent_pixel_difference": 3
+  },
+  "visual_checks": {
+    "source_page_ghost_removed": true,
+    "gold_route_behind_cards": true,
+    "current_section_label": true,
+    "leaf_labels_visible": true,
+    "short_montage_titles_settled": true,
+    "evidence_save_and_unlock_readable": true,
+    "device_route_continuity": true,
+    "logo_rectangular_backdrop_removed": true,
+    "spatial_scene_labeled_concept": true
+  },
+  "workbench": {
+    "shots": 13,
+    "audio_tracks": [
+      "voice",
+      "music",
+      "sfx"
+    ],
+    "sampled_parity_frames": [
+      365,
+      1040,
+      1790,
+      2451
+    ],
+    "differing_pixels_at_each_sample": 0,
+    "internal_text_and_colors_editable_in": "TSX source; not separate inspector fields"
+  },
+  "audio_notes": {
+    "narration": "Fresh local Kokoro v1.0 FP32 / af_heart narration; synthesis at 24 kHz",
+    "masters": "48 kHz / 24-bit PCM, independent voice/music/SFX",
+    "score": "Original deterministic score and accents; no borrowed soundtrack or procedural noise bed",
+    "finalization": "Same picture stream in both editions; audio encoded once from PCM stems via finalize.py, correcting the initial Remotion AAC delay.",
+    "subjective_pronunciation_and_music_taste": "Not certified by numerical checks"
+  },
+  "footage_context": [
+    "Public photosynthesis example; actual native lesson, quiz, feedback and evidence save.",
+    "Paper2Galgame and native golden-chain images use actual renderers with synthetic fixtures.",
+    "Animated path and illustrated experiment/question are editorial examples.",
+    "Spatial learning is a concept; course transfer is file-based Handoff.",
+    "No deployed trained RL, automatic cloud sync or production headset claim."
+  ]
+}
