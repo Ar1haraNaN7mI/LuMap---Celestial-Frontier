@@ -1,0 +1,584 @@
+% !TeX program = xelatex
+% Lumap full-function verification report
+% Reproducible build:
+%   ../../Scripts/compile-test-report.sh
+%
+% Final evidence status:
+% - Current-run macOS screenshots: Discover, Studio/menu, methods M02-M14.
+% - Guided explanation: same-source debug screenshot plus current logic coverage.
+% - Current iOS XCUITest evidence: Discover/Learn, 17-method menu, Spatial 2D
+%   fallback, Narrated Deck deterministic lesson/silent preview/surprise Quiz,
+%   Personal/Settings, Counterfactual and Transfer.
+\documentclass[10pt,a4paper,fontset=none]{ctexart}
+
+\usepackage[a4paper,top=18mm,bottom=18mm,left=17mm,right=17mm,headheight=14pt]{geometry}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{microtype}
+
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{texgyretermes-regular.otf}}
+\IfFontExistsTF{Arial}
+  {\setsansfont{Arial}}
+  {\setsansfont{texgyreheros-regular.otf}}
+\IfFontExistsTF{Menlo}
+  {\setmonofont{Menlo}[Scale=0.82]}
+  {\setmonofont{lmmono10-regular.otf}[Scale=0.82]}
+\IfFontExistsTF{Songti SC}
+  {\setCJKmainfont[AutoFakeSlant=0.15]{Songti SC}}
+  {\setCJKmainfont[AutoFakeSlant=0.15]{FandolSong-Regular.otf}}
+\IfFontExistsTF{Heiti SC}
+  {\setCJKsansfont[AutoFakeBold=2,AutoFakeSlant=0.15]{Heiti SC}}
+  {\setCJKsansfont[AutoFakeBold=2,AutoFakeSlant=0.15]{FandolHei-Regular.otf}}
+\IfFontExistsTF{Hiragino Sans GB}
+  {\setCJKmonofont[Scale=0.82,AutoFakeSlant=0.15]{Hiragino Sans GB}}
+  {\setCJKmonofont[Scale=0.82,AutoFakeSlant=0.15]{FandolFang-Regular.otf}}
+
+\definecolor{Ink}{HTML}{172638}
+\definecolor{Muted}{HTML}{556575}
+\definecolor{Line}{HTML}{CBD5DF}
+\definecolor{Pale}{HTML}{F2F6F9}
+\definecolor{Blue}{HTML}{245A88}
+\definecolor{Green}{HTML}{2E6B4F}
+\definecolor{GreenPale}{HTML}{E8F3EC}
+\definecolor{Cyan}{HTML}{276A75}
+\definecolor{CyanPale}{HTML}{E7F3F4}
+\definecolor{Amber}{HTML}{8A5A13}
+\definecolor{AmberPale}{HTML}{FFF3DB}
+\definecolor{Red}{HTML}{8B3D3D}
+\definecolor{RedPale}{HTML}{FBEAEA}
+\definecolor{GrayPale}{HTML}{EDF0F3}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=Blue,
+  urlcolor=Blue,
+  pdftitle={Lumap 全功能测试与截图证据报告},
+  pdfauthor={Celestial Frontier},
+  pdfsubject={macOS 与 iOS 测试结果、Guided Study、17 种学习方法及已知边界}
+}
+
+\ctexset{
+  section={format={\Large\bfseries\sffamily\color{Ink}},beforeskip=1.0em,afterskip=.48em},
+  subsection={format={\large\bfseries\sffamily\color{Ink}},beforeskip=.85em,afterskip=.35em},
+  subsubsection={format={\normalsize\bfseries\sffamily\color{Ink}},beforeskip=.7em,afterskip=.25em}
+}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.15em}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=2em}
+\renewcommand{\arraystretch}{1.22}
+\captionsetup{font=small,labelfont=bf,labelsep=quad}
+\graphicspath{{../test-evidence/2026-09-30/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Lumap 全功能测试报告}
+\fancyhead[R]{\small\sffamily 2026-09-30 · macOS / iOS}
+\fancyfoot[L]{\scriptsize\sffamily 证据分级：手工 / 自动化 / 环境受限 / 未实现}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\code}[1]{\begingroup\urlstyle{tt}\nolinkurl{#1}\endgroup}
+\newcommand{\codepath}[1]{\begingroup\urlstyle{tt}\path{#1}\endgroup}
+\newcommand{\pill}[3]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{#1}{\textcolor{#2}{\sffamily\bfseries\scriptsize #3}}\endgroup}
+\newcommand{\ManualPass}{\pill{GreenPale}{Green}{手工通过}}
+\newcommand{\UIPass}{\pill{GreenPale}{Green}{UI 自动通过}}
+\newcommand{\AutoPass}{\pill{CyanPale}{Cyan}{自动通过}}
+\newcommand{\EvidencePass}{\pill{CyanPale}{Cyan}{证据复核}}
+\newcommand{\Limited}{\pill{AmberPale}{Amber}{环境受限}}
+\newcommand{\Pending}{\pill{AmberPale}{Amber}{待补测}}
+\newcommand{\NotImplemented}{\pill{GrayPale}{Muted}{当前未实现}}
+\newcommand{\InteractiveConcept}{\pill{AmberPale}{Amber}{交互概念 · demo data}}
+\newcommand{\Fail}{\pill{RedPale}{Red}{失败}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Expected files are intentionally stable so a later test run can replace a
+% placeholder by adding one image and recompiling, without editing layout.
+\newcommand{\placeholder}[2]{%
+  \begingroup
+  \setlength{\fboxsep}{0pt}%
+  \fcolorbox{Line}{Pale}{%
+    \parbox[c][#2][c]{0.96\linewidth}{\centering\sffamily\color{Muted}\small
+      截图待本轮手工补充\\[0.35em]\ttfamily\scriptsize\detokenize{#1}}}%
+  \endgroup}
+
+% Every screenshot is deliberately placed on its own page. Besides making the
+% evidence easier to audit, this lets the team extract a complete, legible page
+% directly into a presentation without first cropping a contact sheet.
+\newcommand{\evidencepage}[7]{%
+  \clearpage
+  \begingroup
+  \noindent{\sffamily\bfseries\scriptsize\color{Muted} #1}\hfill #4\par
+  \vspace{0.55em}
+  {\sffamily\bfseries\LARGE\color{Ink} #3}\par
+  \vspace{0.8em}
+  \begin{center}
+    \IfFileExists{../test-evidence/2026-09-30/#2}
+      {\includegraphics[width=\textwidth,height=#7,keepaspectratio]{#2}}
+      {\placeholder{#2}{#7}}
+  \end{center}
+  \vfill
+  \noindent\fcolorbox{Line}{Pale}{%
+    \parbox{0.95\linewidth}{\small
+      \textbf{画面证据。}#5\par\vspace{0.35em}
+      \textbf{证据边界。}#6}}
+  \endgroup
+}
+
+\newcommand{\macpage}[6]{\evidencepage{#1}{#2}{#3}{#4}{#5}{#6}{174mm}}
+\newcommand{\iospage}[6]{\evidencepage{#1}{#2}{#3}{#4}{#5}{#6}{194mm}}
+
+\newcommand{\CounterfactualStatus}{\UIPass}
+\newcommand{\TransferStatus}{\UIPass}
+\newcommand{\NarratedStatus}{\UIPass}
+
+\title{\bfseries\sffamily\Huge Lumap 全功能测试报告\\[0.35em]
+\Large macOS / iOS 构建、Guided Study、17 种学习方法与截图证据}
+\author{Celestial Frontier · Hackathon Verification}
+\date{测试日期：2026 年 9 月 30 日\quad 文档版本：1.1-final}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{Line}{Pale}{%
+  \parbox{0.93\linewidth}{
+    \centering\sffamily
+    \textbf{代码基线}\quad \code{0ee239fb693f} \quad
+    \textbf{分支}\quad \code{main} \quad
+    \textbf{Xcode}\quad 26.6 \quad
+    \textbf{Swift}\quad 6.3.3\\[0.55em]
+    \ManualPass\quad 当前构建手工交互证据 \qquad
+    \AutoPass\quad XCTest／编译证据 \qquad
+    \Limited\quad 外部条件不足 \qquad
+    \NotImplemented\quad 产品边界
+  }}
+\end{center}
+
+\vspace{0.6em}
+\begin{abstract}
+本报告记录 Lumap 当前代码基线的可复现验证结果。macOS 单元测试共 22 项，结果为 22/22 通过；macOS Debug 与 iOS Simulator Debug 均编译成功。macOS 端已对 Discover、Learning Studio 方法选择及第 2--14 种学习方式执行本轮手工交互并留存截图，Guided explanation 由逻辑测试与同源调试构建截图复核。iOS XCUITest 进一步验证 Discover、完整 17 方法菜单、Spatial 二维回退、Personal、Settings、Counterfactual、Transfer、Narrated Deck 的确定性本地课件／静音时间线／随机检索 Quiz，以及新增的 Guided Study 四阶段入口。Guided Study 的阶段保存和推进由 4 项 XCTest 验证，Question 状态另以调用同一 store API 的临时启动 fixture 复核 UI 渲染。
+
+报告严格区分“已有代码或自动化断言”与“已在当前设备上实际操作”。Guided Study 当前以单份本地摘录或用户主动目标为来源，四步提示为本地确定性规则；它没有跨资料语义检索、自动事实核验、页码跳转或云同步。M-17 的 UI 验证只证明确定性本地演示、silent timeline preview 和 surprise retrieval Quiz；真实远程生成与真实 Kokoro 音频仍为环境未实测。Spatial AR 现阶段是可交互的二维空间回退，并未启动相机 AR；公开主页链接只生成本地确定性预览，不爬取网页；visionOS／Apple Glasses target、跨设备同步、真实在线 RL 推荐均未实现。Future Lab 为这些方向提供五个可点击、可重置的本地前端概念场景，并持续显示合成数据与无实时服务边界；其截图不改变上述实现状态。以上边界不计为回归失败，但不能作为已交付能力展示。
+\end{abstract}
+
+\noindent\textbf{总体判定：}\quad
+\pill{GreenPale}{Green}{构建与自动化基线通过}\quad
+\pill{GreenPale}{Green}{17 方法演示路径已覆盖}\quad
+\pill{GreenPale}{Green}{Guided Study 首条路径通过}\quad
+\pill{AmberPale}{Amber}{外部生成与真声未实测}\quad
+\pill{GrayPale}{Muted}{原型边界已显式记录}
+
+\tableofcontents
+\clearpage
+
+\section{测试目标与判定规则}
+
+本轮测试用于确认当前演示构建是否可启动、核心数据合同是否保持稳定、Learning Studio 的 17 种方法是否具有独立交互入口、Guided Study 是否按固定顺序保存可追溯证据，以及 iOS target 是否能在 Simulator 构建并完成关键演示路径。测试不是安全审计、性能基准或真机 AR 验收，也不把代码中存在入口但尚未实际操作的功能记为“手工通过”。
+
+\subsection{状态定义}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{P{28mm}P{42mm}Y}
+\toprule
+状态 & 证据要求 & 报告中的含义 \\
+\midrule
+\ManualPass & 当前目标构建中完成关键交互并保存截图 & 入口可达，主要控件可操作，未观察到阻断性错误；不自动覆盖所有异常路径。 \\
+\UIPass & 当前 iOS Simulator 由 XCUITest 完成关键交互并导出附件 & 自动化实际驱动 SwiftUI，证据强于静态代码检查；仍不覆盖真机传感器、外部网络和音频听感。 \\
+\AutoPass & XCTest 或 \code{xcodebuild} 返回成功 & 被断言的逻辑或目标编译通过；不能替代真实文件选择器、Keychain、音频、网络和传感器验收。 \\
+\EvidencePass & 同源构建截图加当前自动化覆盖 & 有可审计视觉证据和逻辑证据，但截图不属于本轮最后一次构建，需在发布前重拍。 \\
+\Limited & 依赖账号、外设、模型权重或真机能力 & 没有把外部条件造成的不可执行误报为代码通过或失败。 \\
+\Pending & 本轮尚未完成所需操作或截图 & 不能计入全量手工通过率。 \\
+\NotImplemented & 当前代码明确未提供目标能力 & 属于已知产品边界；不得在演示中描述为已实现。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{环境与基线}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{P{39mm}P{50mm}Y}
+\toprule
+项目 & 实测值 & 说明 \\
+\midrule
+宿主系统 & macOS 26.5.2 (Build 25F84) & Apple Silicon 主机。 \\
+Xcode & 26.6 (Build 17F113) & 使用仓库中已提交的共享 scheme。 \\
+Swift toolchain & Apple Swift 6.3.3 & target 为 \code{arm64-apple-macosx26.0}。 \\
+仓库基线 & \code{4f2c3f34f7f7} / \code{main} & Guided Study 与其产品／技术文档已包含在该应用代码基线；报告及证据提交不计入。 \\
+macOS target & \code{Lumap}; macOS 14+ & 当前主机执行 XCTest 与 UI 手工路径。 \\
+iOS target & \code{LumapiOS}; iOS 18+ & iPhone 17 Pro Simulator，iOS 26.5。 \\
+外部 Swift Packages & sherpa-onnx 1.13.8；onnxruntime-libs 1.28.2 & 语音权重不进入仓库或 app bundle。 \\
+界面语言 & English default & 报告中文；截图保留产品默认英文界面。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{自动化与构建结果}
+
+\subsection{执行结果摘要}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{P{18mm}P{44mm}P{28mm}Y}
+\toprule
+ID & 检查项 & 结果 & 证据与解释 \\
+\midrule
+A-01 & macOS XCTest & \AutoPass & \code{LumapTests}: 22 项执行，22 项通过，0 失败。 \\
+A-02 & macOS Debug build & \AutoPass & \code{Lumap} scheme 在 \code{platform=macOS} 构建成功。 \\
+A-03 & iOS Simulator Debug build & \AutoPass & \code{LumapiOS} scheme 面向通用 iOS Simulator 构建成功。 \\
+A-04 & iOS Discover／Methods／Spatial & \UIPass & \code{test01}：Discover、17 方法菜单及标注为 2D fallback／Camera Off 的空间交互通过。 \\
+A-05 & iOS Personal／Settings & \UIPass & \code{test03}：无限 AI credits、Persona 外观与 Settings 页面路径通过。 \\
+A-06 & iOS Narrated Deck & \UIPass & \code{r9}：确定性本地课件、silent timeline preview 与 surprise retrieval Quiz 通过。 \\
+A-07 & iOS Counterfactual／Transfer & \UIPass & \code{r8}：反事实运行结果和迁移挑战正确反馈通过。 \\
+A-08 & iOS Guided Study & \EvidencePass & 当前构建由 XCUITest 从 Discover 进入四阶段路线；4 项 XCTest 验证 Understand 保存后推进到 Question，临时启动 fixture 调用同一 store API 后复核 Question UI。 \\
+A-09 & LaTeX 报告构建 & \AutoPass & Tectonic 生成 PDF；脚本拒绝 overfull/underfull 警告并执行页级文本自检。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\noindent\begin{minipage}{\textwidth}
+\subsection{可复现命令}
+\begin{verbatim}
+cd Lumap
+
+xcodebuild -project Lumap.xcodeproj -scheme Lumap \
+  -configuration Debug -destination 'platform=macOS' \
+  -derivedDataPath .build/DerivedData test
+
+xcodebuild -project Lumap.xcodeproj -scheme Lumap \
+  -configuration Debug -destination 'platform=macOS' \
+  -derivedDataPath .build/DerivedData build
+
+xcodebuild -project Lumap.xcodeproj -scheme LumapiOS \
+  -configuration Debug -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath .build/DerivedData-iOS build
+
+./Scripts/compile-test-report.sh
+\end{verbatim}
+\end{minipage}
+
+\subsection{22 项单元测试覆盖范围}
+测试覆盖英文默认值和输入保留、奖励幂等、跳过检测与缺失分数、兴趣影响推荐、无活跃目标保护、五类证据完成学习地图、材料绑定与教学语言、已完成目标状态保护、空白产出拒绝、Lumens 兑换、演示账号无限额度、计量额度原子扣减、四种启发式方法、Guided Study 的阶段顺序／越级拒绝／引用证据／四方法复用／目标完成后的剩余阶段、Narrated Deck 本地合同与证据、Responses 路由、请求模型和 User-Agent、Responses 两种响应形状，以及远程课件 schema／模型身份／可信来源校验。
+
+自动化未覆盖 SwiftUI 视觉布局、系统文件选择器、Keychain 系统授权、登录项审批、真实 Kokoro 音频、真实供应商网络响应和真机空间追踪。相关项在后文单独标注。
+
+\clearpage
+\section{17 种学习方法逐项结果}
+
+\small
+\begin{longtable}{@{}P{10mm}P{40mm}P{30mm}P{83mm}@{}}
+\caption{Learning Studio 方法覆盖矩阵}\label{tab:methods}\\
+\toprule
+ID & 方法／界面名称 & 本轮状态 & 实际验证与证据边界 \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape 表 \ref{tab:methods}（续）}\\
+\toprule
+ID & 方法／界面名称 & 本轮状态 & 实际验证与证据边界 \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\small\itshape 下页续}\\
+\endfoot
+\bottomrule
+\endlastfoot
+M-01 & Guided explanation／引导讲解 & \EvidencePass & 逻辑测试覆盖活动保存、奖励去重、空白产出拒绝与进度；同源调试构建截图显示 Studio 入口与输入控件。本轮最终构建应重拍后升级为手工通过。 \\
+M-02 & Worked example／示例拆解 & \ManualPass & 打开示例步骤，填写 worked step，界面保持响应；截图 \code{method-02-worked-example.jpg}。 \\
+M-03 & Socratic dialogue／苏格拉底对话 & \ManualPass & 展开递进问题并输入推理；问题序列、文本区与保存操作可见。 \\
+M-04 & Analogy／类比 & \ManualPass & 选择类比域、调整匹配并输入限制；独立交互卡可操作。 \\
+M-05 & Visual map／概念图 & \ManualPass & 选择关系节点并填写连接；图形关系与文本输入均可见。 \\
+M-06 & Story mode／Paper2Galgame 风格剧情 & \ManualPass & 进入分支剧情、选择选项并推进；当前为 Lumap 原创本地界面，不等于嵌入原项目运行时。 \\
+M-07 & Flash recall／闪卡回忆 & \ManualPass & 倒计时／进度、召回输入与提交按钮可用。 \\
+M-08 & Teach back／反向讲解 & \ManualPass & 输入完整讲解并检查自评提示；保存控件可达。 \\
+M-09 & Simulation／互动模拟 & \ManualPass & 调整滑杆后柱状结果随参数变化，记录观察可输入。 \\
+M-10 & Spatial AR lab／空间实验 & \ManualPass & 二维空间模型、锚点/粒子视觉与控制条可交互；仅验证 Camera Off 回退，不代表相机 AR。 \\
+M-11 & Deliberate practice／刻意练习 & \ManualPass & 选择聚焦技能、完成练习与反思输入；独立练习流程可见。 \\
+M-12 & Reflection／反思 & \ManualPass & 调整信心值并填写复盘问题；表单与提交路径可操作。 \\
+M-13 & Misconception diagnosis／误区诊断 & \ManualPass & 选择可能误区、填写修正解释；本地证据保存逻辑另由 XCTest 覆盖。 \\
+M-14 & Curiosity branch／好奇分支 & \ManualPass & 选择探索分支并提交新问题；分支卡和文本输入可用。 \\
+M-15 & Counterfactual lab／反事实实验 & \CounterfactualStatus & \code{r8} 在当前 iOS UI 运行 altered world 并出现明确 observation；逻辑测试另确认独立证据可持久化。 \\
+M-16 & Transfer challenge／迁移挑战 & \TransferStatus & \code{r8} 选择 balancing pattern 后出现正确反馈；逻辑测试另确认独立证据可持久化。 \\
+M-17 & Narrated Deck／PPT＋旁白＋Quiz & \NarratedStatus & \code{r9} 验证确定性五页课件、silent timeline preview 与 surprise retrieval Quiz。真实远程生成和真实 Kokoro 音频为 \Limited，未计入通过范围。 \\
+\end{longtable}
+\normalsize
+
+\noindent\textbf{当前覆盖结论。}17/17 方法均有入口或交互证据：第 2--14 种在 macOS 当前构建中有手工截图，第 15--17 种由 iOS 当前构建 XCUITest 驱动并留存附件，第 1 种由逻辑自动化和同源调试构建截图复核。该结论覆盖 Hackathon 演示路径，不将 M-17 的真实远程生成或真实 Kokoro 音频、M-10 的相机 AR 计为已通过。
+
+\clearpage
+\section{macOS 截图证据：16 图 / 16 页}
+
+下列 16 张 macOS 截图均独占一页，并尽量按 A4 可用宽度放大，便于后续直接导入 PPT。部分早期截图包含桌面边缘或菜单栏，用于证明实际原生窗口环境；报告只缩放和 JPEG 压缩，没有重绘界面内容。每页底部同时记录画面能够证明的事实与不能外推的能力边界。
+
+\macpage{E-01 · macOS}{mac/01-discover.jpg}{Discover 首页（默认英文）}{\ManualPass}
+  {大问题、主题输入框、上传文本入口与轻量推荐位于同一首屏。}
+  {证明当前原生窗口中的首屏布局；不证明推荐来自在线 RL 排序。}
+
+\macpage{E-02 · macOS}{mac/02-learning-studio-guided.jpg}{Learning Studio / Guided explanation}{\EvidencePass}
+  {同源调试构建显示 Guided explanation 的输入与保存界面。}
+  {截图不是本轮最后一次构建；活动保存、奖励与进度由当前 XCTest 复核。}
+
+\macpage{E-03 · macOS}{mac/03-all-methods-menu.jpg}{Learning Studio：17 种方法菜单}{\ManualPass}
+  {方法菜单列出全部 17 种学习方式，并可进入独立演示卡。}
+  {证明入口和菜单内容；逐项交互结论仍以表 \ref{tab:methods} 与后续证据页为准。}
+
+\macpage{E-04 · macOS · M-02}{mac/method-02-worked-example.jpg}{Worked example}{\ManualPass}
+  {打开示例步骤并填写 worked step 后，界面保持响应。}
+  {证明本地表单路径；不评价生成示例的学科正确性。}
+
+\macpage{E-05 · macOS · M-03}{mac/method-03-socratic.jpg}{Socratic dialogue}{\ManualPass}
+  {递进问题、推理输入区与提交动作在当前构建中可见。}
+  {证明预设交互流程；不代表在线模型已经动态生成追问。}
+
+\macpage{E-06 · macOS · M-04}{mac/method-04-analogy.jpg}{Analogy}{\ManualPass}
+  {用户可选择类比域并记录映射限制。}
+  {证明独立交互卡可用；不证明类比已通过外部事实核验。}
+
+\macpage{E-07 · macOS · M-05}{mac/method-05-visual-map.jpg}{Visual map}{\ManualPass}
+  {关系节点、连接选择与连接解释同时出现在画面中。}
+  {证明本地概念图交互；不代表自动知识图谱或多资料实体对齐已经实现。}
+
+\macpage{E-08 · macOS · M-06}{mac/method-06-story-mode.jpg}{Story mode}{\ManualPass}
+  {Paper2Galgame 风格的分支选择和剧情推进在 Lumap 原创界面中可操作。}
+  {这是 Lumap 本地实现的演示交互，不等于嵌入原项目完整运行时。}
+
+\macpage{E-09 · macOS · M-07}{mac/method-07-flash-recall.jpg}{Flash recall}{\ManualPass}
+  {限时召回进度、答案输入与提交按钮在同一画面可见。}
+  {证明本地练习流程；不代表跨会话间隔重复调度已经部署。}
+
+\macpage{E-10 · macOS · M-08}{mac/method-08-teach-back.jpg}{Teach back}{\ManualPass}
+  {学习者可以用自己的语言输入完整解释并查看自评提示。}
+  {证明输入和保存路径；不代表语义评分已由在线模型完成。}
+
+\macpage{E-11 · macOS · M-09}{mac/method-09-simulation.jpg}{Simulation}{\ManualPass}
+  {调整滑杆后结果图随参数变化，并可记录观察。}
+  {证明确定性本地模拟；不代表通用物理引擎或真实实验测量。}
+
+\macpage{E-12 · macOS · M-10}{mac/method-10-spatial-ar.jpg}{Spatial AR lab}{\ManualPass}
+  {二维空间模型、锚点、粒子视觉和控制条可以交互。}
+  {画面明确属于 Camera Off 的二维回退，不证明相机 AR、世界追踪或环境理解。}
+
+\macpage{E-13 · macOS · M-11}{mac/method-11-deliberate-practice.jpg}{Deliberate practice}{\ManualPass}
+  {用户可选择聚焦技能、完成练习并填写修正反思。}
+  {证明独立练习流程；弱项排序仍是当前本地启发式逻辑。}
+
+\macpage{E-14 · macOS · M-12}{mac/method-12-reflection.jpg}{Reflection}{\ManualPass}
+  {信心调节和复盘文本输入在当前构建中可操作。}
+  {证明本地反思记录；不代表心理测量或能力诊断结论。}
+
+\macpage{E-15 · macOS · M-13}{mac/method-13-misconception.jpg}{Misconception diagnosis}{\ManualPass}
+  {用户可选择潜在误区并写出纠正解释。}
+  {证明交互与本地证据保存；不代表误区已由外部模型自动判定。}
+
+\macpage{E-16 · macOS · M-14}{mac/method-14-curiosity.jpg}{Curiosity branch}{\ManualPass}
+  {用户可选择探索分支、形成下一步问题并保留可提交文本。}
+  {证明本地分支卡和输入路径；不代表在线内容检索已经执行。}
+
+\clearpage
+\section{iOS Simulator 截图证据：20 图 / 20 页}\label{sec:ios-evidence}
+
+iOS target 已构建成功并在 iPhone 17 Pro Simulator 启动。\code{test01}、\code{test03}、\code{r8}、\code{r9} 与 Guided Study 专项场景实际驱动当前 SwiftUI 界面，覆盖 Discover、Learn、17 方法菜单、Spatial 二维回退、Narrated Deck、Personal、Settings、Counterfactual、Transfer 与 Guided Study 入口。Future Lab 专项 XCUITest 以 5/5 通过，分别打开五个场景并触发一个真实按钮、分段选择或开关，再把反馈状态保存为附件。共享 store／模型合同仍由 macOS test bundle 的 22 项 XCTest 独立验证；Guided Study 的 Question 截图使用临时启动 fixture 预置真实阶段记录，不计为按钮点击自动化通过。
+
+本节同样保持一张图独占一页。前 15 张是当前构建的测试证据；随后 5 张是为无法在当前硬件或后端条件下完整实现的方向制作的可点击前端演示，统一标注“交互概念 / demo data”，只证明视觉与交互反馈，不改变本报告的测试结论。
+
+\iospage{E-17 · iOS}{ios/01-ios-discover.jpg}{iOS Discover}{\UIPass}
+  {默认英文大问题、主题输入、上传文本与推荐入口在模拟器中可见。}
+  {证明测试路径可达；推荐内容仍为当前确定性批次。}
+
+\iospage{E-18 · iOS}{ios/02-ios-learn.jpg}{iOS Learn}{\UIPass}
+  {当前目标、五步路径、方法选择与交互入口在同一移动页面中可达。}
+  {证明移动端布局和导航；不代表跨设备状态同步。}
+
+\iospage{E-19 · iOS}{ios/03-ios-methods-top.jpg}{Methods 上半部}{\UIPass}
+  {菜单上半部显示 Guided explanation 至 Visual map 等基础方法。}
+  {证明方法入口存在；每种方法的能力边界以逐项矩阵为准。}
+
+\iospage{E-20 · iOS}{ios/04-ios-methods-bottom.jpg}{Methods 下半部}{\UIPass}
+  {菜单下半部显示 Reflection、误区、好奇、反事实、迁移与 Narrated Deck。}
+  {证明完整菜单可滚动到达；不等于所有外部依赖均已闭环。}
+
+\iospage{E-21 · iOS}{ios/05-ios-spatial-fallback.jpg}{Spatial fallback}{\UIPass}
+  {画面显示 2D FALLBACK、CAMERA OFF、两个锚点、活动锚点及可调 Heat retention。}
+  {仅验证可交互二维回退，不验证相机 AR、世界追踪或环境理解。}
+
+\iospage{E-22 · iOS · M-17}{ios/07-ios-narrated-deck.jpg}{Narrated Deck：确定性本地课件}{\UIPass}
+  {五页本地课件的第一页可见，界面明确标为 Deterministic local demo。}
+  {证明本地回退课件；不证明远程供应商生成成功。}
+
+\iospage{E-23 · iOS · M-17}{ios/08-ios-narrated-preview.jpg}{Narrated Deck：Silent timeline preview}{\UIPass}
+  {播放控件和静音时间线可见，界面提示需要开源语音包。}
+  {证明无语音包时的可解释回退；不证明真实 Kokoro 音频、听感或取消行为。}
+
+\iospage{E-24 · iOS · M-17}{ios/09-ios-narrated-quiz.jpg}{Surprise retrieval check}{\UIPass}
+  {课件播放中出现 Quick Quiz，三个答案选项可操作。}
+  {证明确定性检索练习的交互；不代表在线模型实时出题。}
+
+\iospage{E-25 · iOS}{ios/10-ios-personal.jpg}{Personal：演示账号无限额度}{\UIPass}
+  {演示档案显示无限 AI credits，四种 Persona 外观均为 0 Lumens。}
+  {无限额度只适用于演示账号；credits 尚未读取真实模型 token usage。}
+
+\iospage{E-26 · iOS}{ios/11-ios-settings-top.jpg}{Settings：语言与可访问性入口}{\UIPass}
+  {中英语言、Reduce Motion、Larger Text 与 Kokoro 文件夹导入入口可见。}
+  {证明设置入口；未完成逐页语言、VoiceOver 和动态字体全量审计。}
+
+\iospage{E-27 · iOS}{ios/12-ios-settings-provider.jpg}{Settings：自定义模型供应商}{\UIPass}
+  {模型名和 API style 可见，截图没有包含 API key。}
+  {连接状态仍为 Not tested；画面不证明真实 HTTP 连通、额度或供应商可用性。}
+
+\iospage{E-28 · iOS · M-15}{ios/13-ios-counterfactual.jpg}{Counterfactual lab}{\UIPass}
+  {运行 altered world 后出现“correction arrives sooner”等 observation。}
+  {证明当前确定性实验逻辑和反馈状态；不代表通用因果推断模型。}
+
+\iospage{E-29 · iOS · M-16}{ios/14-ios-transfer.jpg}{Transfer challenge}{\UIPass}
+  {选择 Balancing pattern 后出现绿色正确反馈。}
+  {证明当前挑战的交互反馈；不代表跨学科迁移能力已由在线模型评分。}
+
+\iospage{E-30 · iOS}{ios/15-ios-guided-study.jpg}{Guided Study 起点}{\EvidencePass}
+  {界面标注 LOCAL · SOURCE-DRIVEN，并显示 Understand、Question、Retrieve、Teach back 四步路线。}
+  {当前 H0 只使用单份本地摘录或用户主动目标；没有跨资料 RAG、自动事实核验或官方第三方 API。}
+
+\iospage{E-31 · iOS}{ios/16-ios-guided-question.jpg}{Guided Study：Question 状态}{\EvidencePass}
+  {临时 fixture 调用真实 store API 写入 Understand 证据后启动，界面将 Question 显示为当前步骤。}
+  {证明真实状态模型能够渲染下一阶段；不计为 TextEditor 到保存按钮的完整 UI 自动化通过。}
+
+\iospage{E-32 · Future Lab}{ios/17-ios-future-knowledge.jpg}{Knowledge Studio / multi-source citations — 交互概念 / demo data}{\InteractiveConcept}
+  {切换合成来源、点击引用标记或继续追问后，来源面板和 synthesis 版本产生可见反馈。}
+  {纯前端演示数据；没有多资料切片、向量检索、页码定位、自动事实核验或正式后端。}
+
+\iospage{E-33 · Future Lab}{ios/18-ios-future-spatial.jpg}{Spatial glasses / AR concept — 交互概念 / demo data}{\InteractiveConcept}
+  {切换模型层级、调整强度或放置虚拟锚点后，空间对象和锚点状态产生可见反馈。}
+  {纯前端视觉原型；没有相机 session、ARKit 世界追踪、visionOS target 或未发布硬件集成。}
+
+\iospage{E-34 · Future Lab}{ios/19-ios-future-rl.jpg}{LumaPath-RL adaptive path — 交互概念 / demo data}{\InteractiveConcept}
+  {选择学习意图、调节信心并运行本地策略步骤后，下一行动和三项候选概率产生确定性变化。}
+  {纯前端演示数据；没有在线 RL 服务、策略训练、探索流量或真实个体排序。}
+
+\iospage{E-35 · Future Lab}{ios/20-ios-future-handoff.jpg}{Cross-device learning handoff — 交互概念 / demo data}{\InteractiveConcept}
+  {可点击设备卡与继续学习反馈展示 macOS、iPhone 与未来空间设备之间的交接体验。}
+  {纯前端演示数据；当前 macOS 与 iOS 仍各自保存本地 SwiftData，没有账号云同步。}
+
+\iospage{E-36 · Future Lab}{ios/21-ios-future-social.jpg}{Social interest constellation — 交互概念 / demo data}{\InteractiveConcept}
+  {开关合成兴趣信号、调整相关度并重建星图后，轨道节点、版本和示例推荐产生可见变化。}
+  {纯前端演示数据；不会爬取公开主页，不代表社交平台授权、持续采集或真实画像推断。}
+
+\clearpage
+\section{其他产品功能矩阵}
+
+\small
+\begin{longtable}{@{}P{39mm}P{31mm}P{54mm}P{39mm}@{}}
+\caption{非学习方法功能的验证状态与边界}\label{tab:features}\\
+\toprule
+功能区域 & 本轮状态 & 已验证或自动化证据 & 尚需验证／明确边界 \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape 表 \ref{tab:features}（续）}\\
+\toprule
+功能区域 & 本轮状态 & 已验证或自动化证据 & 尚需验证／明确边界 \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\small\itshape 下页续}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Discover 主题输入 & \ManualPass & macOS 手工与 iOS \code{test01} 均可达；XCTest 断言默认英文、输入 trim 后原文保留并切入 Studio。 & 仍需覆盖空输入、多窗口和异常输入的 UI 边界。 \\
+“猜你想学”刷新 & \Pending & 代码提供三批确定性推荐；确认兴趣会改变首条推荐，XCTest 已覆盖。 & 本轮未留存刷新前后截图；当前不是 RL 或在线排序模型。 \\
+公开主页链接 & \AutoPass & 输入校验和本地来源／兴趣流程存在。 & 当前不会访问或爬取链接，只依据 host/path 生成确定性样例。 \\
+浏览历史文件预览 & \Pending & CSV/JSON 本地解析路径存在并受 25 MiB 上限约束。 & 系统文件选择器和真实样例导入尚未手工验收；无浏览器扩展或持续采集。 \\
+Library 文档导入 & \Pending & PDFKit／UTF-8 解析、12,000 字符摘录和目标 materialID 绑定代码存在；绑定由 XCTest 覆盖。 & PDF、TXT、Markdown、CSV 与 JSON 的系统选择器及演示文件尚待本轮手工截图；没有 OCR/向量检索。 \\
+Guided Study / Inquiry route & \EvidencePass & iOS 专项场景从目标进入四步路线；4 项新增 XCTest 覆盖 Understand 保存后推进到 Question、顺序、引用、幂等奖励和完成边界，fixture 复核 Question UI。 & H0 仅处理一份本地摘录或主动目标，提示为确定性规则；本轮未完成 TextEditor 到保存按钮的稳定 UI 自动化；多资料切片、检索引用、模型追问、页码跳转和跨设备同步仍待 H1--H4。 \\
+Future Lab 五场景 & \InteractiveConcept & 专项 iOS XCUITest 5/5 通过；五个场景均由真实控件触发视觉反馈并生成五张独立截图。 & 只验证本地前端交互；合成状态不调用网络、模型、相机、社交账号、附近设备或同步服务，也不写正式学习数据。 \\
+理论检测 & \AutoPass & 无目标保护、提交证据、进度和奖励逻辑由 XCTest 间接覆盖。 & 当前评分是启发式规则；本轮 UI 答题截图待补。 \\
+实践检测 & \AutoPass & prediction/observation/adjustment 证据与五步完成逻辑由 XCTest 覆盖；\code{test01} 验证 Spatial 2D 交互。 & 完整 Assessment UI 提交流程仍待手工截图；Spatial 不启动相机。 \\
+跳过检测 & \AutoPass & 明确断言状态为 \code{skipped}、分数为 \code{nil}、目标保持 active。 & 待 UI 手工确认提示文案和无障碍朗读。 \\
+Personal / Progress & \UIPass & \code{test03} 与截图确认 Personal 页面、路径统计、无限额度和 Persona 外观；状态逻辑另有 XCTest。 & AI credits 尚未按真实 token 计量；本轮未验证完整长期轨迹。 \\
+Reward / Lumens & \AutoPass & 重复方法不重复发奖；普通档案可 20 Lumens 换 100 credits；演示档案无限。 & 实物奖励只是目录原型；无兑换履约。 \\
+Persona 定时学习 & \Pending & 菜单栏、墙钟倒计时、暂停／继续／停止和浮窗代码已接线。 & 本轮未验证最小化浮窗、登录项系统审批或重启恢复。Persona 不读取屏幕、应用活动、摄像头或麦克风。 \\
+语言与无障碍设置 & \UIPass & \code{test03} 进入 Settings；截图确认中英语言、Reduce Motion、Larger Text 与 Kokoro 导入入口。 & 未逐页切换语言，也未完成 VoiceOver、动态字体和键盘全导航审计。 \\
+数据导出 & \Pending & 代码导出可读 JSON 且设计上不含 API key、原始资料或完整历史。 & 本轮未通过 UI 打开导出路径并复核生成文件。 \\
+Keychain & \Pending & API key 使用 \code{com.local.lumap.provider}/\code{active-provider}；单元测试用 fixture，不输出真实 key。 & 需在干净账号上手工保存、重启读取和删除；报告及截图不得出现密钥。 \\
+自定义模型供应商 & \AutoPass & Responses URL、精确模型名、User-Agent、两种响应形状与课件 schema 已自动化验证；Settings UI 可达。 & 截图状态为 Not tested；真实 HTTP 连通性受供应商可用性限制，且当前只接入 Narrated Deck。 \\
+Kokoro 本地旁白 & \Limited & sherpa-onnx 与引擎代码可编译；无系统 TTS 回退；\code{r9} 验证 silent timeline preview 和 Quiz。 & 需要安装经校验的外部权重后验证真实生成、听感、播放、暂停、切页和取消；权重未随包提供。 \\
+数据库恢复 & \Pending & macOS/iOS 入口有数据库打开与健康状态处理代码。 & 不应在用户真实容器中故意破坏数据库；需使用隔离容器设计故障注入测试。 \\
+\end{longtable}
+\normalsize
+
+\section{环境受限与当前未实现能力}
+
+\subsection{本轮环境受限，不计为代码通过}
+\begin{itemize}
+  \item \textbf{真实供应商生成：}\Limited\quad 请求构造和解析已自动化通过，Settings UI 也可达，但截图状态为 Not tested；外部账号、额度、网络和网关可用性不由本地测试控制。最终演示前应使用专用测试 key 运行一次短提示，并只记录状态和延迟，不记录密钥。
+  \item \textbf{Kokoro 真声：}\Limited\quad 模型权重不在仓库或 app bundle。\code{r9} 已验证明确标注的 silent timeline preview，但没有以真实音频波形、听感或取消行为证明 Kokoro 播放成功。
+  \item \textbf{真机空间能力：}\Limited\quad Simulator 与 macOS 只能验证二维交互和能力提示。摄像头权限、世界追踪稳定性、光照和热状态需要支持 ARKit 的 iPhone／iPad 真机测试。
+  \item \textbf{登录项与系统文件面板：}\Limited\quad 最终结果受系统授权和宿主机状态影响；应在干净测试账号重复验收。
+\end{itemize}
+
+\subsection{当前未实现，不能在演示中宣称已交付}
+\begin{itemize}
+  \item \NotImplemented\quad Spatial AR 当前不会启动相机 session，也不会捕获或理解现实环境；现有画面是 Camera Off 的交互式二维回退。
+  \item \NotImplemented\quad 公开社交媒体／主页链接不会被爬取；当前只做 URL 校验并生成本地确定性兴趣样例。
+  \item \NotImplemented\quad 没有 visionOS 或未发布 Apple Glasses target；代码仅预留跨平台 provider 边界。
+  \item \NotImplemented\quad macOS 与 iOS 各自保存本地 SwiftData，不存在账号云同步或跨设备实时进度同步。
+  \item \NotImplemented\quad LumaPath-RL 尚未作为在线推荐服务训练和部署；当前推荐为可刷新的确定性批次。
+  \item \NotImplemented\quad AI credits 目前不读取真实 token usage；实物奖励没有下单、库存、配送或退款链路。
+\end{itemize}
+
+\section{缺口、风险与下一轮退出条件}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{P{13mm}P{40mm}Y P{31mm}}
+\toprule
+优先级 & 缺口 & 关闭条件 & 责任证据 \\
+\midrule
+P0 & Narrated Deck 外部路径未闭环 & 在专用账号记录 provider 成功或明确失败回退；安装已验证权重后单独测试 Kokoro 真声。 & 状态与音频测试记录，不包含 key。 \\
+P1 & iOS 真机与布局矩阵未覆盖 & 在至少一台支持 ARKit 的真机覆盖权限、横竖屏、小屏、后台恢复与热状态。 & 真机日志与截图；不得把 2D fallback 当作相机 AR。 \\
+P1 & Library／Assessment／Persona UI 未留证 & 使用合成演示资料完成导入、理论／实践检测、计时器与最小化浮窗。 & 截图＋生成文件摘要。 \\
+P1 & 无隔离数据库恢复测试 & 新建专用容器，模拟 store 打开失败，验证可恢复提示且不触碰真实数据。 & 测试日志与恢复截图。 \\
+P2 & 无完整无障碍回归 & 键盘、VoiceOver、对比度、Reduce Motion、Larger Text 与中英切换通过。 & 检查表和问题单。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\noindent\textbf{本轮已达到的演示基线：}自动化保持 22/22，两端 Debug build 成功，17/17 方法具有入口或核心交互证据；Guided Study 已记录四阶段起点，阶段推进由 XCTest 与 Question fixture UI 共同复核；M-17 已记录本地确定性回退、静音时间线与 Quiz；Personal 和 Settings 已有 iOS UI 证据。面向更广发布前仍需关闭真实供应商／Kokoro、Library、Assessment、Persona、真机与完整无障碍缺口，并继续在产品 UI 与演示话术中标明未实现能力。
+
+\section{证据目录与复现说明}
+
+\subsection{证据文件约定}
+所有报告内截图位于 \codepath{Lumap/docs/test-evidence/2026-09-30/}。31 张测试截图与 5 张 Future Lab 前端演示截图合计 36 张，使用连续证据编号；每张图片独占一页，页面保留标题、证据等级、画面说明和不能外推的能力边界，便于直接抽取为 PPT 素材。macOS 原始抓图按 3,024$\times$1,964 保存于临时测试目录，入库证据压缩为 1,800 像素宽 JPEG；本报告使用的 iOS XCUITest 附件保留 1,206$\times$2,622 分辨率。编码没有重绘或改变测试界面内容。
+
+iOS 测试证据采用 \code{01-ios-discover.jpg} 至 \code{16-ios-guided-question.jpg} 中与报告对应的 15 个附件，覆盖 Discover／Learn、Methods 上下半部、Spatial、Narrated Deck、Quiz、Personal、Settings、Counterfactual、Transfer 与 Guided Study。\code{06-ios-spatial-interactive.jpg} 与 \code{10-ios-personal.jpg} 的 SHA-256 完全相同，属于 xcresult attachment 导出异常，因此前者未作为 Spatial 证据使用；\code{05-ios-spatial-fallback.jpg} 已同时显示两个锚点、活动锚点与可调参数，足以支持二维回退交互结论。
+
+Future Lab 采用 \code{17-ios-future-knowledge.jpg} 至 \code{21-ios-future-social.jpg} 五张可点击前端演示截图，分别展示多资料引用、空间眼镜／AR、LumaPath-RL 自适应路径、跨设备接力和社交兴趣星座。它们在标题、状态胶囊和证据边界中均明确写为“交互概念 / demo data”，不计入 \ManualPass、\UIPass 或 \AutoPass，也不改变当前未实现能力的判定。
+
+\subsection{报告完整性自检}
+\begin{enumerate}
+  \item 运行 \codepath{Lumap/Scripts/compile-test-report.sh}。
+  \item 脚本使用 Tectonic 编译到 \codepath{Lumap/.build/latex/test-report/}，再复制稳定输出到 \codepath{output/pdf/Lumap_Full_Function_Test_Report.pdf}。
+  \item 编译日志若包含 \code{Overfull} 或 \code{Underfull}，脚本直接失败。
+  \item 脚本在编译前检查 36 张证据图是否齐全；若本机存在 Python \code{pypdf}，还会重新打开 PDF，检查页数、空白页、关键标题、17 方法编号，以及每个连续证据编号是否各自位于不同页面并同时保留“画面证据”和“证据边界”。
+  \item 交付前使用 Poppler 将每页渲染为 PNG 并目视检查文字、截图、表格、页眉页脚和占位框。
+\end{enumerate}
+
+\vfill
+\noindent\fcolorbox{Line}{Pale}{%
+  \parbox{0.96\linewidth}{\small
+  \textbf{审阅声明。}本报告是一份带证据等级的工程测试记录，而不是“所有设想均已完成”的营销证明。任何未在当前构建执行、依赖外部环境或尚未实现的能力，都保持为相应状态，直到出现可重复的实际证据。}}
+
+\end{document}

@@ -1,0 +1,41 @@
+# Finder metadata
+.DS_Store
+
+# Local Xcode build output
+.build/
+DerivedData/
+**/DerivedData/
+
+# Per-user Xcode state
+**/xcuserdata/
+*.xcuserstate
+
+# Locally packaged release artifacts. Scripts, manifests and README files in
+# dist/ remain trackable because the directory itself is not ignored.
+dist/*.app/
+dist/**/*.app/
+dist/*.xcarchive/
+dist/**/*.xcarchive/
+dist/*.dmg
+dist/**/*.dmg
+dist/*.pkg
+dist/**/*.pkg
+dist/*.zip
+dist/**/*.zip
+dist/*.tar
+dist/**/*.tar
+dist/*.tar.gz
+dist/**/*.tar.gz
+dist/*.tgz
+dist/**/*.tgz
+dist/Lumap
+dist/**/Lumap
+
+# Local open-source narration models are large runtime assets. Keep only the
+# reviewed manifests and installer in Git.
+.local/VoicePacks/
+VoicePacks/**/runtime/
+
+# Validation/build scratch and generated local lesson media
+tmp/
+dist/Demos/

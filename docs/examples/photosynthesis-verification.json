@@ -1,0 +1,18 @@
+{
+  "audioTracks" : 1,
+  "durationSeconds" : 240.82166666666666,
+  "generatedAt" : "2026-09-30T01:11:41Z",
+  "model" : "gpt-5.6-sol",
+  "narrationWordsPerSlide" : [
+    102,
+    101,
+    101,
+    106,
+    107,
+    105
+  ],
+  "quizCount" : 2,
+  "slideCount" : 6,
+  "sourceCount" : 5,
+  "videoTracks" : 1
+}

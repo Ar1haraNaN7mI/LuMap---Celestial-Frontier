@@ -1,0 +1,78 @@
+Photosynthesis: Building a Plant from Air and Water
+
+Follow matter and energy through a houseplant leaf
+
+Sources: 光合作用: https://zh.wikipedia.org/wiki/%E5%85%89%E5%90%88%E4%BD%9C%E7%94%A8
+光合作用中心: https://zh.wikipedia.org/wiki/%E5%85%89%E5%90%88%E4%BD%9C%E7%94%A8%E4%B8%AD%E5%BF%83
+植物: https://zh.wikipedia.org/wiki/%E6%A4%8D%E7%89%A9
+詳細說明光合作用的過程。 - 技術教學: https://tutorialspoint.tw/p-explain-the-photosynthesis-process-in-detail-p
+光合作用教學影片：以這張光合作用示意圖的植物與剖面概念為視覺參考，呈現陽光照射葉片、二氧化碳從空氣進入葉片、水分由根部向上運輸，葉綠體內進行光合作用，最後產生氧氣釋放到空氣中並形 - YouTube: https://www.youtube.com/watch?v=6BCnBB60jBk
+
+
+1. Where does a growing houseplant come from?
+• Most new dry plant mass comes from carbon dioxide in the air
+• Water supplies matter; light supplies energy
+• Goal: trace matter and energy through a leaf
+
+Imagine that your pothos grows a new vine while the amount of soil in its pot barely changes. Where did the new leaf material come from? Surprisingly, most of its dry mass came from carbon dioxide in the air, not from soil. Water also contributes material, while light provides energy rather than matter. Photosynthesis is the process that captures light energy and uses it to build energy-rich carbon compounds. By the end, you will be able to follow carbon dioxide, water, and light into a leaf, explain how glucose is produced, and predict what happens when light or carbon dioxide is removed.
+
+
+2. Meet the inputs and the leaf’s solar workshops
+• Carbon dioxide enters leaves; water travels upward from roots
+• Chloroplasts are structures inside many leaf cells
+• Chlorophyll is a light-absorbing pigment inside chloroplasts
+• Glucose is an energy-rich sugar used to build and fuel the plant
+
+Carbon dioxide is an invisible gas whose molecules contain one carbon atom and two oxygen atoms. It enters a leaf through tiny adjustable openings called stomata. Water is absorbed by roots and transported to leaves. Inside many leaf cells are chloroplasts, small structures where photosynthesis occurs. Chlorophyll is not the whole chloroplast; it is a green pigment located within it. Chlorophyll absorbs mainly red and blue light and reflects much of the green light we see. The plant eventually makes glucose, a sugar containing stored chemical energy. Glucose can fuel cells or become starch, cellulose, and other materials used for growth.
+
+
+3. Light-dependent reactions charge the system
+• Chlorophyll captures light in chloroplast membranes
+• Light energy helps split water and release oxygen
+• ATP and NADPH temporarily carry usable energy
+• Causal check 1: removing light stops this energy supply
+
+The first stage is called the light-dependent reactions because it directly requires light. In folded membranes inside chloroplasts, chlorophyll and reaction-center proteins absorb packets of light energy. That energy drives a chain of transfers, including the splitting of water. Oxygen formed from the water is released as a by-product. The reactions also make ATP and NADPH. Think of these as short-lived charged carriers: ATP carries usable energy, while NADPH carries energetic electrons and hydrogen. They are not glucose. Instead, they power the next stage. Therefore, if a plant enters darkness, this fresh supply of ATP and NADPH declines, limiting sugar production.
+
+Quiz: A healthy leaf is placed in darkness while water and carbon dioxide remain available. What is the most direct initial effect?
+a. The light-dependent reactions stop producing fresh ATP and NADPH
+b. The roots immediately stop containing minerals
+c. Carbon dioxide turns directly into oxygen
+d. Chlorophyll becomes glucose
+
+Answer: a. Light powers the reactions that produce ATP and NADPH. Without that supply, the Calvin cycle soon lacks the energy carriers needed to build sugars.
+
+
+4. The Calvin cycle builds carbon compounds
+• The Calvin cycle occurs in the chloroplast’s fluid-filled stroma
+• It incorporates carbon from carbon dioxide into small carbon compounds
+• ATP and NADPH power the cycle; some products can form glucose
+• Overall summary: 6 CO₂ + 6 H₂O + light → C₆H₁₂O₆ + 6 O₂
+
+The Calvin cycle takes place in the fluid-filled part of the chloroplast called the stroma. It does not directly capture light, but it depends on ATP and NADPH made by the light-dependent reactions. The cycle fixes carbon, meaning it transfers carbon atoms from carbon dioxide into small organic molecules. Some of those products can later be assembled into glucose. For a simplified worked example, six carbon dioxide molecules provide the six carbon atoms in one glucose molecule. Water contributes hydrogen and supports the light reactions. The overall bookkeeping is spoken as: six carbon dioxide plus six water, using light energy, yields one glucose plus six oxygen.
+
+
+5. A plant does not mostly eat its soil
+• Air supplies most carbon in a plant’s dry material
+• Soil supplies water and small amounts of essential minerals
+• Fresh mass includes much water; dry mass reveals built material
+• Causal check 2: blocking carbon dioxide limits new sugar
+
+Return to the growing pothos. Its roots absorb water and mineral nutrients such as nitrogen, magnesium, and phosphorus, but the soil is not converted wholesale into leaves and stems. Most dry plant material consists of carbon-rich compounds, and that carbon entered as carbon dioxide through the leaves. Water can account for much of a freshly weighed plant, so scientists distinguish fresh mass from dry mass. Here is a causal prediction: keep a leaf illuminated and watered, but prevent carbon dioxide from reaching it. The light reactions may operate briefly, yet the Calvin cycle lacks its carbon input. New sugar and starch production will fall despite unchanged soil.
+
+Quiz: A watered houseplant receives bright light, but its leaves cannot take in carbon dioxide. What should happen to new sugar production?
+a. It should increase because the soil replaces carbon dioxide
+b. It should decrease because the Calvin cycle lacks a carbon source
+c. It should remain unchanged because light becomes glucose directly
+d. It should produce soil instead of sugar
+
+Answer: b. The Calvin cycle uses carbon dioxide as the source of carbon atoms for new sugars. Soil minerals are essential, but they cannot replace that carbon input.
+
+
+6. Trace the complete pathway
+• Matter path: water and carbon dioxide become carbon compounds and oxygen
+• Energy path: light → ATP and NADPH → chemical energy in sugars
+• Prediction: more light cannot fully help when carbon dioxide is limiting
+• Next step: compare starch formation in illuminated and covered leaves
+
+Now trace the whole pathway. Roots supply water, and stomata admit carbon dioxide. Chlorophyll in chloroplast membranes captures light. The light-dependent reactions use water, release oxygen, and charge ATP and NADPH. The Calvin cycle uses those carriers to incorporate carbon dioxide into molecules that can become glucose. The plant can then use glucose for respiration, store it as starch, or turn it into cellulose for new structure. Notice the causal logic: increasing light cannot keep increasing photosynthesis when carbon dioxide is scarce, because the carbon-building stage lacks material. A classic next investigation compares starch accumulation in illuminated leaf areas with areas kept covered from light.

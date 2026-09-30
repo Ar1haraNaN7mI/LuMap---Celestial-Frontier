@@ -1,0 +1,924 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0722024B09E5F7DE00B1B642 /* LumapStore+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */; };
+		09C8BE7148D94388B884807B /* LumapStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */; };
+		105C9A4E298B08B6BB957F98 /* GroundedStudyWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */; };
+		16EF9268CBB1BAE02128F4F0 /* LumapTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB720C61F1B30B015CC947A /* LumapTheme.swift */; };
+		233E4225571C9DFB6E1C7F0D /* MobileGroundedStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */; };
+		247BF4081185A81A93BBF553 /* LumapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */; };
+		2B6802264CDF7CDB179E22EC /* NarratedDeckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */; };
+		2D20CFB59DDD49E35C074BE6 /* LessonVideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C53EC2FA93EC3A0AFA2880 /* LessonVideoExporter.swift */; };
+		316132923355D89B6887371B /* LessonPresentationExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */; };
+		3317B9BE151D4A0F9A567DBA /* MobileTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7673BE55477776F68CE9761E /* MobileTheme.swift */; };
+		33CBC0FD794C7AACE4504709 /* MobileARKitProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFBDAD4DA3C8187E9F241A6 /* MobileARKitProvider.swift */; };
+		3423BD55EEBE64EAAFA37EB3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37F452F68C1B4100272D5DE /* SettingsView.swift */; };
+		34CD9CC6C5C4A6C55E052E51 /* MobileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21CB8E231FF3435D6E135AF /* MobileSettingsView.swift */; };
+		38C925F0690344A2C0D26B9D /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99F8BF85D1541CD16EBFA10 /* PersonaView.swift */; };
+		3B8471F37B81C9A1E88268ED /* LearningStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3CD4E60CB59BF59C025F27 /* LearningStudioView.swift */; };
+		4151917A8ABFBC3FE8E9FFEE /* MobileStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5A82F0F7141CDB5972ADAD /* MobileStudioView.swift */; };
+		41B979C8F281F535A1E08C87 /* LearningIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB74D415C0F1DA3E00C0572A /* LearningIntelligenceModels.swift */; };
+		42233C80B196F084D444A63F /* NarratedDeckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */; };
+		451F5ACE98AD2FFA670FBB9D /* LearningWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A8217AC4E338C55FFC3D3 /* LearningWorkspaceView.swift */; };
+		48AB84657DA9F7E340A7718D /* LearningWorkspaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56074591B02426C9DD67A61D /* LearningWorkspaceTests.swift */; };
+		4E2B3F20C5184929B16823F2 /* MobileSpatialLearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F02CCA86B2584E305DBDA /* MobileSpatialLearningView.swift */; };
+		5201B04D46E8F3667E2043F9 /* LearningResearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FB51A9C07A39D54A62FB24 /* LearningResearchService.swift */; };
+		5448D1E2E41410B7F42AD6F5 /* LumapiOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8473BDB4103F855F4AA730 /* LumapiOSRootView.swift */; };
+		5A09CC204053F7D5E25858A9 /* PersonaPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B55087151BC1720095EE9 /* PersonaPanelController.swift */; };
+		62999FCABB0A20FF15A59E9B /* MobileNarratedDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A6FE29852C880481A5E215 /* MobileNarratedDeckView.swift */; };
+		6571EFE8FDA79E080F241949 /* NarratedLessonMVPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C22AB5A85872DFCE97A69 /* NarratedLessonMVPTests.swift */; };
+		687E2019A43B27BD168C314B /* LumapiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F91ED9F21E3EFA2D7B2343A /* LumapiOSApp.swift */; };
+		689214899BFC0CE41E096D92 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A286EFF0B0D9E318A04AEBF /* HomeView.swift */; };
+		6A7800D21BBAAC511747836B /* LumapLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC516B02FDDE23A9D577396 /* LumapLocalization.swift */; };
+		6AD1A683419D619B64C98ED9 /* LumapLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC516B02FDDE23A9D577396 /* LumapLocalization.swift */; };
+		6FB9C74CE32D6086336BDC0D /* LumapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */; };
+		756A884D62406FE711F70617 /* LumapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B279970E0682BF6F5012E4 /* LumapApp.swift */; };
+		76457B2B3347BF50BC7E0F2D /* PersonalHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29DCDB1D9F2B9B4446C5F13 /* PersonalHubView.swift */; };
+		786BDDEE2EC831DB573D3122 /* FutureLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F371167B2A484ECECCECE /* FutureLabView.swift */; };
+		790A03E786678625BAFA17A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C763587117B7DF28F73C0AB8 /* Assets.xcassets */; };
+		7FFDB8F3E22D24B294EF98C2 /* LearningIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB74D415C0F1DA3E00C0572A /* LearningIntelligenceModels.swift */; };
+		81ABC82B1E5C7B3570E1F551 /* sherpa-onnx in Frameworks */ = {isa = PBXBuildFile; productRef = 72896EE2C495685FF709C861 /* sherpa-onnx */; };
+		8F3C5BAF75B0C180D9528800 /* LumapAIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */; };
+		91DCFBAFC33EA79E85C659CA /* LearningAgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */; };
+		94A9FF403FBC4A9ABFA5F126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 660B8CF456D18037DB71D5DF /* Assets.xcassets */; };
+		96F74183D5498719EAE3E651 /* MobileDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7E4BA0E71D15CFB5AC0DC /* MobileDiscoverView.swift */; };
+		9BD3D2AC821E5B43492711E2 /* MobileFutureLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917513F43AE0EEE335319AC0 /* MobileFutureLabView.swift */; };
+		9C27AA63D18D4D9845275DA7 /* MobileMethodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E9156C96BFD2165AA1A7 /* MobileMethodsView.swift */; };
+		9D9921E7F499CD3DA8D2FFB6 /* GroundedStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC77AE468E0CCA87C9028A /* GroundedStudyView.swift */; };
+		9E8EF61594E09F35664CA2F2 /* AgentLearningActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */; };
+		A3CC34EB10FA735DFB3E9D74 /* LumapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */; };
+		A4220CE6A79345ED3EB75777 /* LumapKeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */; };
+		A42BDD63E6F2D0333A8B405D /* LessonVideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C53EC2FA93EC3A0AFA2880 /* LessonVideoExporter.swift */; };
+		A51C5FBA310CE43D3A97FD01 /* AgentLearningActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */; };
+		A52E39BC6D15276B1B396469 /* ProgressViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5874B769C9FBD5294D757D6E /* ProgressViewScreen.swift */; };
+		A547B1C9C26AF8BE36316ABF /* LearningAgentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3F1C8FA1C5594042D72F4A /* LearningAgentStatusView.swift */; };
+		A55AD84A9F03E42D206D2424 /* LessonPresentationExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */; };
+		A6AF9E079539BB13FAF4246D /* LearningAgentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E932209C31F5565118A80F3C /* LearningAgentServiceTests.swift */; };
+		A732C63BD11EBCB6B76F9FA2 /* LumapStore+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */; };
+		B4426950F940049D94FF3C7C /* LearningWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A8217AC4E338C55FFC3D3 /* LearningWorkspaceView.swift */; };
+		BD8328D1676A9C90D0871201 /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA48ED56D9C892CDE932F76 /* RewardsView.swift */; };
+		C5500B2A1F0A3D301D3483F2 /* MobileProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2595F83CCBD02763F998F291 /* MobileProgressView.swift */; };
+		C638F4D47618B316050D8784 /* LumapAIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */; };
+		C80347B19BD984CEE398D034 /* LumapStore+LearningAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */; };
+		C9CCBD6167FF5A9EAE2BA3F7 /* LumapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */; };
+		CC9FAEDEA3A582033A1859FB /* sherpa-onnx in Frameworks */ = {isa = PBXBuildFile; productRef = 52D50E2D697C8572516F6B2A /* sherpa-onnx */; };
+		D38D5050C6209579615B586F /* LearningAgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */; };
+		D45A7017A73958FED0490B98 /* SpatialLearningCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */; };
+		D62D585184AE2AFBDB42FDD6 /* NarratedLessonPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAC756FD032792507A64257 /* NarratedLessonPlayerView.swift */; };
+		D68D844DF5C34BA12588A2D4 /* NarratedLessonPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAC756FD032792507A64257 /* NarratedLessonPlayerView.swift */; };
+		D6B155A097CE5E0DF45181E1 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985C3EB694C5EE5E83A82EC8 /* LibraryView.swift */; };
+		D7C40C79D20F69F71F1ECCAE /* KokoroVoicePackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB217F24F9F26CA4BE88F0D6 /* KokoroVoicePackManager.swift */; };
+		DEF99D603453D19233420BD1 /* LearningAgentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3F1C8FA1C5594042D72F4A /* LearningAgentStatusView.swift */; };
+		E01369E238CF98CCC63BCFD6 /* LearningMethodModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E815A2FE385DE7B198F6F761 /* LearningMethodModuleView.swift */; };
+		E01707AA66C70976E6E9AB52 /* LearningAgentStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1009FC5DA5904FACE7B5B5E /* LearningAgentStoreTests.swift */; };
+		E52F59A541316D96C0CCDAC0 /* LumapKeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */; };
+		E879316A5044B3F5024F2E53 /* SpatialLearningCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */; };
+		EB8F1087E4020D61326747CD /* KokoroVoicePackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB217F24F9F26CA4BE88F0D6 /* KokoroVoicePackManager.swift */; };
+		F1B9387F85654441D424B196 /* AssessmentHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63537254453CDE2ADF5D23F2 /* AssessmentHubView.swift */; };
+		F30468F47DA2C7368B59FE41 /* GroundedStudyWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */; };
+		F469F4C5B293FBD53427D050 /* LearningResearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FB51A9C07A39D54A62FB24 /* LearningResearchService.swift */; };
+		F68283C9AD029D98210913D2 /* LumapStore+LearningAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */; };
+		F69817DA0F3C3911539EB7A8 /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8011EE5B0AB8473302C7607 /* AppShellView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EAA280791076A1D26AFD23EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 724BDE0ADEB86ED8192CF1EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 79270DCC31CD4407B83EE1B7;
+			remoteInfo = Lumap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapStore.swift; sourceTree = "<group>"; };
+		104F02CCA86B2584E305DBDA /* MobileSpatialLearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSpatialLearningView.swift; sourceTree = "<group>"; };
+		1B3F1C8FA1C5594042D72F4A /* LearningAgentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAgentStatusView.swift; sourceTree = "<group>"; };
+		247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonPresentationExporter.swift; sourceTree = "<group>"; };
+		2595F83CCBD02763F998F291 /* MobileProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileProgressView.swift; sourceTree = "<group>"; };
+		2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileGroundedStudyView.swift; sourceTree = "<group>"; };
+		2FC516B02FDDE23A9D577396 /* LumapLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapLocalization.swift; sourceTree = "<group>"; };
+		37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLearningActivityView.swift; sourceTree = "<group>"; };
+		4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapModels.swift; sourceTree = "<group>"; };
+		4DCC77AE468E0CCA87C9028A /* GroundedStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedStudyView.swift; sourceTree = "<group>"; };
+		4F0F371167B2A484ECECCECE /* FutureLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureLabView.swift; sourceTree = "<group>"; };
+		50C53EC2FA93EC3A0AFA2880 /* LessonVideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonVideoExporter.swift; sourceTree = "<group>"; };
+		56074591B02426C9DD67A61D /* LearningWorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningWorkspaceTests.swift; sourceTree = "<group>"; };
+		5874B769C9FBD5294D757D6E /* ProgressViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewScreen.swift; sourceTree = "<group>"; };
+		63537254453CDE2ADF5D23F2 /* AssessmentHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentHubView.swift; sourceTree = "<group>"; };
+		660B8CF456D18037DB71D5DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6908D84737914973DFC901D7 /* Lumap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAgentService.swift; sourceTree = "<group>"; };
+		6DAC756FD032792507A64257 /* NarratedLessonPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarratedLessonPlayerView.swift; sourceTree = "<group>"; };
+		6F91ED9F21E3EFA2D7B2343A /* LumapiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapiOSApp.swift; sourceTree = "<group>"; };
+		732B55087151BC1720095EE9 /* PersonaPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaPanelController.swift; sourceTree = "<group>"; };
+		7673BE55477776F68CE9761E /* MobileTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileTheme.swift; sourceTree = "<group>"; };
+		7C8473BDB4103F855F4AA730 /* LumapiOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapiOSRootView.swift; sourceTree = "<group>"; };
+		7E3CD4E60CB59BF59C025F27 /* LearningStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStudioView.swift; sourceTree = "<group>"; };
+		7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapAIClient.swift; sourceTree = "<group>"; };
+		812C22AB5A85872DFCE97A69 /* NarratedLessonMVPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarratedLessonMVPTests.swift; sourceTree = "<group>"; };
+		8A286EFF0B0D9E318A04AEBF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LumapStore+LearningAgent.swift"; sourceTree = "<group>"; };
+		917513F43AE0EEE335319AC0 /* MobileFutureLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileFutureLabView.swift; sourceTree = "<group>"; };
+		9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapStoreTests.swift; sourceTree = "<group>"; };
+		969A8217AC4E338C55FFC3D3 /* LearningWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningWorkspaceView.swift; sourceTree = "<group>"; };
+		985C3EB694C5EE5E83A82EC8 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		98A6FE29852C880481A5E215 /* MobileNarratedDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileNarratedDeckView.swift; sourceTree = "<group>"; };
+		9FB3813F6E908A33C1943DEB /* LumapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapKeychainStore.swift; sourceTree = "<group>"; };
+		A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedStudyWorkflow.swift; sourceTree = "<group>"; };
+		ADA48ED56D9C892CDE932F76 /* RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsView.swift; sourceTree = "<group>"; };
+		B29DCDB1D9F2B9B4446C5F13 /* PersonalHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalHubView.swift; sourceTree = "<group>"; };
+		B2B279970E0682BF6F5012E4 /* LumapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapApp.swift; sourceTree = "<group>"; };
+		B9C245D94D21F21951A96398 /* Lumap.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Lumap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarratedDeckService.swift; sourceTree = "<group>"; };
+		BEFBDAD4DA3C8187E9F241A6 /* MobileARKitProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileARKitProvider.swift; sourceTree = "<group>"; };
+		C763587117B7DF28F73C0AB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C942E9156C96BFD2165AA1A7 /* MobileMethodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileMethodsView.swift; sourceTree = "<group>"; };
+		D21CB8E231FF3435D6E135AF /* MobileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSettingsView.swift; sourceTree = "<group>"; };
+		D37F452F68C1B4100272D5DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D3D7E4BA0E71D15CFB5AC0DC /* MobileDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDiscoverView.swift; sourceTree = "<group>"; };
+		D8011EE5B0AB8473302C7607 /* AppShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShellView.swift; sourceTree = "<group>"; };
+		E1009FC5DA5904FACE7B5B5E /* LearningAgentStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAgentStoreTests.swift; sourceTree = "<group>"; };
+		E7FB51A9C07A39D54A62FB24 /* LearningResearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningResearchService.swift; sourceTree = "<group>"; };
+		E815A2FE385DE7B198F6F761 /* LearningMethodModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMethodModuleView.swift; sourceTree = "<group>"; };
+		E932209C31F5565118A80F3C /* LearningAgentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAgentServiceTests.swift; sourceTree = "<group>"; };
+		E99F8BF85D1541CD16EBFA10 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
+		EB74D415C0F1DA3E00C0572A /* LearningIntelligenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningIntelligenceModels.swift; sourceTree = "<group>"; };
+		ECB720C61F1B30B015CC947A /* LumapTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapTheme.swift; sourceTree = "<group>"; };
+		F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialLearningCapability.swift; sourceTree = "<group>"; };
+		FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LumapStore+Workspace.swift"; sourceTree = "<group>"; };
+		FB217F24F9F26CA4BE88F0D6 /* KokoroVoicePackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroVoicePackManager.swift; sourceTree = "<group>"; };
+		FC5A82F0F7141CDB5972ADAD /* MobileStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileStudioView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AEEB6BC6CC24A1665E6BDF4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81ABC82B1E5C7B3570E1F551 /* sherpa-onnx in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA3406A652984A7B6F96133F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC9FAEDEA3A582033A1859FB /* sherpa-onnx in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1826C6EB6FB0E538A8FA7BC0 = {
+			isa = PBXGroup;
+			children = (
+				B8F1C85EBD887F1C4FFB37BF /* Lumap */,
+				5389FBEFBE125C535F1E2B78 /* LumapiOS */,
+				9EBD22C28AFF413FAA1520BB /* LumapTests */,
+				AE797429BC5EDEFC58BE0E2B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1AADAAC0B396A7D5A6033ED0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EB74D415C0F1DA3E00C0572A /* LearningIntelligenceModels.swift */,
+				4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3BC6AE8A4F6320997919CFD3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */,
+				D8011EE5B0AB8473302C7607 /* AppShellView.swift */,
+				63537254453CDE2ADF5D23F2 /* AssessmentHubView.swift */,
+				4F0F371167B2A484ECECCECE /* FutureLabView.swift */,
+				4DCC77AE468E0CCA87C9028A /* GroundedStudyView.swift */,
+				8A286EFF0B0D9E318A04AEBF /* HomeView.swift */,
+				1B3F1C8FA1C5594042D72F4A /* LearningAgentStatusView.swift */,
+				E815A2FE385DE7B198F6F761 /* LearningMethodModuleView.swift */,
+				7E3CD4E60CB59BF59C025F27 /* LearningStudioView.swift */,
+				969A8217AC4E338C55FFC3D3 /* LearningWorkspaceView.swift */,
+				985C3EB694C5EE5E83A82EC8 /* LibraryView.swift */,
+				6DAC756FD032792507A64257 /* NarratedLessonPlayerView.swift */,
+				B29DCDB1D9F2B9B4446C5F13 /* PersonalHubView.swift */,
+				E99F8BF85D1541CD16EBFA10 /* PersonaView.swift */,
+				5874B769C9FBD5294D757D6E /* ProgressViewScreen.swift */,
+				ADA48ED56D9C892CDE932F76 /* RewardsView.swift */,
+				D37F452F68C1B4100272D5DE /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4C17454AC779AB5A88BEDF82 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6F91ED9F21E3EFA2D7B2343A /* LumapiOSApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5389FBEFBE125C535F1E2B78 /* LumapiOS */ = {
+			isa = PBXGroup;
+			children = (
+				C763587117B7DF28F73C0AB8 /* Assets.xcassets */,
+				4C17454AC779AB5A88BEDF82 /* App */,
+				FF57491C6042A5ED647FD10D /* Services */,
+				99916D72A71095350528189A /* Support */,
+				9D8EE9317CD80C49F5FB6C3F /* Views */,
+			);
+			path = LumapiOS;
+			sourceTree = "<group>";
+		};
+		80736E1C6D5C5172A4AE133C /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				2FC516B02FDDE23A9D577396 /* LumapLocalization.swift */,
+				ECB720C61F1B30B015CC947A /* LumapTheme.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		812FFE5300277FDB2C7C8356 /* GroundedStudy */ = {
+			isa = PBXGroup;
+			children = (
+				A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */,
+			);
+			path = GroundedStudy;
+			sourceTree = "<group>";
+		};
+		908A32BAC62A0743EBF2E669 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FB217F24F9F26CA4BE88F0D6 /* KokoroVoicePackManager.swift */,
+				6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */,
+				E7FB51A9C07A39D54A62FB24 /* LearningResearchService.swift */,
+				247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */,
+				50C53EC2FA93EC3A0AFA2880 /* LessonVideoExporter.swift */,
+				7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */,
+				A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */,
+				0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */,
+				8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */,
+				FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */,
+				BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */,
+				F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		99916D72A71095350528189A /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				7673BE55477776F68CE9761E /* MobileTheme.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		9D8EE9317CD80C49F5FB6C3F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7C8473BDB4103F855F4AA730 /* LumapiOSRootView.swift */,
+				D3D7E4BA0E71D15CFB5AC0DC /* MobileDiscoverView.swift */,
+				917513F43AE0EEE335319AC0 /* MobileFutureLabView.swift */,
+				2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */,
+				C942E9156C96BFD2165AA1A7 /* MobileMethodsView.swift */,
+				98A6FE29852C880481A5E215 /* MobileNarratedDeckView.swift */,
+				2595F83CCBD02763F998F291 /* MobileProgressView.swift */,
+				D21CB8E231FF3435D6E135AF /* MobileSettingsView.swift */,
+				104F02CCA86B2584E305DBDA /* MobileSpatialLearningView.swift */,
+				FC5A82F0F7141CDB5972ADAD /* MobileStudioView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9EBD22C28AFF413FAA1520BB /* LumapTests */ = {
+			isa = PBXGroup;
+			children = (
+				E932209C31F5565118A80F3C /* LearningAgentServiceTests.swift */,
+				E1009FC5DA5904FACE7B5B5E /* LearningAgentStoreTests.swift */,
+				56074591B02426C9DD67A61D /* LearningWorkspaceTests.swift */,
+				9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */,
+				812C22AB5A85872DFCE97A69 /* NarratedLessonMVPTests.swift */,
+			);
+			path = LumapTests;
+			sourceTree = "<group>";
+		};
+		AE797429BC5EDEFC58BE0E2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6908D84737914973DFC901D7 /* Lumap.app */,
+				B9C245D94D21F21951A96398 /* Lumap.app */,
+				9FB3813F6E908A33C1943DEB /* LumapTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B2469282C38C30B4C38AE3A5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B2B279970E0682BF6F5012E4 /* LumapApp.swift */,
+				732B55087151BC1720095EE9 /* PersonaPanelController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B8F1C85EBD887F1C4FFB37BF /* Lumap */ = {
+			isa = PBXGroup;
+			children = (
+				660B8CF456D18037DB71D5DF /* Assets.xcassets */,
+				B2469282C38C30B4C38AE3A5 /* App */,
+				812FFE5300277FDB2C7C8356 /* GroundedStudy */,
+				1AADAAC0B396A7D5A6033ED0 /* Models */,
+				908A32BAC62A0743EBF2E669 /* Services */,
+				80736E1C6D5C5172A4AE133C /* Support */,
+				3BC6AE8A4F6320997919CFD3 /* Views */,
+			);
+			path = Lumap;
+			sourceTree = "<group>";
+		};
+		FF57491C6042A5ED647FD10D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BEFBDAD4DA3C8187E9F241A6 /* MobileARKitProvider.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		661B3A6AE5C574634573399B /* LumapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48D76FA740906C07D6CEF4C2 /* Build configuration list for PBXNativeTarget "LumapTests" */;
+			buildPhases = (
+				78917872A145A0FEB46EFAC5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F3093B662B3CB944BE84D7EB /* PBXTargetDependency */,
+			);
+			name = LumapTests;
+			packageProductDependencies = (
+			);
+			productName = LumapTests;
+			productReference = 9FB3813F6E908A33C1943DEB /* LumapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		79270DCC31CD4407B83EE1B7 /* Lumap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81A931E0B9EC8385136D417F /* Build configuration list for PBXNativeTarget "Lumap" */;
+			buildPhases = (
+				2CF4B56F65ECB8501BEC42EF /* Sources */,
+				C0E3A737E10763C4EFAE563D /* Resources */,
+				CA3406A652984A7B6F96133F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lumap;
+			packageProductDependencies = (
+				52D50E2D697C8572516F6B2A /* sherpa-onnx */,
+			);
+			productName = Lumap;
+			productReference = 6908D84737914973DFC901D7 /* Lumap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B99C7C5C21CB91906ACBCAAE /* LumapiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01FACDADB4930F3524CDA93B /* Build configuration list for PBXNativeTarget "LumapiOS" */;
+			buildPhases = (
+				2158720AF9AE29B9E93C36DC /* Sources */,
+				E03A14FEE31B15CDADAAE152 /* Resources */,
+				AEEB6BC6CC24A1665E6BDF4E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LumapiOS;
+			packageProductDependencies = (
+				72896EE2C495685FF709C861 /* sherpa-onnx */,
+			);
+			productName = LumapiOS;
+			productReference = B9C245D94D21F21951A96398 /* Lumap.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		724BDE0ADEB86ED8192CF1EE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					661B3A6AE5C574634573399B = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					79270DCC31CD4407B83EE1B7 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					B99C7C5C21CB91906ACBCAAE = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2EF3B21171B38D12F0745FA8 /* Build configuration list for PBXProject "Lumap" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1826C6EB6FB0E538A8FA7BC0;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3ABCEA8E955AFC15D88F578B /* XCRemoteSwiftPackageReference "sherpa-onnx" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AE797429BC5EDEFC58BE0E2B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				79270DCC31CD4407B83EE1B7 /* Lumap */,
+				661B3A6AE5C574634573399B /* LumapTests */,
+				B99C7C5C21CB91906ACBCAAE /* LumapiOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C0E3A737E10763C4EFAE563D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A9FF403FBC4A9ABFA5F126 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E03A14FEE31B15CDADAAE152 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				790A03E786678625BAFA17A0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2158720AF9AE29B9E93C36DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E8EF61594E09F35664CA2F2 /* AgentLearningActivityView.swift in Sources */,
+				F30468F47DA2C7368B59FE41 /* GroundedStudyWorkflow.swift in Sources */,
+				EB8F1087E4020D61326747CD /* KokoroVoicePackManager.swift in Sources */,
+				D38D5050C6209579615B586F /* LearningAgentService.swift in Sources */,
+				DEF99D603453D19233420BD1 /* LearningAgentStatusView.swift in Sources */,
+				7FFDB8F3E22D24B294EF98C2 /* LearningIntelligenceModels.swift in Sources */,
+				5201B04D46E8F3667E2043F9 /* LearningResearchService.swift in Sources */,
+				451F5ACE98AD2FFA670FBB9D /* LearningWorkspaceView.swift in Sources */,
+				A55AD84A9F03E42D206D2424 /* LessonPresentationExporter.swift in Sources */,
+				A42BDD63E6F2D0333A8B405D /* LessonVideoExporter.swift in Sources */,
+				8F3C5BAF75B0C180D9528800 /* LumapAIClient.swift in Sources */,
+				E52F59A541316D96C0CCDAC0 /* LumapKeychainStore.swift in Sources */,
+				6A7800D21BBAAC511747836B /* LumapLocalization.swift in Sources */,
+				247BF4081185A81A93BBF553 /* LumapModels.swift in Sources */,
+				C80347B19BD984CEE398D034 /* LumapStore+LearningAgent.swift in Sources */,
+				A732C63BD11EBCB6B76F9FA2 /* LumapStore+Workspace.swift in Sources */,
+				6FB9C74CE32D6086336BDC0D /* LumapStore.swift in Sources */,
+				687E2019A43B27BD168C314B /* LumapiOSApp.swift in Sources */,
+				5448D1E2E41410B7F42AD6F5 /* LumapiOSRootView.swift in Sources */,
+				33CBC0FD794C7AACE4504709 /* MobileARKitProvider.swift in Sources */,
+				96F74183D5498719EAE3E651 /* MobileDiscoverView.swift in Sources */,
+				9BD3D2AC821E5B43492711E2 /* MobileFutureLabView.swift in Sources */,
+				233E4225571C9DFB6E1C7F0D /* MobileGroundedStudyView.swift in Sources */,
+				9C27AA63D18D4D9845275DA7 /* MobileMethodsView.swift in Sources */,
+				62999FCABB0A20FF15A59E9B /* MobileNarratedDeckView.swift in Sources */,
+				C5500B2A1F0A3D301D3483F2 /* MobileProgressView.swift in Sources */,
+				34CD9CC6C5C4A6C55E052E51 /* MobileSettingsView.swift in Sources */,
+				4E2B3F20C5184929B16823F2 /* MobileSpatialLearningView.swift in Sources */,
+				4151917A8ABFBC3FE8E9FFEE /* MobileStudioView.swift in Sources */,
+				3317B9BE151D4A0F9A567DBA /* MobileTheme.swift in Sources */,
+				2B6802264CDF7CDB179E22EC /* NarratedDeckService.swift in Sources */,
+				D68D844DF5C34BA12588A2D4 /* NarratedLessonPlayerView.swift in Sources */,
+				E879316A5044B3F5024F2E53 /* SpatialLearningCapability.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CF4B56F65ECB8501BEC42EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51C5FBA310CE43D3A97FD01 /* AgentLearningActivityView.swift in Sources */,
+				F69817DA0F3C3911539EB7A8 /* AppShellView.swift in Sources */,
+				F1B9387F85654441D424B196 /* AssessmentHubView.swift in Sources */,
+				786BDDEE2EC831DB573D3122 /* FutureLabView.swift in Sources */,
+				9D9921E7F499CD3DA8D2FFB6 /* GroundedStudyView.swift in Sources */,
+				105C9A4E298B08B6BB957F98 /* GroundedStudyWorkflow.swift in Sources */,
+				689214899BFC0CE41E096D92 /* HomeView.swift in Sources */,
+				D7C40C79D20F69F71F1ECCAE /* KokoroVoicePackManager.swift in Sources */,
+				91DCFBAFC33EA79E85C659CA /* LearningAgentService.swift in Sources */,
+				A547B1C9C26AF8BE36316ABF /* LearningAgentStatusView.swift in Sources */,
+				41B979C8F281F535A1E08C87 /* LearningIntelligenceModels.swift in Sources */,
+				E01369E238CF98CCC63BCFD6 /* LearningMethodModuleView.swift in Sources */,
+				F469F4C5B293FBD53427D050 /* LearningResearchService.swift in Sources */,
+				3B8471F37B81C9A1E88268ED /* LearningStudioView.swift in Sources */,
+				B4426950F940049D94FF3C7C /* LearningWorkspaceView.swift in Sources */,
+				316132923355D89B6887371B /* LessonPresentationExporter.swift in Sources */,
+				2D20CFB59DDD49E35C074BE6 /* LessonVideoExporter.swift in Sources */,
+				D6B155A097CE5E0DF45181E1 /* LibraryView.swift in Sources */,
+				C638F4D47618B316050D8784 /* LumapAIClient.swift in Sources */,
+				756A884D62406FE711F70617 /* LumapApp.swift in Sources */,
+				A4220CE6A79345ED3EB75777 /* LumapKeychainStore.swift in Sources */,
+				6AD1A683419D619B64C98ED9 /* LumapLocalization.swift in Sources */,
+				A3CC34EB10FA735DFB3E9D74 /* LumapModels.swift in Sources */,
+				F68283C9AD029D98210913D2 /* LumapStore+LearningAgent.swift in Sources */,
+				0722024B09E5F7DE00B1B642 /* LumapStore+Workspace.swift in Sources */,
+				C9CCBD6167FF5A9EAE2BA3F7 /* LumapStore.swift in Sources */,
+				16EF9268CBB1BAE02128F4F0 /* LumapTheme.swift in Sources */,
+				42233C80B196F084D444A63F /* NarratedDeckService.swift in Sources */,
+				D62D585184AE2AFBDB42FDD6 /* NarratedLessonPlayerView.swift in Sources */,
+				5A09CC204053F7D5E25858A9 /* PersonaPanelController.swift in Sources */,
+				38C925F0690344A2C0D26B9D /* PersonaView.swift in Sources */,
+				76457B2B3347BF50BC7E0F2D /* PersonalHubView.swift in Sources */,
+				A52E39BC6D15276B1B396469 /* ProgressViewScreen.swift in Sources */,
+				BD8328D1676A9C90D0871201 /* RewardsView.swift in Sources */,
+				3423BD55EEBE64EAAFA37EB3 /* SettingsView.swift in Sources */,
+				D45A7017A73958FED0490B98 /* SpatialLearningCapability.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78917872A145A0FEB46EFAC5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6AF9E079539BB13FAF4246D /* LearningAgentServiceTests.swift in Sources */,
+				E01707AA66C70976E6E9AB52 /* LearningAgentStoreTests.swift in Sources */,
+				48AB84657DA9F7E340A7718D /* LearningWorkspaceTests.swift in Sources */,
+				09C8BE7148D94388B884807B /* LumapStoreTests.swift in Sources */,
+				6571EFE8FDA79E080F241949 /* NarratedLessonMVPTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3093B662B3CB944BE84D7EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 79270DCC31CD4407B83EE1B7 /* Lumap */;
+			targetProxy = EAA280791076A1D26AFD23EB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0890169E048DFB4C83021A9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = Lumap/Lumap.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 3;
+				INFOPLIST_FILE = Lumap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap;
+				PRODUCT_NAME = Lumap;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		22F2E340CCAAD5F47C9651B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap.tests;
+				SDKROOT = macosx;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumap.app/Contents/MacOS/Lumap";
+			};
+			name = Release;
+		};
+		441CED8D195F9030AD0DFCA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = Lumap/Lumap.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 3;
+				INFOPLIST_FILE = Lumap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap;
+				PRODUCT_NAME = Lumap;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4906D1FCDAD7D793BF2711E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		5E5C4331DE6073DF267BAD03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumap;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Lumap uses the camera only when you choose a spatial learning activity.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap.ios;
+				PRODUCT_NAME = Lumap;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C213AD323964EE7B47C0BAA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumap;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Lumap uses the camera only when you choose a spatial learning activity.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap.ios;
+				PRODUCT_NAME = Lumap;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E3673AABBC9F9C6E3BD0B62C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		E660CADA06EA99F87E8D33FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.lumap.tests;
+				SDKROOT = macosx;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumap.app/Contents/MacOS/Lumap";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01FACDADB4930F3524CDA93B /* Build configuration list for PBXNativeTarget "LumapiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E5C4331DE6073DF267BAD03 /* Debug */,
+				C213AD323964EE7B47C0BAA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2EF3B21171B38D12F0745FA8 /* Build configuration list for PBXProject "Lumap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4906D1FCDAD7D793BF2711E7 /* Debug */,
+				E3673AABBC9F9C6E3BD0B62C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		48D76FA740906C07D6CEF4C2 /* Build configuration list for PBXNativeTarget "LumapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E660CADA06EA99F87E8D33FA /* Debug */,
+				22F2E340CCAAD5F47C9651B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		81A931E0B9EC8385136D417F /* Build configuration list for PBXNativeTarget "Lumap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				441CED8D195F9030AD0DFCA1 /* Debug */,
+				0890169E048DFB4C83021A9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3ABCEA8E955AFC15D88F578B /* XCRemoteSwiftPackageReference "sherpa-onnx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/k2-fsa/sherpa-onnx";
+			requirement = {
+				kind = exactVersion;
+				version = 1.13.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52D50E2D697C8572516F6B2A /* sherpa-onnx */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABCEA8E955AFC15D88F578B /* XCRemoteSwiftPackageReference "sherpa-onnx" */;
+			productName = "sherpa-onnx";
+		};
+		72896EE2C495685FF709C861 /* sherpa-onnx */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABCEA8E955AFC15D88F578B /* XCRemoteSwiftPackageReference "sherpa-onnx" */;
+			productName = "sherpa-onnx";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 724BDE0ADEB86ED8192CF1EE /* Project object */;
+}

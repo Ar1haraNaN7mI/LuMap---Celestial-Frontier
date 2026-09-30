@@ -1,0 +1,105 @@
+name: Lumap
+options:
+  bundleIdPrefix: com.local
+  deploymentTarget:
+    macOS: "14.0"
+    iOS: "18.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: YES
+    ENABLE_APP_SANDBOX: YES
+packages:
+  sherpa-onnx:
+    url: https://github.com/k2-fsa/sherpa-onnx
+    exactVersion: 1.13.8
+targets:
+  Lumap:
+    type: application
+    platform: macOS
+    sources:
+      - path: Lumap
+        excludes:
+          - Info.plist
+          - Lumap.entitlements
+    dependencies:
+      - package: sherpa-onnx
+        product: sherpa-onnx
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.local.lumap
+        PRODUCT_NAME: Lumap
+        INFOPLIST_FILE: Lumap/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Lumap/Lumap.entitlements
+        CURRENT_PROJECT_VERSION: 3
+        MARKETING_VERSION: 0.3.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+  LumapTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: LumapTests
+    dependencies:
+      - target: Lumap
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.local.lumap.tests
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+  LumapiOS:
+    type: application
+    platform: iOS
+    productName: Lumap
+    deploymentTarget: "18.0"
+    sources:
+      - path: Lumap/Models
+      - path: Lumap/Services
+      - path: Lumap/GroundedStudy
+      - path: Lumap/Support/LumapLocalization.swift
+      - path: Lumap/Views/AgentLearningActivityView.swift
+      - path: Lumap/Views/NarratedLessonPlayerView.swift
+      - path: Lumap/Views/LearningAgentStatusView.swift
+      - path: Lumap/Views/LearningWorkspaceView.swift
+      - path: LumapiOS
+    dependencies:
+      - package: sherpa-onnx
+        product: sherpa-onnx
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.local.lumap.ios
+        PRODUCT_NAME: Lumap
+        GENERATE_INFOPLIST_FILE: YES
+        CURRENT_PROJECT_VERSION: 3
+        MARKETING_VERSION: 0.3.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Lumap
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
+        INFOPLIST_KEY_NSCameraUsageDescription: Lumap uses the camera only when you choose a spatial learning activity.
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+schemes:
+  Lumap:
+    build:
+      targets:
+        Lumap: all
+        LumapTests: [test]
+    test:
+      targets:
+        - LumapTests
+  LumapiOS:
+    build:
+      targets:
+        LumapiOS: all

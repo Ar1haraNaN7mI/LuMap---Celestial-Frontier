@@ -1,0 +1,1107 @@
+% !TeX program = xelatex
+% Lumap LumaPath-RL recommendation architecture
+% Compile with: tectonic Lumap_RL_Recommendation_Architecture.tex
+\documentclass[11pt,a4paper,fontset=none]{ctexart}
+
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{booktabs,tabularx,longtable,array,multirow}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric,backgrounds,matrix}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\geometry{left=24mm,right=24mm,top=25mm,bottom=25mm,headheight=15pt}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\linespread{1.17}
+
+% Prefer native macOS fonts, while keeping a TeX Live fallback.
+\IfFontExistsTF{Songti SC}
+  {\setCJKmainfont[Script=Default]{Songti SC}}
+  {\IfFontExistsTF{FandolSong-Regular}
+    {\setCJKmainfont{FandolSong-Regular}}
+    {\setCJKmainfont{Noto Serif CJK SC}}}
+\IfFontExistsTF{PingFang SC}
+  {\setCJKsansfont{PingFang SC}}
+  {\IfFontExistsTF{FandolHei-Regular}
+    {\setCJKsansfont{FandolHei-Regular}}
+    {\setCJKsansfont{Noto Sans CJK SC}}}
+\IfFontExistsTF{Kaiti SC}
+  {\setCJKmonofont[Script=Default]{Kaiti SC}}
+  {\IfFontExistsTF{FandolFang-Regular}
+    {\setCJKmonofont{FandolFang-Regular}}
+    {\setCJKmonofont{Noto Sans Mono CJK SC}}}
+\IfFontExistsTF{TeX Gyre Termes}
+  {\setmainfont{TeX Gyre Termes}}
+  {\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}}
+\IfFontExistsTF{TeX Gyre Heros}
+  {\setsansfont{TeX Gyre Heros}}
+  {\IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}}{}}
+\IfFontExistsTF{JetBrains Mono}
+  {\setmonofont{JetBrains Mono}}
+  {\IfFontExistsTF{Menlo}{\setmonofont{Menlo}}{}}
+
+\definecolor{LumapInk}{HTML}{172033}
+\definecolor{LumapBlue}{HTML}{3659B8}
+\definecolor{LumapTeal}{HTML}{19766D}
+\definecolor{LumapOrange}{HTML}{A65D13}
+\definecolor{LumapRed}{HTML}{A83B3B}
+\definecolor{LumapGrey}{HTML}{657184}
+\definecolor{LumapLine}{HTML}{BCC5D1}
+\definecolor{LumapPale}{HTML}{F3F6FA}
+\definecolor{LumapCurrent}{HTML}{E9EDF3}
+\definecolor{LumapTarget}{HTML}{E8F0FF}
+\definecolor{LumapSafety}{HTML}{FFF0E2}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=LumapBlue,
+  citecolor=LumapTeal,
+  urlcolor=LumapBlue,
+  pdftitle={Lumap LumaPath-RL 推荐系统架构与安全评估},
+  pdfauthor={Celestial Frontier},
+  pdfsubject={Constrained hierarchical recommendation for adaptive learning}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Lumap 技术设计}
+\fancyhead[R]{\small\sffamily LumaPath-RL 推荐系统}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\titleformat{\section}
+  {\Large\bfseries\sffamily\color{LumapInk}}
+  {\thesection}{0.75em}{}
+\titleformat{\subsection}
+  {\large\bfseries\sffamily\color{LumapInk}}
+  {\thesubsection}{0.65em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\sffamily\color{LumapInk}}
+  {\thesubsubsection}{0.55em}{}
+
+\captionsetup{
+  font=small,
+  labelfont={bf,sf},
+  textfont=sf,
+  labelsep=quad,
+  justification=centering
+}
+
+\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.2em,topsep=0.35em}
+\renewcommand{\arraystretch}{1.28}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\DeclareMathOperator{\logsumexp}{logsumexp}
+\DeclareMathOperator{\BCE}{BCE}
+\DeclareMathOperator{\Huber}{Huber}
+\DeclareMathOperator{\Brier}{Brier}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\ESS}{ESS}
+\DeclareMathOperator{\clip}{clip}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbb{I}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Alegal}{\mathcal{A}_{\mathrm{legal}}}
+\newcommand{\CI}{\operatorname{CI}}
+\newcommand{\contractname}[1]{{\footnotesize\texttt{#1}}}
+
+\tikzset{
+  >=Latex,
+  every node/.style={font=\sffamily\small,align=center},
+  block/.style={draw=LumapLine,rounded corners=2pt,very thick,fill=white,
+                minimum height=11mm,text width=27mm,inner sep=4pt},
+  blockwide/.style={block,text width=37mm},
+  current/.style={block,fill=LumapCurrent,draw=LumapGrey},
+  target/.style={block,fill=LumapTarget,draw=LumapBlue},
+  safety/.style={block,fill=LumapSafety,draw=LumapOrange},
+  data/.style={block,fill=LumapPale,draw=LumapTeal},
+  decision/.style={diamond,draw=LumapOrange,very thick,fill=LumapSafety,
+                   aspect=2.0,inner sep=2.5pt,text width=28mm},
+  flow/.style={->,very thick,draw=LumapBlue},
+  feedback/.style={->,very thick,dashed,draw=LumapTeal},
+  reject/.style={->,very thick,draw=LumapRed},
+  note/.style={draw=LumapLine,dashed,rounded corners=2pt,fill=white,
+               text width=43mm,inner sep=4pt,font=\sffamily\footnotesize,align=left},
+  lane/.style={draw=LumapLine,rounded corners=3pt,fill=white,inner sep=6pt}
+}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \centering
+  \vspace*{24mm}
+  {\sffamily\bfseries\fontsize{27}{34}\selectfont\color{LumapInk}
+    LumaPath-RL 推荐系统架构与安全评估\par}
+  \vspace{5mm}
+  {\sffamily\Large\color{LumapBlue}
+    面向启发式学习的约束分层决策系统\par}
+  \vspace{16mm}
+  \rule{0.68\textwidth}{0.6pt}\par
+  \vspace{10mm}
+  \begin{tabular}{rl}
+    文档类型： & 技术架构与数学规格 \tabularnewline
+    适用平台： & macOS / iOS \tabularnewline
+    当前版本： & Lumap 0.1.0 MVP 基线 \tabularnewline
+    目标系统： & LumaPath-RL 离线训练与受控上线架构 \tabularnewline
+    编译方式： & Tectonic（XeTeX） \tabularnewline
+    日期： & 2026 年 9 月 30 日 \tabularnewline
+  \end{tabular}
+  \vfill
+  \begin{minipage}{0.82\textwidth}
+    \small\color{LumapGrey}
+    \textbf{状态声明。}当前可运行 MVP 使用本地确定性推荐、手动方法选择与规则回退；
+    尚未训练、部署或在线调用强化学习策略。本文将已经运行的产品基线与目标推荐系统严格分开，
+    所有 POMDP、离线强化学习、反事实评估和灰度发布内容均为后续工程规格。
+  \end{minipage}
+  \vspace{12mm}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+
+\begin{abstract}
+Lumap 的推荐问题不是单步内容排序，而是在用户目标、知识状态、时间预算、可访问性、设备能力与
+授权持续变化的条件下，选择下一项学习活动并积累可验证证据。本文给出 LumaPath-RL 的目标架构：
+首页发现采用带硬约束的 contextual slate bandit，Learning Studio 采用 belief-state POMDP/SMDP，
+并将层级动作拆为学习意图、概念、方法、剂量和具体内容。系统以长期掌握、延迟保持、迁移、
+自主性和目标进展为奖励，以年龄适宜性、隐私授权、认知负荷、内容安全及用户明确选择为独立
+CMDP 成本约束。训练流程采用监督知识状态建模、twin critics、Conservative Q-Learning、行为约束
+actor、constraint critics 与拉格朗日乘子；上线前使用 IPS、SNIPS、DR、WDR、有效样本量和
+bootstrap 置信区间执行反事实评估。本文同时定义数据合同、可观测性、硬门槛、回滚条件和当前
+MVP 到目标系统的分阶段路径。
+
+\noindent\textbf{关键词：}自适应学习；POMDP；CMDP；Offline RL；CQL；知识追踪；OPE；安全推荐
+\end{abstract}
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{范围、原则与实现状态}
+
+\subsection{产品目标}
+
+LumaPath-RL 的优化对象是“下一步学习决策”，而不是页面停留时长或内容消费量。每次决策必须同时满足：
+\begin{enumerate}
+  \item 尊重用户当前明确输入；用户主动目标的优先级高于画像推断。
+  \item 在证据不足时表达不确定性，并允许用户跳过、固定或屏蔽方法。
+  \item 让理论理解、实践能力、延迟保持与知识迁移分别形成证据。
+  \item 把安全与隐私作为不可由高奖励抵消的约束。
+  \item 在模型不可用、结果过期或动作非法时，确定性回退仍能完成学习闭环。
+\end{enumerate}
+
+\subsection{当前 MVP 与目标架构}
+
+\begin{table}[htbp]
+  \centering
+  \caption{实现状态边界}
+  \label{tab:status}
+  \begin{tabularx}{\textwidth}{L{29mm}YY}
+    \toprule
+    范围 & 当前可运行 MVP & LumaPath-RL 目标架构 \\
+    \midrule
+    首页推荐 & 三批本地确定性候选；兴趣信号影响首项；支持换一批 & 安全 contextual slate bandit，记录完整 slate 和 propensity \\
+    Studio 调度 & 17 种学习方法可见；用户手动切换；部分场景为规则推荐 & belief-state POMDP/SMDP，分层选择概念、方法、剂量与内容 \\
+    学习者状态 & SwiftData 保存目标、会话、活动结果与部分偏好 & 带不确定性的知识、保持、负荷、投入、偏好与证据质量联合状态 \\
+    模型训练 & 未训练 RL 策略 & 监督状态预训练 + offline RL + constraint critics \\
+    反事实评估 & 未部署 OPE 管线 & IPS/SNIPS/DR/WDR、ESS、覆盖度与分群置信区间 \\
+    在线发布 & 规则路径直接运行 & 影子、可回滚小流量、守门放量；非法决策客户端拒绝 \\
+    失败路径 & 本地规则和手动选择可继续工作 & 版本化 heuristic fallback，策略服务不直接写业务数据库 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\noindent 本文后续以 \textbf{Current} 标识已运行基线，以 \textbf{Target} 标识待实现能力。
+演示账户的无限额度是计费权益，不进入状态、奖励、排序、学习效果或 OPE 分群。
+
+\subsection{系统不优化的代理指标}
+
+以下量不能单独作为正奖励：点击率、连续使用天数、会话时长、完成页数、互动次数、社交来源数量。
+这些量容易鼓励成瘾式交互、简单题重复或过度打扰。它们可以作为诊断特征，但只有与可比较的学习证据、
+用户目标和延迟结果共同解释时才参与建模。
+
+\section{总体系统架构}
+
+\Cref{fig:overall} 将当前本地闭环与目标推荐平面放在同一数据流中。目标策略只返回一个有版本、
+有时效、可验证的 \texttt{RecommendationDecision}；客户端仍拥有权限检查、业务写入和回退控制权。
+
+\begin{figure}[p]
+  \centering
+  \resizebox{0.98\linewidth}{!}{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \node[current,text width=28mm] (ui) at (15,76) {macOS / iOS 客户端\\明确目标与手动选择};
+    \node[current,text width=28mm] (local) at (55,76) {本地 SwiftData\\目标、会话、证据};
+    \node[current,text width=29mm] (heur) at (95,76) {版本化规则\\确定性候选与回退};
+    \node[current,text width=29mm] (module) at (137,76) {17 种学习模块\\理论/实践检测};
+    \draw[flow,draw=LumapGrey] (ui) -- (local);
+    \draw[flow,draw=LumapGrey] (local) -- (heur);
+    \draw[flow,draw=LumapGrey] (heur) -- (module);
+    \coordinate (feedbackright) at (137,90);
+    \coordinate (feedbackleft) at (55,90);
+    \draw[feedback,draw=LumapGrey] (module.north) -- (feedbackright) --
+      node[midway,above,font=\sffamily\footnotesize]{结果与反馈} (feedbackleft) -- (local.north);
+    \node[draw=LumapGrey,rounded corners=2pt,fit=(ui)(local)(heur)(module)(feedbackright)(feedbackleft),
+          inner sep=5mm,label={[font=\sffamily\bfseries,anchor=south west]north west:Current：可运行本地闭环}] (currentlane) {};
+
+    \node[target,text width=29mm] (gateway) at (15,38) {Recommendation\\Gateway};
+    \node[target,text width=26mm] (belief) at (47,38) {状态编码器与\\belief tracker};
+    \node[safety,text width=26mm] (mask) at (79,38) {硬约束候选掩码\\年龄/权限/设备};
+    \node[target,text width=26mm] (policy) at (111,38) {双策略面\\slate bandit / POMDP};
+    \node[target,text width=27mm] (contract) at (143,38) {Decision Contract\\动作、理由、版本、期限};
+    \draw[flow] (gateway) -- (belief);
+    \draw[flow] (belief) -- (mask);
+    \draw[flow] (mask) -- (policy);
+    \draw[flow] (policy) -- (contract);
+    \draw[flow] (ui.south) -- (gateway.north);
+    \draw[flow] (contract.north) -- ++(0,7mm) -|
+      node[pos=0.25,right,font=\sffamily\footnotesize]{合法决定} (module.south);
+
+    \node[safety,text width=25mm] (fallback) at (113,57) {响应拒绝\\规则回退};
+    \draw[reject] (contract.west) -- ++(-3mm,0) |- (fallback.east);
+    \draw[reject] (fallback.north) -- ++(0,4mm) -| (heur.south);
+
+    \node[data,text width=31mm] (log) at (143,5) {DecisionEvent\\候选、mask、propensity、结果};
+    \node[data,text width=31mm] (train) at (95,5) {离线数据与模型注册\\训练、OPE、审计};
+    \node[safety,text width=30mm] (guard) at (47,5) {发布守门\\影子、canary、回滚};
+    \draw[feedback] (module.east) -- ++(7mm,0) |- (log.east);
+    \draw[flow] (log) -- (train);
+    \draw[flow] (train) -- (guard);
+    \draw[feedback] (guard.north) -- ++(0,8mm) -| (policy.south);
+    \node[draw=LumapBlue,rounded corners=2pt,fit=(gateway)(belief)(mask)(policy)(contract)(log)(train)(guard),
+          inner sep=5mm,label={[font=\sffamily\bfseries\color{LumapBlue},anchor=south west]north west:Target：受约束推荐平面}] {};
+  \end{tikzpicture}}
+  \caption{当前产品闭环与目标 LumaPath-RL 推荐平面。蓝色为目标能力，灰色为当前 MVP；
+  推荐服务不绕过客户端的硬约束和持久化边界。}
+  \label{fig:overall}
+\end{figure}
+
+\subsection{在线请求边界}
+
+客户端从本地可信数据构造最小化快照，不上传原始浏览记录、完整社交内容或 API 密钥。
+请求携带 \texttt{profileEpoch}、\texttt{goalRevision}、\texttt{consentRevision}、候选目录版本及
+请求截止时间。响应必须同时满足：版本未过期、动作仍属于候选集、hard mask 仍为真、目标版本一致。
+任何一项失败都拒绝写入，并选择相同输入下可复现的规则动作。
+
+\section{形式化问题：POMDP、SMDP 与 CMDP}
+
+\subsection{部分可观测学习过程}
+
+Learning Studio 被建模为折扣 POMDP：
+\begin{equation}
+  \mathcal{M}=\langle\mathcal{S},\mathcal{A},\mathcal{O},T,Z,R,\gamma\rangle,
+  \label{eq:pomdp}
+\end{equation}
+其中 $s_t\in\mathcal{S}$ 是不可直接观测的真实学习状态，$a_t\in\mathcal{A}$ 是学习活动，
+$o_{t+1}\in\mathcal{O}$ 是答题、讲解、练习、延迟测验或用户反馈产生的观测，
+$T(s'\mid s,a)$ 为状态转移，$Z(o\mid s',a)$ 为观测模型，$R$ 为学习收益，
+$\gamma\in(0,1)$ 为跨时间折扣。
+
+历史 $h_t=(o_0,a_0,\ldots,a_{t-1},o_t)$ 被压缩为信念状态
+\begin{equation}
+  b_t(s)=\Prb(s_t=s\mid h_t),
+\end{equation}
+其 Bayes 更新为
+\begin{equation}
+  b_{t+1}(s')=
+  \eta\,Z(o_{t+1}\mid s',a_t)
+  \sum_{s\in\mathcal{S}}T(s'\mid s,a_t)b_t(s),
+  \qquad
+  \eta^{-1}=\sum_{\bar s}Z(o_{t+1}\mid \bar s,a_t)
+  \sum_sT(\bar s\mid s,a_t)b_t(s).
+  \label{eq:belief-update}
+\end{equation}
+工程实现不枚举离散状态，而由状态编码器 $f_\phi$ 近似：
+\begin{equation}
+  \bm b_t=f_\phi(\bm b_{t-1},a_{t-1},o_t,\Delta t_t,\bm x_t),
+  \label{eq:belief-encoder}
+\end{equation}
+其中 $\bm x_t$ 只包含 allowlist 特征，$\Delta t_t$ 表示距上一次学习或检测的时间。
+
+学习活动时长不等，因此采用 SMDP 折扣。若动作 $a_t$ 持续 $\Delta_t$ 个标准时间单位，则
+\begin{equation}
+  Q^\pi(b_t,a_t)=\E\!\left[
+    r_t+\gamma^{\Delta_t}\E_{a_{t+1}\sim\pi(\cdot\mid b_{t+1})}
+    Q^\pi(b_{t+1},a_{t+1})
+  \right].
+  \label{eq:smdp-q}
+\end{equation}
+
+\subsection{学习者状态与不确定性}
+
+目标状态向量分解为
+\begin{equation}
+  \bm b_t=
+  \bigl[
+    \bm k_t,\bm u_t,\bm h_t,e_t,\bm p_t,g_t,f_t,q_t,\bm c_t,\bm v_t
+  \bigr],
+  \label{eq:state-vector}
+\end{equation}
+其中 $\bm k_t$ 为概念掌握，$\bm u_t$ 为不确定性，$\bm h_t$ 为 24 小时与 7 天保持预测，
+$e_t$ 为投入状态，$\bm p_t$ 为方法效果与显式偏好，$g_t$ 为当前目标，$f_t$ 为疲劳/负荷，
+$q_t$ 为证据质量，$\bm c_t$ 为设备与无障碍能力，$\bm v_t$ 为授权版本及数据有效性。
+
+概念 $j$ 的掌握可用 Beta 后验表达：
+\begin{align}
+  K_{tj} &\sim \operatorname{Beta}(\alpha_{tj},\beta_{tj}),\\
+  \widehat m_{tj} &= \E[K_{tj}]=\frac{\alpha_{tj}}{\alpha_{tj}+\beta_{tj}},\\
+  u_{tj} &= \operatorname{Var}(K_{tj})=
+    \frac{\alpha_{tj}\beta_{tj}}
+    {(\alpha_{tj}+\beta_{tj})^2(\alpha_{tj}+\beta_{tj}+1)}.
+  \label{eq:beta-mastery}
+\end{align}
+缺失检测不会写成失败分数；不可比量规不会更新同一个 $K_{tj}$。主观喜好与学习效果使用不同特征头，
+避免把“喜欢某方法”等同于“该方法提高掌握”。
+
+\subsection{受约束决策}
+
+安全问题建模为 CMDP。令决策 $t$ 之前的累计活动时长为
+$D_t=\sum_{u=0}^{t-1}\Delta_u$ 且 $D_0=0$。策略在优化学习回报时，必须同时满足
+$J_{C_j}$ 的独立成本预算：
+\begin{align}
+  \max_{\pi}\quad
+  J_R(\pi)&=\E_\pi\!\left[\sum_{t=0}^{\infty}\gamma^{D_t} r_t\right],
+  \label{eq:cmdp-objective}\\
+  \text{s.t.}\quad
+  J_{C_j}(\pi)&=\E_\pi\!\left[\sum_{t=0}^{\infty}\gamma^{D_t} c_t^{(j)}\right]
+  \le d_j,\qquad j=1,\ldots,J.
+  \label{eq:cmdp-constraint}
+\end{align}
+成本维度至少包括：年龄/内容安全违规、撤销授权后的数据使用、超出认知负荷、无障碍能力不匹配、
+频繁打扰以及违背用户固定/屏蔽选择。对逻辑上不可接受的动作先执行 hard mask；
+CMDP 只处理仍合法但存在累积风险的动作。
+
+\section{候选生成、硬约束与层级策略}
+
+\subsection{硬约束候选集}
+
+令候选生成器给出 $\mathcal{A}_t^{\mathrm{cand}}$，硬规则向量为
+$M_t(a)\in\{0,1\}$，则合法集合为
+\begin{equation}
+  \Alegal(b_t)=\left\{a\in\mathcal{A}_t^{\mathrm{cand}}:
+  M_t(a)=1\right\}.
+  \label{eq:legal-set}
+\end{equation}
+掩码至少检查：当前明确目标、内容年龄分级、来源授权、设备 renderer、无障碍、用户屏蔽、
+方法固定、预计时长和前置条件。对任意策略 logits $z_\theta(a\mid b)$，部署分布为
+\begin{equation}
+  \widetilde\pi_\theta(a\mid b)=
+  \frac{\exp z_\theta(a\mid b)\,\1[a\in\Alegal(b)]}
+  {\sum_{a'\in\Alegal(b)}\exp z_\theta(a'\mid b)}.
+  \label{eq:masked-policy}
+\end{equation}
+若 $\Alegal(b)=\varnothing$，系统不让神经策略放宽约束，而是返回
+\texttt{noEligibleAction}，由客户端给出手动选择或安全的本地说明活动。
+
+\subsection{首页 slate bandit}
+
+首页一次展示 $K$ 个学习方向，动作为有序 slate
+$A=(a_1,\ldots,a_K)$。定义合法动作的有序无重复 $K$-排列集合
+\begin{equation}
+  \mathfrak{S}_K(\Alegal(x_t))=
+  \left\{(a_1,\ldots,a_K)\in\Alegal(x_t)^K:
+  a_i\ne a_j\ \text{for all}\ i\ne j\right\}.
+\end{equation}
+在上下文 $x_t$ 下，目标为
+\begin{equation}
+  A_t^*=\argmax_{A\in\mathfrak{S}_K(\Alegal(x_t))}
+  \left[
+    \sum_{k=1}^{K}u_\omega(a_k,x_t)
+    +\lambda_{\mathrm{div}}D(A)
+    -\lambda_{\mathrm{rep}}H(A,\mathcal{E}_t)
+  \right],
+  \label{eq:slate-objective}
+\end{equation}
+其中 $D(A)$ 奖励主题多样性，$H$ 惩罚与近期曝光集 $\mathcal{E}_t$ 的重复。
+“不感兴趣，换一批”仅对当前曝光项产生短期负反馈，不外推成对整个领域的永久厌恶。
+
+\subsection{Learning Studio 分层策略}
+
+活动写成五元组
+\begin{equation}
+  a_t=(g_t,c_t,m_t,d_t,x_t),
+\end{equation}
+其中 $g$ 是学习意图，$c$ 是概念，$m$ 是方法，$d$ 是剂量/时长，$x$ 是具体内容实例。
+联合策略按层分解：
+\begin{align}
+  \pi_\theta(a_t\mid b_t)
+  &={}\pi_{\theta_G}(g_t,c_t\mid b_t)\nonumber\\
+  &\quad\cdot\pi_{\theta_M}(m_t,d_t\mid b_t,g_t,c_t)\nonumber\\
+  &\quad\cdot\pi_{\theta_X}(x_t\mid b_t,g_t,c_t,m_t,d_t).
+  \label{eq:hierarchical-policy}
+\end{align}
+每一层分别归一化并记录 propensity，联合 propensity 是各层条件概率之积。这样既能解释“为什么先补这个概念”，
+也能解释“为什么此时用模拟而不是讲解”。
+
+\begin{figure}[p]
+  \centering
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \node[data,text width=36mm] (evidence) at (20,64) {观测 $o_t$\\答题、实践、延迟检测、反馈};
+    \node[target,text width=36mm] (belief) at (78,64) {信念状态 $b_t$\\掌握、保持、负荷、不确定性};
+    \node[safety,text width=36mm] (mask) at (136,64) {合法集合 $\Alegal(b_t)$\\权限、年龄、设备、用户选择};
+
+    \node[target,text width=36mm] (high) at (136,35) {高层策略 $\pi_G$\\学习意图 $g$ + 概念 $c$};
+    \node[target,text width=36mm] (mid) at (78,35) {方法策略 $\pi_M$\\方法 $m$ + 剂量 $d$};
+    \node[target,text width=36mm] (low) at (20,35) {内容策略 $\pi_X$\\具体活动 $x$};
+
+    \node[safety,text width=36mm] (validator) at (20,6) {客户端验证\\版本、期限、mask、goal revision};
+    \node[current,text width=36mm] (render) at (78,6) {客户端渲染\\17 类 learning method module};
+    \node[data,text width=36mm] (outcome) at (136,6) {结果窗口\\即时、24h、7d、迁移};
+
+    \draw[flow] (evidence) -- (belief);
+    \draw[flow] (belief) -- (mask);
+    \draw[flow] (mask) -- (high);
+    \draw[flow] (high) -- (mid);
+    \draw[flow] (mid) -- (low);
+    \draw[flow] (low) -- (validator);
+    \draw[flow] (validator) -- (render);
+    \draw[flow] (render) -- (outcome);
+    \draw[feedback] (outcome.east) -- ++(3mm,0) |- (-1,-9) |- (evidence.west);
+    \node[font=\sffamily\footnotesize,fill=white,inner sep=2pt] at (78,-14)
+      {结果形成新观测并更新下一时刻 belief};
+  \end{tikzpicture}
+  \caption{层级策略与 belief 更新闭环。安全掩码位于策略之前，客户端验证位于执行之前；
+  用户覆盖被记录为选择，而不是学习失败。}
+  \label{fig:hierarchy}
+\end{figure}
+
+\section{奖励、成本与时间归因}
+
+\subsection{学习奖励}
+
+即时奖励使用经量规和证据质量归一化的分量：
+\begin{align}
+  r_t^{\mathrm{learn}}={}&
+    w_M\Delta M_t
+    +w_{24}R_{t+24\mathrm{h}}
+    +w_7R_{t+7\mathrm{d}}
+    +w_T T_t
+    +w_A A_t
+    +w_G\Delta G_t \nonumber\\
+    &-w_F F_t-w_O O_t-w_D D_t-w_H H_t,
+  \label{eq:reward}
+\end{align}
+其中 $\Delta M$ 为同量规掌握增益，$R_{24},R_7$ 为延迟保持，$T$ 为新情境迁移，
+$A$ 为自主性，$\Delta G$ 为明确目标进展；$F$ 为挫败，$O$ 为过载，$D$ 为无效重复，
+$H$ 为提示依赖。权重先由教育目标与用户研究设定，再在离线敏感性分析中检查，不由点击最大化反推。
+
+当延迟结果尚未到达时，事件保持 \texttt{pending}，不能把缺失写成零。训练数据用 outcome window 和
+审查截止时间区分 pending、observed、expired 与 declined。令
+$D_{t,k}=\sum_{u=0}^{k-1}\Delta_{t+u}$ 且 $D_{t,0}=0$，跨步归因可采用时长感知的 $n$ 步回报：
+\begin{equation}
+  G_t^{(n)}=\sum_{k=0}^{n-1}\gamma^{D_{t,k}} r_{t+k}
+  +\gamma^{D_{t,n}} V(b_{t+n}).
+  \label{eq:nstep}
+\end{equation}
+
+\subsection{潜势塑形}
+
+为提升稀疏奖励下的训练稳定性，只采用保持最优策略不变的潜势塑形：
+\begin{equation}
+  r'_t=r_t+\gamma^{\Delta_t}\Phi(b_{t+1})-\Phi(b_t),
+  \label{eq:potential-shaping}
+\end{equation}
+其中 $\Phi$ 只能使用当前合法、已授权的学习进展特征。不能把付费状态、无限额度、社交数量或使用时长放入
+$\Phi$，否则会改变产品目标并产生不可解释激励。
+
+\subsection{约束成本}
+
+hard mask 处理“绝不允许”的动作；soft constraint critic 处理跨步累积风险。示例成本为
+\begin{align}
+  c_t^{\mathrm{load}} &= \max(0,\widehat f_{t+1}-f_{\max}),\\
+  c_t^{\mathrm{interrupt}} &= \1[\text{nudge within quiet window}],\\
+  c_t^{\mathrm{access}} &= \1[\text{required capability unavailable}],\\
+  c_t^{\mathrm{privacy}} &= \1[\text{evidence revision invalid}].
+\end{align}
+隐私和内容安全在正常设计中应被 hard mask 消除；若观察到非零成本，视为系统缺陷并触发停止发布，
+而不是让拉格朗日优化“权衡”它们。
+
+\section{状态建模与监督预训练}
+
+\subsection{多任务状态损失}
+
+在进行 RL 之前，先使用可解释的监督目标训练和校准状态编码器。定义
+\begin{align}
+  \mathcal{L}_{\mathrm{state}}={}&
+    \lambda_{\mathrm{KT}}\BCE(y^{\mathrm{mastery}},\widehat p^{\mathrm{mastery}})
+    +\lambda_{\mathrm{RET}}\BCE(y^{\mathrm{ret}},\widehat p^{\mathrm{ret}})\nonumber\\
+    &+\lambda_{\mathrm{TIME}}\Huber(y^{\mathrm{time}},\widehat t)
+    +\lambda_{\mathrm{HINT}}\BCE(y^{\mathrm{hint}},\widehat p^{\mathrm{hint}})\nonumber\\
+    &+\lambda_{\mathrm{LOAD}}\Huber(y^{\mathrm{load}},\widehat f)
+    +\lambda_{\mathrm{CAL}}\Brier(\widehat p,y).
+  \label{eq:state-loss}
+\end{align}
+所有标签携带量规版本、题族、辅助条件和证据质量。不同题族、不同辅助或不同难度的结果不通过固定扣分强行
+“校正”为同一标签。校准报告至少包含 Brier score、ECE、分年龄组可靠性图和置信区间。
+
+\subsection{缺失与选择偏差}
+
+检测是可选的，缺失机制通常不是完全随机。训练集必须保留
+$m_t^{\mathrm{observed}}$、检测邀请、接受/跳过、提醒曝光与退出原因。可以用逆参与概率作敏感性分析，
+但不把其结果包装成因果结论。自选方法数据标为 observational；只有经过明确同意、条件可比的随机或交替安排
+才能支持更强的方法效果估计。
+
+\section{Offline RL 目标与损失函数}
+
+\subsection{行为策略与支持集}
+
+日志数据集为
+\begin{equation}
+  \D=\left\{(b_t,a_t,r_t,\bm c_t,b_{t+1},\mu_t,
+  \mathcal{A}_t^{\mathrm{cand}},M_t,v_t)\right\},
+\end{equation}
+其中 $\mu_t=\mu(a_t\mid b_t)$ 是日志策略 propensity，$v_t$ 是所有相关版本。
+缺失完整候选、mask 或 propensity 的旧日志只能用于状态模型和描述统计，不能进入正式 OPE。
+
+\subsection{Twin critic 与 Conservative Q-Learning}
+
+令 $Q_{\theta_1},Q_{\theta_2}$ 为 twin reward critics，目标值使用较小者抑制过估计：
+\begin{align}
+  y_t^Q&=r_t+\gamma^{\Delta_t}
+  \E_{a'\sim\widetilde\pi_\psi(\cdot\mid b_{t+1})}
+  \left[\min_{i\in\{1,2\}}Q_{\bar\theta_i}(b_{t+1},a')
+        -\tau\log\widetilde\pi_\psi(a'\mid b_{t+1})\right],\\
+  \mathcal{L}_{\mathrm{TD}}^{(i)}
+  &=\frac12\E_{(b,a,r,b')\sim\D}
+  \left[Q_{\theta_i}(b,a)-y_t^Q\right]^2.
+  \label{eq:td-loss}
+\end{align}
+对每个 critic，CQL 正则只在当时合法候选上计算：
+\begin{align}
+  \mathcal{L}_{\mathrm{CQL}}^{(i)}={}&
+  \mathcal{L}_{\mathrm{TD}}^{(i)}
+  +\alpha\,\E_{b\sim\D}\left[
+    \log\sum_{a\in\Alegal(b)}\exp Q_{\theta_i}(b,a)
+    -\E_{a\sim\mu(\cdot\mid b)}Q_{\theta_i}(b,a)
+  \right].
+  \label{eq:cql-loss}
+\end{align}
+第二项压低日志支持之外动作的虚高价值。若 action support 过窄，正确处理是收集受控数据或缩小策略改进范围，
+而不是仅提高 $\alpha$ 后直接上线。
+
+\subsection{行为约束 actor}
+
+行为模型 $\widehat\mu_\xi(a\mid b)$ 由日志动作监督训练：
+\begin{equation}
+  \mathcal{L}_{\mathrm{behavior}}(\xi)=
+  -\E_{(b,a)\sim\D}\log\widehat\mu_\xi(a\mid b).
+\end{equation}
+actor 使用悲观价值、行为约束和熵正则：
+\begin{align}
+  \mathcal{L}_{\mathrm{actor}}(\psi)={}&
+  -\E_{b\sim\D,\,a\sim\widetilde\pi_\psi}
+    \left[\min_i Q_{\theta_i}(b,a)\right]\nonumber\\
+  &+\beta\E_{b\sim\D}\KL\!\left(
+    \widetilde\pi_\psi(\cdot\mid b)\,\|\,
+    \widehat\mu_\xi(\cdot\mid b)\right)
+  -\tau\E_{b\sim\D}\mathcal{H}(\widetilde\pi_\psi(\cdot\mid b)).
+  \label{eq:actor-loss}
+\end{align}
+分层策略的监督一致性项为
+\begin{equation}
+  \mathcal{L}_{\mathrm{hier}}=
+  -\E_\D\left[
+    \log\pi_G(g,c\mid b)+
+    \log\pi_M(m,d\mid b,g,c)+
+    \log\pi_X(x\mid b,g,c,m,d)
+  \right].
+  \label{eq:hier-loss}
+\end{equation}
+
+\subsection{Constraint critics 与拉格朗日优化}
+
+每个成本维度 $j$ 有 twin constraint critics $Q^{C_j}_{\omega_{j,1}},Q^{C_j}_{\omega_{j,2}}$：
+\begin{align}
+  y_t^{C_j}&=c_t^{(j)}+\gamma^{\Delta_t}
+  \E_{a'\sim\widetilde\pi_\psi}
+  \left[\max_{k\in\{1,2\}}Q^{C_j}_{\bar\omega_{j,k}}(b_{t+1},a')\right],\\
+  \mathcal{L}_{C_j}^{(k)}&=\frac12\E_\D
+  \left[Q^{C_j}_{\omega_{j,k}}(b_t,a_t)-y_t^{C_j}\right]^2.
+  \label{eq:constraint-critic}
+\end{align}
+成本采用较大 critic 形成保守上界。拉格朗日 actor 为
+\begin{align}
+  \mathcal{L}_{\mathrm{actor}}^{\mathrm{safe}}={}&
+  \mathcal{L}_{\mathrm{actor}}
+  +\sum_{j=1}^{J}\lambda_j
+  \left(
+    \E_{b\sim\D,a\sim\widetilde\pi_\psi}
+      \left[\max_kQ^{C_j}_{\omega_{j,k}}(b,a)\right]-d_j
+  \right),\\
+  \lambda_j&\leftarrow
+  \left[\lambda_j+\eta_\lambda
+  \left(\widehat J_{C_j}-d_j\right)\right]_+,
+  \qquad \lambda_j\ge 0.
+  \label{eq:lagrangian-actor}
+\end{align}
+
+\subsection{联合训练目标}
+
+在阶段式训练中，各项不是从第一步同时打开。最终联合目标写为
+\begin{align}
+  \mathcal{L}_{\mathrm{total}}={}&
+  \mathcal{L}_{\mathrm{state}}
+  +\lambda_Q\sum_{i=1}^{2}\mathcal{L}_{\mathrm{CQL}}^{(i)}
+  +\lambda_\pi\mathcal{L}_{\mathrm{actor}}^{\mathrm{safe}}
+  +\lambda_C\sum_{j=1}^{J}\sum_{k=1}^{2}\mathcal{L}_{C_j}^{(k)}\nonumber\\
+  &+\lambda_H\mathcal{L}_{\mathrm{hier}}
+  +\lambda_{\mathrm{fair}}\mathcal{L}_{\mathrm{group}}
+  +\lambda_{\mathrm{expl}}\mathcal{L}_{\mathrm{explanation}}.
+  \label{eq:total-loss}
+\end{align}
+其中公平性项只检查同等合法候选和相近任务条件下的最差组退化；解释项约束输出理由必须引用真正参与决策的特征。
+它们不能替代分群 OPE、用户控制或上线守门。
+\Cref{eq:total-loss} 是训练阶段与权重的汇总记号，不表示对所有参数执行一次联合最小化。
+状态编码器、行为模型、reward critics、constraint critics 与 actor 使用独立优化器和独立验证早停；
+target critics 停止梯度并采用慢速更新。actor 固定 critic 参数执行下降，而 $\lambda_j$ 按
+\Cref{eq:lagrangian-actor} 对约束违例执行 dual ascent，避免错误地把拉格朗日乘子当作普通损失参数共同下降。
+
+\begin{figure}[p]
+  \centering
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \node[data,text width=34mm] (events) at (20,64) {版本化 DecisionEvent\\候选、mask、propensity、结果};
+    \node[safety,text width=34mm] (validate) at (78,64) {数据资格检查\\授权、时窗、幂等、量规};
+    \node[data,text width=34mm] (dataset) at (136,64) {冻结数据集 $\D_v$\\train/validation/OPE 隔离};
+
+    \node[target,text width=34mm] (state) at (136,35) {阶段 1：状态预训练\\知识追踪、保持、负荷、校准};
+    \node[target,text width=34mm] (critic) at (78,35) {阶段 2：离线价值学习\\twin critics + CQL};
+    \node[target,text width=34mm] (actor) at (20,35) {阶段 3：安全策略\\actor + constraint critics};
+
+    \node[safety,text width=34mm] (ope) at (20,6) {阶段 4：独立 OPE\\IPS / SNIPS / DR\\WDR / ESS};
+    \node[safety,text width=34mm] (stress) at (78,6) {压力与分群审计\\缺失、分布漂移、最差组};
+    \node[data,text width=34mm] (registry) at (136,6) {模型注册\\权重、schema、阈值、数据哈希};
+
+    \draw[flow] (events) -- (validate);
+    \draw[flow] (validate) -- (dataset);
+    \draw[flow] (dataset) -- (state);
+    \draw[flow] (state) -- (critic);
+    \draw[flow] (critic) -- (actor);
+    \draw[flow] (actor) -- (ope);
+    \draw[flow] (ope) -- (stress);
+    \draw[flow] (stress) -- (registry);
+  \end{tikzpicture}
+  \vspace{2mm}
+
+  \begin{minipage}{0.88\textwidth}
+    \footnotesize\sffamily
+    \textbf{门槛语义：}OPE 或压力审计不通过时，当前模型停止于本阶段；团队缩小策略改进范围、
+    修正规格或收集受控数据后创建新的数据集与训练版本，不在同一流水线内回写或绕过门槛。
+    注册 artifact 绑定 feature schema、candidate catalog、reward/cost 版本、训练数据哈希、评估报告和回滚目标。
+  \end{minipage}
+  \caption{目标离线训练流水线。每个阶段产生可审计产物；未通过 OPE 的模型不能进入注册候选。}
+  \label{fig:training}
+\end{figure}
+\FloatBarrier
+
+\section{反事实评估（OPE）}
+
+\subsection{记号与权重}
+
+对第 $i$ 条轨迹 $\tau_i$，日志策略为 $\mu$，待评估策略为 $\pi$。单步比率及累积比率为
+\begin{align}
+  \rho_{i,t}&=\frac{\pi(a_{i,t}\mid b_{i,t})}
+  {\mu(a_{i,t}\mid b_{i,t})},\\
+  w_{i,0:t}&=\prod_{k=0}^{t}\rho_{i,k},\qquad
+  \bar w_{i,0:t}=\min(w_{i,0:t},w_{\max}),\qquad
+  \bar w_i:=\bar w_{i,0:T_i-1}.
+  \label{eq:importance-weight}
+\end{align}
+OPE 的 positivity/overlap 条件必须对评估分布中的每个 belief 成立：
+\begin{equation}
+  \operatorname{supp}\!\left(\pi(\cdot\mid b)\right)
+  \subseteq
+  \operatorname{supp}\!\left(\mu(\cdot\mid b)\right),
+  \qquad b\sim d_{\pi}^{\mathrm{eval}}.
+  \label{eq:positivity}
+\end{equation}
+只检查已经被日志选中的动作是否有 $\mu>0$ 并不足够；必须检查目标策略赋予正概率的全部动作是否有日志支持。
+裁剪降低方差但引入偏差，报告必须同时给出未裁剪诊断、裁剪阈值和敏感性分析。
+
+\subsection{IPS 与 SNIPS}
+
+若第 $i$ 条轨迹包含 $T_i$ 个决策、总回报为 $G_i$，轨迹级 IPS 和自归一化 SNIPS 为
+\begin{align}
+  \widehat V_{\mathrm{IPS}}(\pi)
+  &=\frac1N\sum_{i=1}^{N}\bar w_iG_i,
+  \label{eq:ips}\\
+  \widehat V_{\mathrm{SNIPS}}(\pi)
+  &=\frac{\sum_{i=1}^{N}\bar w_iG_i}
+  {\sum_{i=1}^{N}\bar w_i}.
+  \label{eq:snips}
+\end{align}
+首页 slate 的 propensity 必须是实际展示 slate 的联合概率或有理论依据的分解概率，不能用单卡点击概率代替。
+
+\subsection{Doubly Robust 与 Weighted DR}
+
+单步 contextual bandit 的 DR 估计为
+\begin{equation}
+  \widehat V_{\mathrm{DR}}=
+  \frac1N\sum_{i=1}^{N}\left[
+    \widehat q(b_i,\pi)
+    +\rho_i\bigl(r_i-\widehat Q(b_i,a_i)\bigr)
+  \right],
+  \quad
+  \widehat q(b,\pi)=\sum_a\pi(a\mid b)\widehat Q(b,a).
+  \label{eq:dr}
+\end{equation}
+对长会话，定义归一化累积权重与累计活动时长
+\begin{align}
+  \widetilde w_{i,t}=
+  \frac{\bar w_{i,0:t}}{\sum_{j=1}^{N}\bar w_{j,0:t}},
+  \qquad &\widetilde w_{i,-1}=\frac1N,\\
+  D_{i,0}=0,\qquad &D_{i,t}=\sum_{k=0}^{t-1}\Delta_{i,k}.
+\end{align}
+则有限时域 Weighted Doubly Robust 估计为
+\begin{align}
+  \widehat V_{\mathrm{WDR}}={}&
+  \sum_{i=1}^{N}\widetilde w_{i,-1}\widehat V(b_{i,0})\nonumber\\
+  &+\sum_{t=0}^{T-1}\sum_{i=1}^{N}\gamma^{D_{i,t}}
+  \widetilde w_{i,t}
+  \left[r_{i,t}+\gamma^{\Delta_{i,t}}\widehat V(b_{i,t+1})
+  -\widehat Q(b_{i,t},a_{i,t})\right].
+  \label{eq:wdr}
+\end{align}
+WDR 同时依赖 propensity 与价值模型；二者的误设风险不同，因此报告必须并列 IPS、SNIPS、DR 与 WDR，
+不能只选择最有利的估计量。
+
+\subsection{有效样本量与覆盖度}
+
+重要性权重的有效样本量为
+\begin{equation}
+  \ESS_t=\frac{\left(\sum_{i=1}^{N}\bar w_{i,0:t}\right)^2}
+  {\sum_{i=1}^{N}\bar w_{i,0:t}^2}.
+  \label{eq:ess}
+\end{equation}
+同时报告最大权重、权重分位数、合法动作覆盖率
+\begin{equation}
+  \operatorname{Coverage}(\pi;\D)=
+  \E_{b\sim\D}\left[
+    \sum_{a:\,N_\D(b,a)\ge n_{\min}}\pi(a\mid b)
+  \right],
+  \label{eq:coverage}
+\end{equation}
+以及各关键 cohort 的覆盖。高点估计配合低 ESS 不能获得上线资格。
+
+\subsection{Bootstrap 置信区间}
+
+按用户而不是按单条交互进行 cluster bootstrap，以保留同一学习者轨迹内相关性。对估计量
+$\widehat\Delta=\widehat V(\pi)-\widehat V(\pi_0)$，从用户簇有放回采样 $B$ 次，得到
+\begin{equation}
+  \CI_{1-\alpha}(\Delta)=
+  \left[
+    \widehat\Delta^{*(\alpha/2)},
+    \widehat\Delta^{*(1-\alpha/2)}
+  \right].
+  \label{eq:bootstrap-ci}
+\end{equation}
+延迟保持结果按 outcome window 截止；不能让尚未到期的 pending 样本在候选策略与基线间产生不同缺失处理。
+
+\section{安全上线门槛与回滚}
+
+\subsection{硬门槛}
+
+设 $\pi_0$ 为当前版本化规则或已上线策略，候选为 $\pi_1$。进入影子模式前必须同时满足：
+\begin{align}
+  \operatorname{LCB}_{1-\alpha}
+  \bigl(V_R(\pi_1)-V_R(\pi_0)\bigr)&\ge-\delta_R,
+  \label{eq:reward-gate}\\
+  \operatorname{UCB}_{1-\alpha}\bigl(J_{C_j}(\pi_1)\bigr)&\le d_j,
+  \quad \forall j,
+  \label{eq:cost-gate}\\
+  \min_{g\in\mathcal{G}}
+  \operatorname{LCB}_{1-\alpha}
+  \bigl(V_R^g(\pi_1)-V_R^g(\pi_0)\bigr)&\ge-\delta_g,
+  \label{eq:group-gate}\\
+  \min_{g\in\mathcal{G}}\ESS_g&\ge E_{\min},
+  \qquad
+  \min_{g\in\mathcal{G}}\operatorname{Coverage}_g\ge\kappa_{\min}.
+  \label{eq:support-gate}
+\end{align}
+此外，schema 合法率、hard-mask 一致率和越权成本必须为 $100\%$；这些门槛不是统计容忍项。
+以下评估参数必须在评估前写入版本化审批配置，不能看完结果后修改：
+\begin{equation}
+  \delta_R,\quad\delta_g,\quad E_{\min},\quad\kappa_{\min}.
+\end{equation}
+
+\FloatBarrier
+\clearpage
+\subsection{分阶段发布}
+
+\begin{table}[htbp]
+  \centering
+  \caption{目标发布阶段与退出条件}
+  \label{tab:release-gates}
+  \begin{tabularx}{\textwidth}{L{25mm}YL{52mm}}
+    \toprule
+    阶段 & 允许行为 & 退出或回滚条件 \\
+    \midrule
+    离线回放 & 不接触用户；校验决策合同、mask、时延与 fallback & 任一非法动作；OPE/ESS/覆盖未达门槛 \\
+    压力测试 & 合成缺失、撤权、跨档案、过期响应、分布漂移 & 旧响应可写入；回退不确定；隐私成本非零 \\
+    影子模式 & 生产请求只读推理；用户仍执行基线动作 & 候选非法率非零；p99 超预算；与基线分歧不可解释 \\
+    内部 canary & 仅团队账户；一键回滚 & 崩溃、写入错误、负荷或成本阈值触发 \\
+    自愿小流量 & 已同意成人 cohort；未成年人默认不探索 & 学习 LCB、最差组、成本或用户控制任一退化 \\
+    守门放量 & 分阶段增加固定流量；保持 holdout & 漂移、异常权重、延迟结果反转或审计缺失 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+\FloatBarrier
+
+\begin{figure}[p]
+  \centering
+  \begin{tikzpicture}[node distance=5mm and 13mm]
+    \node[data,text width=35mm] (candidate) {注册候选模型\\权重 + schema + 数据哈希};
+    \node[decision,below=of candidate] (offline) {离线 OPE、ESS、覆盖及成本门槛通过？};
+    \node[safety,text width=35mm,below=of offline] (stress) {压力测试\\撤权、过期、空候选、漂移};
+    \node[decision,below=of stress] (safe) {零非法动作且回退可复现？};
+    \node[target,text width=35mm,below=of safe] (shadow) {影子模式\\只记录候选，不改变用户体验};
+    \node[decision,below=of shadow] (shadowgate) {时延、分歧、分群指标通过？};
+    \node[target,text width=35mm,below=of shadowgate] (canary) {内部 canary $\rightarrow$ 自愿小流量};
+    \node[decision,below=of canary] (onlinegate) {在线学习指标与成本门槛持续通过？};
+    \node[data,text width=35mm,below=of onlinegate] (promote) {守门放量\\保留 holdout 与一键回滚};
+
+    \node[current,text width=38mm,right=23mm of offline] (baseline) {保持当前规则策略\\记录失败原因与新数据需求};
+    \node[safety,text width=38mm,right=23mm of shadowgate] (rollback) {立即回滚到上一版本\\冻结模型并保全审计日志};
+
+    \draw[flow] (candidate) -- (offline);
+    \draw[flow] (offline) -- node[right,font=\sffamily\footnotesize]{是} (stress);
+    \draw[reject] (offline.east) -- node[above,font=\sffamily\footnotesize]{否} (baseline.west);
+    \draw[flow] (stress) -- (safe);
+    \draw[flow] (safe) -- node[right,font=\sffamily\footnotesize]{是} (shadow);
+    \draw[reject] (safe.east) -| (baseline.south);
+    \draw[flow] (shadow) -- (shadowgate);
+    \draw[flow] (shadowgate) -- node[right,font=\sffamily\footnotesize]{是} (canary);
+    \draw[reject] (shadowgate.east) -- node[above,font=\sffamily\footnotesize]{否} (rollback.west);
+    \draw[flow] (canary) -- (onlinegate);
+    \draw[flow] (onlinegate) -- node[right,font=\sffamily\footnotesize]{是} (promote);
+    \draw[reject] (onlinegate.east) -| (rollback.south);
+    \draw[feedback] (baseline.south) |- (candidate.east);
+    \draw[feedback] (rollback.south) |- (candidate.east);
+  \end{tikzpicture}
+  \caption{目标上线守门与回滚流程。所有“否”分支均停止放量；回滚不依赖待回滚的策略服务。}
+  \label{fig:deployment}
+\end{figure}
+\FloatBarrier
+
+\subsection{在线停止条件}
+
+任一条件触发自动熔断并恢复到已验证基线：
+\begin{itemize}
+  \item hard-mask 不一致、跨档案决策、撤销来源仍参与理由或过期响应被接受；
+  \item 安全成本超过预算，或关键 cohort 的上置信界超过预算；
+  \item 最差组学习指标低于预设非劣界，或参与/检测缺失结构发生显著变化；
+  \item 推理超时、空候选、schema 错误或客户端拒绝率超过阈值；
+  \item feature、candidate catalog、reward、policy 与客户端版本组合未在兼容矩阵中；
+  \item 延迟保持结果到达后推翻 canary 期间的即时收益判断。
+\end{itemize}
+
+\section{决策合同、日志与解释}
+
+\subsection{输入输出合同}
+
+\begin{longtable}{L{46mm}L{40mm}L{60mm}}
+  \caption{核心数据合同}\label{tab:contracts}\\
+  \toprule
+  对象 & 必填字段 & 约束与用途 \\
+  \midrule
+  \endfirsthead
+  \toprule
+  对象 & 必填字段 & 约束与用途 \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  \contractname{LearnerStateSnapshot} & profileEpoch、goalRevision、consentRevision、knowledge、uncertainty、retention、fatigue、capabilities & 只含 allowlist 特征；每项可追溯到有效来源版本；不含密钥和完整原始社交内容 \\
+  \contractname{RecommendationCandidate} & candidateID、intent、concept、method、dose、content、requirements、riskClass、renderer & 候选目录版本固定；具体内容与 renderer 能力在客户端可验证 \\
+  \contractname{RecommendationDecision} & action、alternatives、layerPropensities、reasonCodes、policyVersion、expiry、inputDigest & 不能直接写 SwiftData；输入摘要用于拒绝过期或错配响应 \\
+  \contractname{DecisionEvent} & request、完整候选、hardMask、loggingPropensity、decision、outcomeWindows、versions & 是 OPE 的最小日志单元；失败、手动覆盖和回退均保留 \\
+  \contractname{OutcomeEvent} & rubricVersion、evidenceType、quality、observedAt、status、sourceEventID & status 区分 pending、observed、declined、expired、invalidated \\
+  \contractname{PolicyArtifact} & modelHash、featureSchema、rewardVersion、costBudgets、datasetHash、OPEReport、fallbackVersion & 注册、放量和回滚的不可分割发布单元 \\
+\end{longtable}
+
+\subsection{推荐解释}
+
+解释不是让生成模型事后编故事。结构化理由由策略输入与候选约束产生：
+\begin{equation}
+  e_t=\operatorname{Explain}
+  \left(a_t,\mathcal{F}^{\mathrm{used}}_t,
+  \mathcal{C}^{\mathrm{active}}_t,\operatorname{Alt}_t\right),
+\end{equation}
+其中 $\mathcal{F}^{\mathrm{used}}$ 是实际进入排序的可见特征，$\mathcal{C}^{\mathrm{active}}$ 是生效约束，
+$\operatorname{Alt}$ 是合法备选。自然语言只负责把 reason code 转成用户语言，不能增加未使用的个人推断。
+
+\subsection{可删除性与重新计算}
+
+事件维护依赖链
+\[
+  \text{source}\rightarrow\text{evidence}\rightarrow\text{state projection}
+  \rightarrow\text{decision reason}\rightarrow\text{training eligibility}.
+\]
+用户撤销来源时立即递增 \texttt{consentRevision}，旧快照和在途响应失效；异步物理删除完成前，
+相关证据已被排除在查询和推荐之外。若已进入训练数据，后续模型需通过重训练或经验证的数据删除流程处理，
+并在模型卡中披露删除延迟。
+
+\section{冷启动、探索与异常情况}
+
+\subsection{冷启动}
+
+无历史证据时使用版本化规则先验和多样性候选，不伪造“根据你的习惯”。当日志支持充分时，首页可以在
+合法集合内使用 LinUCB/Thompson sampling；Studio 的安全策略改进可采用 SPIBB 类约束，使低支持状态动作靠近
+日志基线。未成年人默认不进入探索性在线更新。
+
+\subsection{用户覆盖与策略学习}
+
+用户手动选项优先。覆盖事件应区分：显式偏好、时间变化、辅助需求、内容错误、只是想尝试其他方式。
+策略不能将一次覆盖直接解释为长期负奖励。对固定方法或屏蔽方法，hard mask 在下一个决策立刻生效。
+
+\subsection{常见异常}
+
+\begin{table}[htbp]
+  \centering
+  \caption{异常处理}
+  \label{tab:failure}
+  \begin{tabularx}{\textwidth}{L{39mm}YY}
+    \toprule
+    异常 & 在线行为 & 数据行为 \\
+    \midrule
+    策略超时/不可用 & 使用同版本 heuristic fallback & 记录 timeout 与 fallback，不伪造策略动作 \\
+    动作不在候选集或被 mask & 客户端拒绝；返回手动选择或规则动作 & 记录 policy defect，禁止该版本放量 \\
+    目标/授权版本变化 & 丢弃旧响应，按新快照重算 & 旧事件标为 stale，不进入 outcome 归因 \\
+    检测跳过 & 学习流程继续，状态保持未知 & 标为 declined，不写零分 \\
+    延迟结果未到期 & 不改变即时 UI 结论 & 标为 pending，OPE 截止时一致处理 \\
+    无合法候选 & 显示安全的概览或用户选择 & 记录 noEligibleAction，检查目录覆盖 \\
+    分布漂移 & 降级或冻结学习策略 & 启动新 cohort 审计与重校准 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{验证计划与阶段路线}
+
+\subsection{阶段划分}
+
+\begin{enumerate}
+  \item \textbf{H0：当前 MVP。}保持本地确定性推荐与手动模块选择；完善版本、候选曝光、回退和结果日志。
+  \item \textbf{H1：可评估规则策略。}上线统一 Decision Contract，补齐候选、mask、propensity 与 outcome window；建立可重放日志。
+  \item \textbf{H2：状态模型与影子服务。}训练知识追踪、保持和负荷预测；策略仍不改变用户体验，先验证校准和客户端拒绝路径。
+  \item \textbf{H3：受限离线策略。}在支持充分的成人自愿 cohort 内训练 CQL 与 constraint critics，通过独立 OPE 后进入影子。
+  \item \textbf{H4：可回滚小流量。}内部 canary、自愿小流量、延迟结果守门；未成年人继续使用经审核基线。
+\end{enumerate}
+
+\subsection{最低测试矩阵}
+
+\begin{itemize}
+  \item 单元测试：mask 单调性、空集合、层级 propensity 乘积、reward/cost 版本、迟到结果、幂等事件。
+  \item 属性测试：任何被屏蔽动作概率为零；所有返回动作属于候选；版本变化后旧响应永不落库。
+  \item 回放测试：固定快照、目录和策略版本得到同一确定性验证结果；fallback 在断网下可完成。
+  \item OPE 测试：已知合成 MDP 上 IPS/DR 近似真值；错误 propensity、低覆盖和极端权重必须让门槛失败。
+  \item 分群测试：年龄范围、设备能力、学习语言、辅助方式和证据缺失组分别报告，不用总体均值掩盖退化。
+  \item 故障注入：撤销来源、切换档案、快速修改目标、乱序响应、服务超时、模型回滚与客户端旧版本。
+\end{itemize}
+
+\section{结论}
+
+LumaPath-RL 的核心不是用强化学习取代产品规则，而是在不可妥协的权限、安全与用户选择范围内，
+对长期学习证据进行保守的策略改进。当前 Lumap MVP 已提供本地学习闭环、17 类学习方法、理论与实践检测、
+讲解课件和规则回退；它还没有部署 RL 模型。目标系统必须先形成可审计的决策合同和高质量日志，
+再训练带不确定性的学习者状态，随后使用 CQL 与 constraint critics 做离线优化，最后通过覆盖度、ESS、
+多估计量 OPE、分群置信区间、影子与小流量门槛逐步发布。任何阶段无法证明安全和非劣性时，
+继续使用版本化规则策略就是正确结果。
+
+\appendix
+\section{符号表}
+
+\begin{longtable}{C{22mm}L{115mm}}
+  \caption{主要符号}\label{tab:symbols}\\
+  \toprule
+  符号 & 含义 \\
+  \midrule
+  \endfirsthead
+  \toprule
+  符号 & 含义 \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  $s_t,b_t$ & 真实学习状态与其 belief/编码表示 \\
+  $a_t,o_t$ & 学习活动与活动后观测 \\
+  $\mu,\pi$ & 日志策略与待评估/候选策略 \\
+  $M_t(a)$ & hard mask；1 表示当时动作合法 \\
+  $r_t,c_t^{(j)}$ & 学习奖励与第 $j$ 个安全成本 \\
+  $Q_\theta,Q^{C_j}_\omega$ & reward critic 与 constraint critic \\
+  $d_j$ & 第 $j$ 个 CMDP 成本预算 \\
+  $D_t,D_{t,k}$ & 决策前累计活动时长与从决策 $t$ 起算的局部累计时长 \\
+  $\rho,w$ & 单步 importance ratio 与累积 importance weight \\
+  $\ESS$ & 重要性权重有效样本量 \\
+  $\operatorname{LCB},\operatorname{UCB}$ & 下/上置信界 \\
+  $\D_v$ & 版本冻结、资格验证后的离线数据集 \\
+\end{longtable}
+
+\section{模型卡与发布清单}
+
+每个进入模型注册表的 artifact 至少包含：
+\begin{itemize}
+  \item feature schema、candidate catalog、mask、reward、cost、rubric 和 outcome-window 版本；
+  \item 训练/验证/OPE 数据哈希、时间范围、纳入/排除规则与删除状态；
+  \item 状态模型校准、CQL gap、行为 KL、各 constraint critic 误差；
+  \item IPS、SNIPS、DR、WDR、ESS、最大权重、覆盖率及 cluster-bootstrap 区间；
+  \item 总体与关键 cohort 的 reward/cost 结果，最差组门槛和未解决限制；
+  \item 延迟、资源占用、schema 合法率、客户端拒绝率和 fallback 命中率；
+  \item 目标客户端版本、发布阶段、审批人、回滚模型与回滚演练结果。
+\end{itemize}
+
+\begin{thebibliography}{99}
+\bibitem{kaelbling1998pomdp}
+L. P. Kaelbling, M. L. Littman, and A. R. Cassandra.
+Planning and acting in partially observable stochastic domains.
+\emph{Artificial Intelligence}, 101(1--2):99--134, 1998.
+
+\bibitem{kumar2020cql}
+A. Kumar, A. Zhou, G. Tucker, and S. Levine.
+Conservative Q-Learning for offline reinforcement learning.
+In \emph{Advances in Neural Information Processing Systems}, 2020.
+
+\bibitem{jiang2016dr}
+N. Jiang and L. Li.
+Doubly robust off-policy value evaluation for reinforcement learning.
+In \emph{Proceedings of the 33rd International Conference on Machine Learning}, 2016.
+
+\bibitem{thomas2016data}
+P. Thomas and E. Brunskill.
+Data-efficient off-policy policy evaluation for reinforcement learning.
+In \emph{Proceedings of the 33rd International Conference on Machine Learning}, 2016.
+
+\bibitem{laroche2019spibb}
+R. Laroche, P. Trichelair, and R. Tachet des Combes.
+Safe policy improvement with baseline bootstrapping.
+In \emph{Proceedings of the 36th International Conference on Machine Learning}, 2019.
+
+\bibitem{ng1999shaping}
+A. Y. Ng, D. Harada, and S. Russell.
+Policy invariance under reward transformations: Theory and application to reward shaping.
+In \emph{Proceedings of the 16th International Conference on Machine Learning}, 1999.
+
+\bibitem{sutton2018rl}
+R. S. Sutton and A. G. Barto.
+\emph{Reinforcement Learning: An Introduction}, 2nd edition.
+MIT Press, 2018.
+\end{thebibliography}
+
+\end{document}
