@@ -1,0 +1,14 @@
+{
+  "estimatedMinutes" : 20,
+  "id" : "n2",
+  "methodIDs" : [
+    "workedExample",
+    "simulation",
+    "transferChallenge"
+  ],
+  "objective" : "Given a transformation diagram and candidate vectors, predict which nonzero vectors keep or reverse their direction, justify the prediction as a scalar-multiple relationship, and distinguish eigenvectors from vectors whose direction changes.",
+  "prerequisiteIDs" : [
+    "n1"
+  ],
+  "title" : "Predicting Eigenvector Directions and Scaling"
+}

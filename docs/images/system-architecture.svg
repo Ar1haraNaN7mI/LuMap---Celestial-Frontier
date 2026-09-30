@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1180" viewBox="0 0 1440 1180" role="img" aria-labelledby="title desc">
+<title id="title">Lumap: native clients and shared learning architecture</title>
+<desc id="desc">Native macOS and iPhone or iPad clients use a shared Swift domain. LumapStore controls the session and progression. LearningAgentService plans, generates, evaluates and adapts through validated contracts and LumapAIClient provider adapters. Public-topic research and selected private material excerpts follow separate input routes; document contents do not become public search queries. Configured model providers receive the chosen learning context. SwiftData, Keychain, validated caches, Kokoro narration and media export run on-device. Current personalization uses model decisions with local constraints; trained RL and camera-based AR are not deployed in this architecture.</desc>
+<rect x="0" y="0" width="1440" height="1180" rx="0" fill="#F8F8F5" stroke="none" stroke-width="1.5"/>
+<text x="64" y="68" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="start">THE SYSTEM ARCHITECTURE</text>
+<text x="64" y="121" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="40" font-weight="650" fill="#20243B" text-anchor="start">Native experience. Shared learning intelligence.</text>
+<text x="64" y="163" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="24" font-weight="400" fill="#596078" text-anchor="start">Implemented MVP · model-driven adaptation with local progression constraints</text>
+<rect x="64" y="209" width="618" height="95" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="91" y="248" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">macOS</text>
+<text x="91" y="279" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">SwiftUI + AppKit · studio, menu bar, Persona</text>
+<rect x="718" y="209" width="658" height="95" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="745" y="248" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">iPhone &amp; iPad</text>
+<text x="745" y="279" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">SwiftUI · responsive learning, media and Handoff</text>
+<path d="M373 313 V336 H710 V361" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M705 353 L710 361 L715 353" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1047 313 V336 H746 V361" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M741 353 L746 361 L751 353" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="64" y="361" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#596078" text-anchor="start">GROUNDED INPUTS</text>
+<rect x="64" y="381" width="310" height="197" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="88" y="421" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="26" font-weight="650" fill="#20243B" text-anchor="start">Public research</text>
+<text x="88" y="459" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">DuckDuckGo + Wikipedia</text>
+<text x="88" y="491" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Readable public pages</text>
+<text x="88" y="523" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Up to 5 source excerpts</text>
+<text x="88" y="560" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" fill="#167B70" text-anchor="start">Search query: topic only</text>
+<rect x="64" y="610" width="310" height="182" rx="20" fill="#EAF5F0" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="88" y="650" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="26" font-weight="650" fill="#20243B" text-anchor="start">Selected materials</text>
+<text x="88" y="688" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">PDFKit + text extraction</text>
+<text x="88" y="720" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Chosen private excerpts</text>
+<text x="88" y="752" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">No public document query</text>
+<rect x="424" y="373" width="610" height="419" rx="24" fill="#EEEFFA" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="448" y="411" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="start">SHARED SWIFT DOMAIN</text>
+<rect x="448" y="433" width="562" height="86" rx="14" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="471" y="466" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="26" font-weight="650" fill="#20243B" text-anchor="start">LumapStore</text>
+<text x="471" y="498" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Session state · section gates · saved progress</text>
+<path d="M729 526 V545" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M724 537 L729 545 L734 537" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="448" y="552" width="562" height="93" rx="14" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="471" y="587" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="26" font-weight="650" fill="#20243B" text-anchor="start">LearningAgentService</text>
+<text x="471" y="620" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Plan → generate → evaluate → adapt</text>
+<path d="M729 652 V671" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M724 663 L729 671 L734 663" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="448" y="678" width="562" height="89" rx="14" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="471" y="712" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="25" font-weight="650" fill="#20243B" text-anchor="start">Validated contracts + LumapAIClient</text>
+<text x="471" y="744" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Source IDs · prerequisites · bounded requests</text>
+<path d="M382 479 H402 V585 H440" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M432 590 L440 585 L432 580" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M382 701 H414 V614 H440" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M432 619 L440 614 L432 609" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1080" y="361" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#596078" text-anchor="start">CONFIGURED ENDPOINT</text>
+<rect x="1080" y="381" width="296" height="411" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="1104" y="425" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">Model provider</text>
+<text x="1104" y="467" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Remote service or</text>
+<text x="1104" y="500" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">compatible local host</text>
+<path d="M1104 524 H1352" fill="none" stroke="#C9CDD9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1104" y="563" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Responses</text>
+<text x="1104" y="597" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Chat Completions</text>
+<text x="1104" y="631" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Anthropic Messages</text>
+<text x="1104" y="694" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" fill="#167B70" text-anchor="start">Receives selected context</text>
+<text x="1104" y="727" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="21" font-weight="400" fill="#596078" text-anchor="start">Goal, learner signals</text>
+<text x="1104" y="757" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="21" font-weight="400" fill="#596078" text-anchor="start">and chosen excerpts</text>
+<path d="M1042 723 H1072" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1064 728 L1072 723 L1064 718" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M729 801 V832" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M724 824 L729 832 L734 824" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="64" y="840" width="1312" height="270" rx="24" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="88" y="880" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="start">ON-DEVICE SERVICES</text>
+<path d="M472 907 V1079" fill="none" stroke="#C9CDD9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M920 907 V1079" fill="none" stroke="#C9CDD9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="88" y="932" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">SwiftData + cache</text>
+<text x="88" y="973" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Goals, answers and evaluations</text>
+<text x="88" y="1007" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Materials, progress and rewards</text>
+<text x="88" y="1041" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Section-scoped lesson cache</text>
+<text x="88" y="1085" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="21" font-weight="600" fill="#167B70" text-anchor="start">Handoff: explicit file transfer</text>
+<text x="496" y="932" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">Narration + exports</text>
+<text x="496" y="973" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Kokoro INT8 + sherpa-onnx</text>
+<text x="496" y="1007" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Full script → local speech → media</text>
+<text x="496" y="1041" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">AVFoundation + Office Open XML</text>
+<text x="496" y="1085" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="21" font-weight="600" fill="#167B70" text-anchor="start">MP4 · editable PPTX · teaching script</text>
+<text x="944" y="932" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="27" font-weight="650" fill="#20243B" text-anchor="start">Keychain</text>
+<text x="944" y="973" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Device-local provider credential</text>
+<text x="944" y="1007" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Excluded from Handoff exports</text>
+<text x="944" y="1041" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#596078" text-anchor="start">Voice weights installed separately</text>
+<text x="944" y="1085" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="21" font-weight="600" fill="#167B70" text-anchor="start">Private by explicit boundaries</text>
+<text x="64" y="1152" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="20" font-weight="400" fill="#596078" text-anchor="start">Architecture view: service responsibilities and data routes, not a complete call graph.</text>
+</svg>

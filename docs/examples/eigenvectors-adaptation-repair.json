@@ -1,0 +1,14 @@
+{
+  "estimatedMinutes" : 12,
+  "id" : "n2",
+  "methodIDs" : [
+    "workedExample",
+    "simulation",
+    "misconceptionDiagnosis"
+  ],
+  "objective" : "Given a simple 2 × 2 matrix and several nonzero vectors, compute each transformed vector with row-by-column products and identify those that stay on the same line rather than assuming a 90° rotation.",
+  "prerequisiteIDs" : [
+    "n1"
+  ],
+  "title" : "Matrices Move Arrows in Different Ways"
+}

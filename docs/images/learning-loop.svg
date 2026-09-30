@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1010" viewBox="0 0 1440 1010" role="img" aria-labelledby="title desc">
+<title id="title">Lumap: an adaptive learning loop</title>
+<desc id="desc">A topic or selected document leads to source-grounded preparation and a current section with assigned learning methods. The learner responds, receives evaluation, and saves evidence. Gaps keep practice within the current section. Once its required methods are completed, the next eligible section is adapted using that evidence. Future section content stays hidden; completed history remains available.</desc>
+<rect x="0" y="0" width="1440" height="1010" rx="0" fill="#F8F8F5" stroke="none" stroke-width="1.5"/>
+<text x="64" y="68" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="start">THE LEARNING EXPERIENCE</text>
+<text x="64" y="121" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="42" font-weight="650" fill="#20243B" text-anchor="start">A path that earns its next step</text>
+<text x="64" y="161" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="25" font-weight="400" fill="#596078" text-anchor="start">Different goals. Different methods. One focused section at a time.</text>
+<rect x="64" y="214" width="396" height="247" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="88" y="238" width="42" height="34" rx="10" fill="#EEEFFA" stroke="none" stroke-width="1.5"/>
+<text x="109" y="262" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="middle">01</text>
+<text x="88" y="317" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Start with curiosity</text>
+<text x="88" y="356" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Name a topic, explore an idea</text>
+<text x="88" y="387" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">or bring your own document.</text>
+<text x="88" y="436" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#167B70" text-anchor="start">Your intention takes priority</text>
+<rect x="510" y="214" width="396" height="247" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="534" y="238" width="42" height="34" rx="10" fill="#EEEFFA" stroke="none" stroke-width="1.5"/>
+<text x="555" y="262" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="middle">02</text>
+<text x="534" y="317" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Prepare with sources</text>
+<text x="534" y="356" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Research the topic or use</text>
+<text x="534" y="387" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">selected material excerpts.</text>
+<text x="534" y="436" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#167B70" text-anchor="start">Goal + background + prior evidence</text>
+<rect x="956" y="214" width="396" height="247" rx="20" fill="#EEEFFA" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="980" y="238" width="42" height="34" rx="10" fill="#5753C7" stroke="none" stroke-width="1.5"/>
+<text x="1001" y="262" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">03</text>
+<text x="980" y="317" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Learn this section</text>
+<text x="980" y="356" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Work through assigned methods:</text>
+<text x="980" y="387" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">explain, map, listen or practise.</text>
+<text x="980" y="436" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#5753C7" text-anchor="start">Ordered activities • no mode picker</text>
+<rect x="956" y="557" width="396" height="247" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="980" y="581" width="42" height="34" rx="10" fill="#EEEFFA" stroke="none" stroke-width="1.5"/>
+<text x="1001" y="605" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="middle">04</text>
+<text x="980" y="660" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Show your thinking</text>
+<text x="980" y="699" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Answer the actual task.</text>
+<text x="980" y="730" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Receive feedback on your gaps.</text>
+<text x="980" y="779" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#167B70" text-anchor="start">Gaps → practise within this section</text>
+<rect x="510" y="557" width="396" height="247" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="534" y="581" width="42" height="34" rx="10" fill="#EEEFFA" stroke="none" stroke-width="1.5"/>
+<text x="555" y="605" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="middle">05</text>
+<text x="534" y="660" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Save the evidence</text>
+<text x="534" y="699" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Record your response, evaluation,</text>
+<text x="534" y="730" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">misconceptions and method.</text>
+<text x="534" y="779" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#167B70" text-anchor="start">A save alone does not prove mastery</text>
+<rect x="64" y="557" width="396" height="247" rx="20" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<rect x="88" y="581" width="42" height="34" rx="10" fill="#EEEFFA" stroke="none" stroke-width="1.5"/>
+<text x="109" y="605" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="middle">06</text>
+<text x="88" y="660" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="30" font-weight="650" fill="#20243B" text-anchor="start">Adapt what is next</text>
+<text x="88" y="699" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">After required methods complete,</text>
+<text x="88" y="730" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">tailor the next eligible section.</text>
+<text x="88" y="779" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#167B70" text-anchor="start">Objective + method mix + pacing</text>
+<path d="M468 338 H502" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M494 343 L502 338 L494 333" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M914 338 H948" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M940 343 L948 338 L940 333" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1154 470 V549" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1149 541 L1154 549 L1159 541" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M948 680 H914" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M922 675 L914 680 L922 685" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M502 680 H468" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M476 675 L468 680 L476 685" fill="none" stroke="#596078" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M262 813 V853 H1384 V338 H1360" fill="none" stroke="#167B70" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7"/>
+<path d="M1368 333 L1360 338 L1368 343" fill="none" stroke="#167B70" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="576" y="833" width="634" height="40" rx="0" fill="#F8F8F5" stroke="none" stroke-width="1.5"/>
+<text x="893" y="860" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="600" fill="#167B70" text-anchor="middle">Evidence shapes the next section</text>
+<rect x="64" y="902" width="1288" height="66" rx="16" fill="#FFFFFF" stroke="#C9CDD9" stroke-width="1.5"/>
+<text x="91" y="944" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#5753C7" text-anchor="start">FOCUS BY DESIGN</text>
+<text x="304" y="944" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" font-weight="400" fill="#596078" text-anchor="start">Current section visible · completed history available · future content hidden</text>
+</svg>
