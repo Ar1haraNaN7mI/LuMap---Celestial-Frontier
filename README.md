@@ -203,7 +203,7 @@ The model grades ordinary activity responses against the displayed task. Listeni
 | **Adaptive Path** | Inspect the current learning evidence, method observations, misconceptions and the reason for a next step. |
 | **Interest profile** | Submit a public profile URL for readable-page analysis; confirm or remove the model's suggested interests. Import history for local aggregate suggestions. |
 | **Handoff** | Export a validated course-and-evidence JSON package and import it on another device via Files or AirDrop. |
-| **Personal** | Resume learning projects, review activity history and assessment results, and manage appearance and the reward wallet. |
+| **Personal** | Resume learning projects on Mac and iPhone, start optional theory/practice checks, review activity history and assessment results, and manage appearance and the reward wallet. |
 | **Persona** | A macOS floating companion with current-course summaries, questions, another explanation and a learning timer. It appears when the main window is minimized. |
 | **Rewards** | A persistent local ledger, duplicate-award protection and an unlimited demo learning allowance. Themes are unlocked. |
 
@@ -558,7 +558,7 @@ On macOS:
 ./Scripts/install-kokoro-voice-pack.sh
 ```
 
-The installer downloads a pinned official model archive, validates its size and SHA-256, and installs it into Lumap's sandbox Application Support directory. On iOS, import an already downloaded and extracted model folder in Settings. The app validates its required files before copying it into local storage. Reopen the narrated lesson after installation so its playback session detects the pack.
+The installer downloads a pinned official model archive, validates its size and SHA-256, and installs it into Lumap's sandbox Application Support directory. On iOS, import an already downloaded and extracted model folder in Settings. The app validates its required files before copying it into local storage. Return to the narrated lesson after installation; voice availability refreshes on activation, and the player also offers a manual pack check.
 
 Without the voice pack, slides and the full script—including quiz prompts and answers—remain available; playback and narrated-video export clearly report that narration is unavailable. There is no hidden system-TTS fallback. The [voice integration document](docs/Open_Source_Voice_Integration.md) describes the model manifest, installation and platform details.
 
@@ -580,6 +580,8 @@ The Mac build is written to `.build/DerivedData/Build/Products/Debug/Lumap.app`.
 
 ## Tests and a reproducible demo
 
+The [30 September learning-flow update](docs/updates/2026-09-30-learning-polish.md) adds iPhone optional assessments and project resume, reliable terminal course status, cancellable section adaptation, quiz-safe narration, and recommendation invalidation after profile changes. Its verification run passed **81 default tests** (3 explicit opt-ins skipped), both platform builds, and a separate real-provider assessment test. The update includes actual synthetic-input model output and a manual walkthrough.
+
 ```bash
 xcodebuild -project Lumap.xcodeproj -scheme Lumap \
   -configuration Debug -destination 'platform=macOS' \
@@ -590,7 +592,7 @@ Tests cover contracts and citations, course isolation, persistence, progression,
 
 ### Recorded validation
 
-The latest application validation recorded for **0.3.0, source revision `2e55dd7`**, was performed on **30 September 2026**. These are development checks, not a hosted CI badge or a learning-outcome evaluation.
+The earlier baseline validation recorded for **0.3.0, source revision `2e55dd7`**, was performed on **30 September 2026**. These are development checks, not a hosted CI badge or a learning-outcome evaluation.
 
 | Check | Observed result | What it establishes |
 | --- | --- | --- |

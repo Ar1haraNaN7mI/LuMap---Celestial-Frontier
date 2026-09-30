@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct MobileProgressView: View {
+    var onResumeLearning: () -> Void = {}
     @EnvironmentObject private var store: LumapStore
     @Query(sort: \LearningGoal.updatedAt, order: .reverse) private var goals: [LearningGoal]
     @Query(sort: \ActivityRecord.completedAt, order: .reverse) private var activities: [ActivityRecord]
@@ -46,6 +47,25 @@ struct MobileProgressView: View {
                 learningWallet
                 personaAppearance
 
+                if store.currentGoal != nil {
+                    NavigationLink {
+                        MobileAssessmentView()
+                    } label: {
+                        HStack(spacing: 12) {
+                            MobileIconTile(systemImage: "checkmark.bubble.fill", color: MobileTheme.mint)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(store.t("Check your understanding", "检测你的理解")).font(.headline)
+                                Text(store.t("Optional theory and practical checks for your current path", "针对当前路径的可选理论与实践检测"))
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .mobileCard()
+                }
+
                 if goals.isEmpty {
                     ContentUnavailableView(
                         store.t("No learning evidence yet", "还没有学习证据"),
@@ -72,10 +92,26 @@ struct MobileProgressView: View {
                             HStack {
                                 Text(goal.status.capitalized)
                                 Spacer()
-                                Text(store.t("Step \(goal.currentStep) of \(goal.totalSteps)", "第 \(goal.currentStep) 步，共 \(goal.totalSteps) 步"))
+                                Text(goal.status == "completed"
+                                     ? store.t("Evidence saved", "证据已保存")
+                                     : store.t("Current section \(goal.currentStep)", "当前第 \(goal.currentStep) 节"))
                             }
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            if goal.status == "completed" {
+                                Label(store.t("Path completed · review your evidence below", "路径已完成 · 下方可回顾学习证据"), systemImage: "checkmark.seal.fill")
+                                    .font(.caption).foregroundStyle(MobileTheme.mint)
+                            } else {
+                                Button(store.t("Resume learning", "继续学习"), systemImage: "play.fill") {
+                                    do {
+                                        try store.resumeGoal(goal)
+                                        onResumeLearning()
+                                    }
+                                    catch { actionError = error.localizedDescription }
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .frame(minHeight: 44)
+                            }
                         }
                         .mobileCard()
                     }
@@ -119,7 +155,7 @@ struct MobileProgressView: View {
                                     assessment.kind == AssessmentKind.practical.rawValue
                                         ? store.t("Practical check", "实践检测")
                                         : store.t("Theory check", "理论检测"),
-                                    systemImage: assessment.kind == AssessmentKind.practical.rawValue ? "arkit" : "text.bubble.fill"
+                                    systemImage: assessment.kind == AssessmentKind.practical.rawValue ? "wrench.and.screwdriver" : "text.bubble.fill"
                                 )
                                 .font(.headline)
                                 Spacer()

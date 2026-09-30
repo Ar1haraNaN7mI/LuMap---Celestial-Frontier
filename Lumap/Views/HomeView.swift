@@ -28,7 +28,7 @@ struct HomeView: View {
             .frame(maxWidth: 980)
             .frame(maxWidth: .infinity)
         }
-        .task { await store.refreshPersonalizedRecommendations() }
+        .task(id: store.recommendationContextRevision) { await store.refreshPersonalizedRecommendations() }
         .toolbar {
             ToolbarItemGroup {
                 Button {

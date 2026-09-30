@@ -96,6 +96,15 @@ final class LumapStore: ObservableObject {
     @Published var dialogueMessages: [LearningDialogueTurn] = []
     @Published var adaptiveReason = ""
     @Published var sessionEvidence = LearningSessionEvidence()
+    @Published var recommendationContextRevision = 0
+    var recommendationTask: Task<Void, Never>?
+    var recommendationRequestID = UUID()
+    var recommendationGenerator: LearningRecommendationGenerator?
+    var sectionAdaptationTask: Task<Void, Never>?
+    var sectionAdaptationRequestID = UUID()
+    var sectionAdapter: (LearningCoursePlan, String, String, ProviderConfiguration) async throws -> LearningPathNode = { plan, nodeID, context, configuration in
+        try await LearningAgentService.adaptSection(plan: plan, nodeID: nodeID, learnerContext: context, configuration: configuration)
+    }
     var planningTask: Task<Void, Never>?
     var activityTask: Task<Void, Never>?
     var activityWatchdog: Task<Void, Never>?
@@ -250,6 +259,7 @@ final class LumapStore: ObservableObject {
         profile.updatedAt = .now
         try commit(context)
         objectWillChange.send()
+        invalidatePersonalizedRecommendations()
         bannerMessage = t("Profile saved locally", "资料已保存到本地")
     }
 
@@ -258,6 +268,7 @@ final class LumapStore: ObservableObject {
         profile.interfaceLanguage = language.rawValue
         profile.updatedAt = .now
         try commit(context)
+        invalidatePersonalizedRecommendations()
         objectWillChange.send()
     }
 
@@ -268,6 +279,7 @@ final class LumapStore: ObservableObject {
         try commit(context)
         resetLearningAgentState()
         restoreLearningAgentState()
+        invalidatePersonalizedRecommendations()
         objectWillChange.send()
     }
 
@@ -316,6 +328,7 @@ final class LumapStore: ObservableObject {
         guard let context else { throw LumapStoreError.notConfigured }
         interest.status = "confirmed"
         try commit(context)
+        invalidatePersonalizedRecommendations()
         objectWillChange.send()
     }
 
@@ -323,6 +336,7 @@ final class LumapStore: ObservableObject {
         guard let context else { throw LumapStoreError.notConfigured }
         context.delete(interest)
         try commit(context)
+        invalidatePersonalizedRecommendations()
         recommendationBatch += 1
     }
 
@@ -420,6 +434,7 @@ final class LumapStore: ObservableObject {
         }
         currentGoal = goal
         resetLearningAgentState()
+        invalidatePersonalizedRecommendations()
         currentMethod = .guidedExplanation
         personaPrompt = learningText("Let's map the first idea in \(clean).", "我们先梳理 \(clean) 的第一个概念。")
         selectedSection = .studio
@@ -461,6 +476,7 @@ final class LumapStore: ObservableObject {
         }
         currentGoal = goal
         resetLearningAgentState()
+        invalidatePersonalizedRecommendations()
         currentMethod = LearningMethod(rawValue: goal.preferredMethodID) ?? .guidedExplanation
         restoreLearningAgentState()
         selectedSection = .studio
@@ -471,6 +487,9 @@ final class LumapStore: ObservableObject {
             evaluationRequestID = UUID()
             isEvaluatingActivity = false
             activityTask?.cancel()
+            activityWatchdog?.cancel()
+            activityTask = nil
+            activityGenerationStartedAt = nil
             activityRequestID = UUID()
             isGeneratingActivity = false
             activeActivity = nil
@@ -1063,12 +1082,14 @@ final class LumapStore: ObservableObject {
         providerStyle = style
         objectWillChange.send()
         providerTestState = "Configured locally · generation not tested"
+        invalidatePersonalizedRecommendations()
     }
 
     func deleteProviderAPIKey() throws {
         try LumapKeychainStore.delete(account: "active-provider")
         objectWillChange.send()
         providerTestState = "API key removed"
+        invalidatePersonalizedRecommendations()
     }
 
     func testProvider() async {

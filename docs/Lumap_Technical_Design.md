@@ -4,13 +4,25 @@
 
 macOS 与 iOS 应用架构及逐项功能实现方案
 
-版本 0.7　｜　2026 年 9 月 30 日　｜　对应产品需求 PRD 0.7、Lumap macOS 0.1.0 与 iOS 0.2.0
+版本 0.8　｜　2026 年 9 月 30 日　｜　对应产品需求 PRD 0.8、Lumap macOS/iOS 0.3.0
 
 本文把 Lumap PRD 的 F01 至 F30 全部功能转为可供开发拆分的技术方案，面向 macOS、iOS、空间计算、AI、数据及测试开发者。每项功能说明数据与接口、执行流程、异常处理和验证方式；共用的数据约束与事件机制在前部定义，避免各模块独立实现后产生状态冲突。
 
 建议采用 macOS 14 起的原生 SwiftUI 与 AppKit 应用，以 SwiftData 保存独立学习档案，通过可替换模型适配器生成内容。推荐规则、授权、学习状态、评分有效性、奖励和桌宠调度由本地程序控制。公开主页、浏览器记录、文件与可选画面感知通过独立适配器进入系统。
 
 Lumap 已建立独立的原生 macOS 0.1.0 与 iOS 0.2.0 targets，已接入真实检索、模型生成与评估，并支持缓存内容的本地恢复；新生成与评分需要网络。本文同时承担两项职责：标明当前代码已经实现的行为及入口，并定义后续 H1 至 H4 的目标合同。逐功能章节中的完整协议、版本、策略和恢复流程仍是目标架构；若与“当前实现快照”不一致，以快照和应用界面明确标出的原型边界为当前事实。Lumap 不迁移 VoiceClass 数据，也不复用其 bundle identifier、数据库或密钥。
+
+## 0.8 本轮状态与恢复实现
+
+`AssessmentSessionModel` 是 macOS/iOS 共用的检测展示状态：context 为 goalID/planID/nodeID/language，准备和评分任务分别维护 request ID。取消、换题和换上下文后不接受旧结果；实践提交必须包含预测、观察和修正，成功提交后的同一回答不能重复提交。Store 在真实评分返回后再次验证上下文及取消状态，并在同一 SwiftData 保存中写入评估、学习证据和奖励，失败时回滚。
+
+`sectionAdaptationTask` / `sectionAdaptationRequestID` 使下一节模型编排可取消。旧任务的成功、错误和 defer 清理都受身份保护；`retryLearningGeneration` 根据本节完成状态把失败重试路由到下一节适配。`synchronizeLearningCompletion` 从真实已完成小节集合计算进度和 terminal status，并兼容恢复旧版 100% 但仍 active 的记录。
+
+`LumapStore+Recommendations` 维护公开给主页的 `recommendationContextRevision` 和私有请求身份。资料/已确认兴趣、语言、供应商、课程导入/切换、已保存证据变化后失效旧建议；视图 `.task(id:)` 按修订刷新。失效自身不发网络请求。主动刷新取消并替代在途请求，避免响应倒序覆盖。
+
+`NarratedLessonProgress` 将章节、听完集合、Quiz 回答和当前播放 UUID 收敛成可测试状态。未复核的 Quiz 阻止 seek；只有匹配当前 UUID 的音频完成回调可记入听完集合。课件证据 ID 使用 nodeID + deckID，避免不同章节因供应商重复 ID 合并奖励。AR 预览不再写入真实检测记录。
+
+本轮结果、实际模型输出与复现命令见[功能优化验证记录](updates/2026-09-30-learning-polish.md)。原有 0.7 快照及后文长期架构保留，以上增补优先。
 
 ## 00 当前实现快照（0.7）
 

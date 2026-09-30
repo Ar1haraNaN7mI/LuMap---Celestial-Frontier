@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 /// than a wall-clock timer, advances slides and opens relevant retrieval checks.
 struct NarratedLessonPlayerView: View {
     @EnvironmentObject private var store: LumapStore
+    @Environment(\.scenePhase) private var scenePhase
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     #endif
@@ -16,11 +17,7 @@ struct NarratedLessonPlayerView: View {
     @StateObject private var narration = NarrationSession.makeDefault()
     @State private var deck: NarratedLearningDeck?
     @State private var modelID = ""
-    @State private var slideIndex = 0
-    @State private var narratedSlides: Set<Int> = []
-    @State private var quizResults: [String: NarratedDeckQuizResult] = [:]
-    @State private var pendingQuiz: NarratedDeckQuiz?
-    @State private var selectedOption: String?
+    @State private var lessonProgress = NarratedLessonProgress(slides: [])
     @State private var autoplay = false
     @State private var generationError: String?
     @State private var retryNonce = 0
@@ -42,6 +39,11 @@ struct NarratedLessonPlayerView: View {
     }
 
     private var chinese: Bool { store.learningLanguage == .simplifiedChinese }
+    private var slideIndex: Int { lessonProgress.slideIndex }
+    private var narratedSlides: Set<Int> { lessonProgress.narratedSlides }
+    private var quizResults: [String: NarratedDeckQuizResult] { lessonProgress.quizResults }
+    private var pendingQuiz: NarratedDeckQuiz? { lessonProgress.pendingQuiz }
+    private var selectedOption: String? { lessonProgress.selectedOption }
     private func text(_ english: String, _ chinese: String) -> String { store.learningText(english, chinese) }
     private var generationKey: String {
         "\(store.activePlan?.id ?? "")|\(store.currentLearningNode?.id ?? "")|\(topic)|\(sourceLabel ?? "")|\((store.lessonSourceText ?? sourceExcerpt)?.hashValue ?? 0)|\(store.learningLanguage.rawValue)|\(retryNonce)"
@@ -78,6 +80,8 @@ struct NarratedLessonPlayerView: View {
                 if !voiceReady {
                     Label(text("Install the Kokoro voice pack in Settings to play or export full narration. The complete script is available below.", "请在设置中安装 Kokoro 语音包，以播放或导出完整讲解。完整教学稿可在下方查看。"), systemImage: "waveform.badge.exclamationmark")
                         .font(.callout).foregroundStyle(.orange)
+                    Button(text("Check installed voice pack", "检查已安装的语音包")) { narration.refreshAvailability() }
+                        .font(.caption).buttonStyle(.bordered)
                 }
                 DisclosureGroup(text("Complete teaching script · all \(deck.slides.count) slides", "完整教学稿 · 共 \(deck.slides.count) 页")) {
                     Text(deck.teachingScript).font(.callout).textSelection(.enabled)
@@ -88,6 +92,7 @@ struct NarratedLessonPlayerView: View {
                 if let completionError { Text(completionError).font(.caption).foregroundStyle(.red) }
                 HStack {
                     Button(didSave ? text("Learning evidence saved", "学习证据已保存") : text("Save completed lesson", "保存完成的课程")) {
+                        guard lessonProgress.isComplete, !didSave else { return }
                         let artifact = NarratedDeckSessionArtifact(
                             deckTitle: deck.title, slideSummaries: deck.slides.map(\.summary),
                             narratedSlideNumbers: narratedSlides.sorted(), narrationStatus: .completed,
@@ -102,7 +107,7 @@ struct NarratedLessonPlayerView: View {
                         } catch { completionError = error.localizedDescription }
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(didSave || narratedSlides.count != deck.slides.count || quizResults.count < deck.slides.compactMap(\.quiz).count)
+                    .disabled(didSave || !lessonProgress.isComplete)
                     Spacer()
                     Text(text("\(narratedSlides.count)/\(deck.slides.count) listened · \(quizResults.count) checks", "已完整听取 \(narratedSlides.count)/\(deck.slides.count) 页 · \(quizResults.count) 次检测"))
                         .font(.caption).foregroundStyle(.secondary)
@@ -125,12 +130,17 @@ struct NarratedLessonPlayerView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
+            narration.refreshAvailability()
             if store.currentMethod != .narratedDeck { try? store.setMethod(.narratedDeck) }
         }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { narration.refreshAvailability() }
+        }
         .task(id: generationKey) { await generate() }
-        .onChange(of: narration.playbackState) { _, state in playbackChanged(state) }
+        .onChange(of: narration.playbackEvent) { _, event in playbackChanged(event) }
         .onDisappear {
             autoplay = false
+            lessonProgress.cancelPlayback()
             narration.stop()
             cancelExport()
         }
@@ -166,7 +176,7 @@ struct NarratedLessonPlayerView: View {
                         .font(.caption.weight(.medium)).padding(.horizontal, 12).padding(.vertical, 10)
                         .foregroundStyle(slideIndex == index ? Color.white : Color.primary)
                         .background(slideIndex == index ? Color.indigo : Color.secondary.opacity(0.10), in: Capsule())
-                    }.buttonStyle(.plain)
+                    }.buttonStyle(.plain).disabled(pendingQuiz != nil)
                 }
             }
         }
@@ -177,14 +187,14 @@ struct NarratedLessonPlayerView: View {
             ProgressView(value: narration.progress).tint(.indigo)
             HStack(spacing: 12) {
                 Button { seek(slideIndex - 1) } label: { Image(systemName: "backward.end.fill") }
-                    .disabled(slideIndex == 0).accessibilityLabel(text("Previous chapter", "上一章"))
+                    .disabled(slideIndex == 0 || pendingQuiz != nil).accessibilityLabel(text("Previous chapter", "上一章"))
                 Button { togglePlayback() } label: {
                     Label(activePlayback ? text("Pause", "暂停") : text("Play lesson", "播放课程"), systemImage: activePlayback ? "pause.fill" : "play.fill")
                         .frame(minHeight: 26)
                 }.buttonStyle(.borderedProminent).disabled(!voiceReady || pendingQuiz != nil)
                 Button { seek(slideIndex + 1) } label: { Image(systemName: "forward.end.fill") }
-                    .disabled(slideIndex + 1 == deck.slides.count).accessibilityLabel(text("Next chapter", "下一章"))
-                Button { autoplay = false; narration.stop() } label: { Image(systemName: "stop.fill") }
+                    .disabled(slideIndex + 1 == deck.slides.count || pendingQuiz != nil).accessibilityLabel(text("Next chapter", "下一章"))
+                Button { autoplay = false; lessonProgress.cancelPlayback(); narration.stop() } label: { Image(systemName: "stop.fill") }
                     .accessibilityLabel(text("Stop", "停止"))
                 Spacer(minLength: 0)
                 Button { narration.setMuted(!narration.isMuted) } label: {
@@ -214,9 +224,7 @@ struct NarratedLessonPlayerView: View {
             Text(quiz.prompt).font(.body.weight(.medium))
             ForEach(quiz.options) { option in
                 Button {
-                    guard selectedOption == nil else { return }
-                    selectedOption = option.id
-                    quizResults[quiz.id] = .init(quizID: quiz.id, selectedOptionID: option.id, wasCorrect: option.id == quiz.correctOptionID)
+                    lessonProgress.answerQuiz(optionID: option.id)
                 } label: {
                     HStack {
                         Image(systemName: selectedOption == option.id ? "checkmark.circle.fill" : "circle")
@@ -230,8 +238,7 @@ struct NarratedLessonPlayerView: View {
                 Text(selectedOption == quiz.correctOptionID ? text("Correct — \(quiz.explanation)", "正确 — \(quiz.explanation)") : quiz.explanation)
                     .font(.callout).foregroundStyle(.secondary)
                 Button(text("Continue the lesson", "继续课程")) {
-                    pendingQuiz = nil
-                    self.selectedOption = nil
+                    guard lessonProgress.dismissAnsweredQuiz() else { return }
                     advance()
                 }.buttonStyle(.borderedProminent)
             }
@@ -290,6 +297,7 @@ struct NarratedLessonPlayerView: View {
     private func videoButton(_ deck: NarratedLearningDeck) -> some View {
         Button {
             autoplay = false
+            lessonProgress.cancelPlayback()
             narration.stop()
             exportError = nil
             exportedVideo = nil
@@ -328,10 +336,7 @@ struct NarratedLessonPlayerView: View {
         autoplay = false
         narration.stop()
         deck = nil
-        pendingQuiz = nil
-        selectedOption = nil
-        quizResults = [:]
-        narratedSlides = []
+        lessonProgress = .init(slides: [])
         didSave = false
         completionError = nil
         generationError = nil
@@ -342,7 +347,7 @@ struct NarratedLessonPlayerView: View {
                                 learnerContext: store.learnerContextForGeneration + "\nOverall goal (context only): " + topic + "\nTeach only this section. Lesson objective: " + (store.currentLearningNode?.objective ?? topic), maximumSlideCount: 6,
                                 courseID: store.activePlan?.id, nodeID: store.currentLearningNode?.id), useCache: retryNonce == 0)
             try Task.checkCancellation()
-            slideIndex = 0
+            lessonProgress = .init(slides: outcome.response.deck.slides)
             modelID = outcome.response.modelID
             deck = outcome.response.deck
         } catch is CancellationError { return }
@@ -357,36 +362,27 @@ struct NarratedLessonPlayerView: View {
     }
 
     private func playCurrentSlide() {
-        guard let deck, pendingQuiz == nil, deck.slides.indices.contains(slideIndex) else { return }
+        guard let deck, let requestID = lessonProgress.beginPlayback() else { return }
         narration.play(.init(text: deck.slides[slideIndex].narration, languageCode: store.learningLanguage.rawValue,
-                             voiceID: chinese ? "zf_001" : "af_maple", speakingRate: 1))
+                             voiceID: chinese ? "zf_001" : "af_maple", speakingRate: 1), requestID: requestID)
     }
 
     private func seek(_ index: Int) {
-        guard let deck, deck.slides.indices.contains(index) else { return }
+        guard lessonProgress.seek(index) else { return }
         let continuePlaying = autoplay && pendingQuiz == nil
         narration.stop()
-        slideIndex = index
-        pendingQuiz = nil
-        selectedOption = nil
         autoplay = continuePlaying
         if continuePlaying { playCurrentSlide() }
     }
 
-    private func playbackChanged(_ state: NarrationPlaybackState) {
-        guard state == .completed, autoplay, voiceReady, let deck else { return }
-        let slide = deck.slides[slideIndex]
-        narratedSlides.insert(slide.index)
-        if let quiz = slide.quiz, quizResults[quiz.id] == nil {
-            pendingQuiz = quiz
-            selectedOption = nil
-        } else { advance() }
+    private func playbackChanged(_ event: NarrationPlaybackEvent) {
+        guard event.state == .completed, voiceReady,
+              lessonProgress.finishPlayback(requestID: event.requestID) else { return }
+        if pendingQuiz == nil, autoplay { advance() }
     }
 
     private func advance() {
-        guard let deck else { return }
-        if slideIndex + 1 < deck.slides.count {
-            slideIndex += 1
+        if lessonProgress.seek(slideIndex + 1) {
             if autoplay { playCurrentSlide() }
         } else { autoplay = false }
     }

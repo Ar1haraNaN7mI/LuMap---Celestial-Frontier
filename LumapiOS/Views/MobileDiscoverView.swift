@@ -163,7 +163,7 @@ struct MobileDiscoverView: View {
             .padding(.bottom, 24)
         }
         .background(MobileTheme.background)
-        .task { await store.refreshPersonalizedRecommendations() }
+        .task(id: store.recommendationContextRevision) { await store.refreshPersonalizedRecommendations() }
         .navigationTitle("Lumap")
         .navigationBarTitleDisplayMode(.inline)
         .fileImporter(

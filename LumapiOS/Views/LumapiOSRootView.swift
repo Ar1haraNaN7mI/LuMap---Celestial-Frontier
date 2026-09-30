@@ -37,7 +37,7 @@ struct LumapiOSRootView: View {
             .tag(MobileTab.methods)
 
             NavigationStack {
-                MobileProgressView()
+                MobileProgressView(onResumeLearning: { selectedTab = .learn })
             }
             .tabItem { Label(store.t("Personal", "我的"), systemImage: "person.crop.circle.fill") }
             .tag(MobileTab.progress)

@@ -25,8 +25,7 @@ struct LearningAgentStatusView: View {
                 HStack {
                     Button(store.t("Retry", "重试")) {
                         Task {
-                            if store.activePlan == nil { await store.prepareLearningPlan(force: true) }
-                            else { await store.ensureLearningActivity(method: store.currentMethod, force: true) }
+                            await store.retryLearningGeneration()
                         }
                     }.buttonStyle(.borderedProminent)
                     Button(store.t("Model settings", "模型设置")) { store.selectedSection = .settings }
@@ -172,6 +171,10 @@ struct LearningSectionContinueView: View {
             .buttonStyle(.borderedProminent)
             .disabled(!store.canContinueLearningSection || store.isAdaptingSection || store.isGeneratingActivity || store.isPlanning)
             .accessibilityIdentifier("continue-learning-section")
+            if store.isAdaptingSection {
+                Button(store.t("Stop preparing", "停止编排")) { store.cancelLearningGeneration() }
+                    .buttonStyle(.borderless)
+            }
             Text(store.canContinueLearningSection
                  ? store.t("Your next activity follows the evidence from this section.", "下一项活动会根据本节的学习证据安排。")
                  : store.t("Complete the current activity before continuing.", "完成当前活动后即可继续。"))

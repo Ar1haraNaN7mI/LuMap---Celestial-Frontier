@@ -7,6 +7,90 @@ import XCTest
 
 @MainActor
 final class NarratedLessonMVPTests: XCTestCase {
+    func testCheckpointCannotBeSkippedOrDismissedBeforeAnswering() async throws {
+        let fixture = try await validFixture()
+        var progress = NarratedLessonProgress(slides: fixture.deck.slides)
+        let checkpoint = try XCTUnwrap(fixture.deck.slides.firstIndex { $0.quiz != nil })
+        XCTAssertTrue(progress.seek(checkpoint))
+        let request = try XCTUnwrap(progress.beginPlayback())
+        XCTAssertTrue(progress.finishPlayback(requestID: request))
+        let quiz = try XCTUnwrap(progress.pendingQuiz)
+        XCTAssertFalse(progress.seek(checkpoint + 1))
+        XCTAssertFalse(progress.seek(0))
+        XCTAssertNil(progress.beginPlayback())
+        XCTAssertFalse(progress.dismissAnsweredQuiz())
+        XCTAssertFalse(progress.answerQuiz(optionID: "not-an-option"))
+        XCTAssertTrue(progress.quizResults.isEmpty)
+        XCTAssertTrue(progress.answerQuiz(optionID: quiz.correctOptionID))
+        XCTAssertFalse(progress.answerQuiz(optionID: quiz.options[0].id))
+        XCTAssertFalse(progress.seek(checkpoint + 1), "The learner reviews the feedback before navigating.")
+        XCTAssertTrue(progress.dismissAnsweredQuiz())
+        XCTAssertTrue(progress.seek(checkpoint + 1))
+    }
+
+    func testLateAudioCompletionNeverCreditsTheNewChapter() async throws {
+        let fixture = try await validFixture()
+        var progress = NarratedLessonProgress(slides: fixture.deck.slides)
+        let oldRequest = try XCTUnwrap(progress.beginPlayback())
+        XCTAssertTrue(progress.seek(1))
+        let currentRequest = try XCTUnwrap(progress.beginPlayback())
+        XCTAssertFalse(progress.finishPlayback(requestID: oldRequest))
+        XCTAssertTrue(progress.narratedSlides.isEmpty)
+        XCTAssertTrue(progress.finishPlayback(requestID: currentRequest))
+        XCTAssertEqual(progress.narratedSlides, [fixture.deck.slides[1].index])
+        XCTAssertFalse(progress.finishPlayback(requestID: currentRequest), "Duplicate completion callbacks must be ignored.")
+    }
+
+    func testStoppedNarrationIsNotLearningEvidence() async throws {
+        let fixture = try await validFixture()
+        var progress = NarratedLessonProgress(slides: fixture.deck.slides)
+        let request = try XCTUnwrap(progress.beginPlayback())
+        progress.cancelPlayback()
+        XCTAssertFalse(progress.finishPlayback(requestID: request))
+        XCTAssertFalse(progress.finishPlayback(requestID: nil))
+        XCTAssertTrue(progress.narratedSlides.isEmpty)
+        XCTAssertFalse(progress.isComplete)
+    }
+
+    func testCompletionRequiresEveryFullChapterAndReviewedCheckpoint() async throws {
+        XCTAssertFalse(NarratedLessonProgress(slides: []).isComplete)
+        let fixture = try await validFixture()
+        var progress = NarratedLessonProgress(slides: fixture.deck.slides)
+        for index in fixture.deck.slides.indices {
+            XCTAssertFalse(progress.isComplete)
+            XCTAssertTrue(progress.seek(index))
+            let request = try XCTUnwrap(progress.beginPlayback())
+            XCTAssertTrue(progress.finishPlayback(requestID: request))
+            if let quiz = progress.pendingQuiz {
+                XCTAssertFalse(progress.isComplete)
+                let option = try XCTUnwrap(quiz.options.first { $0.id != quiz.correctOptionID })
+                XCTAssertTrue(progress.answerQuiz(optionID: option.id))
+                XCTAssertEqual(progress.quizResults[quiz.id]?.wasCorrect, false)
+                XCTAssertFalse(progress.isComplete)
+                XCTAssertTrue(progress.dismissAnsweredQuiz())
+            }
+        }
+        XCTAssertTrue(progress.isComplete, "A completed attempt preserves incorrect answers for adaptation.")
+        let checkpoint = try XCTUnwrap(fixture.deck.slides.firstIndex { $0.quiz != nil })
+        XCTAssertTrue(progress.seek(checkpoint))
+        let replay = try XCTUnwrap(progress.beginPlayback())
+        XCTAssertTrue(progress.finishPlayback(requestID: replay))
+        XCTAssertNil(progress.pendingQuiz, "Replaying does not replace the first assessed answer.")
+        XCTAssertTrue(progress.isComplete)
+    }
+
+    func testCancelledLessonRequestExitsBeforeProviderWork() async {
+        let request = Task { @MainActor in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return try await NarratedDeckGenerationCoordinator(configuration: nil)
+                .generate(.init(topic: "Photosynthesis", languageCode: "en"))
+        }
+        do {
+            _ = try await request.value
+            XCTFail("A cancelled lesson request must not start provider or cache work.")
+        } catch { XCTAssertTrue(error is CancellationError) }
+    }
+
     func testAOneSlideProviderResponseIsRejected() async throws {
         let fixture = try await validFixture()
         let short = replacingSlides(in: fixture, slides: Array(fixture.deck.slides.prefix(1)))

@@ -83,6 +83,10 @@ extension LumapStore {
 
     func resetLearningAgentState() {
         planningTask?.cancel()
+        sectionAdaptationTask?.cancel()
+        sectionAdaptationTask = nil
+        sectionAdaptationRequestID = UUID()
+        isAdaptingSection = false
         activityTask?.cancel()
         activityWatchdog?.cancel()
         planningTask = nil
@@ -120,6 +124,13 @@ extension LumapStore {
         if let node = currentLearningNode {
             activeActivity = sessionEvidence.activities[activityCacheKey(nodeID: node.id, method: currentMethod)]
         }
+        if let activity = activeActivity,
+           let attempt = sessionEvidence.attempts.last(where: { $0.activityID == activity.id && $0.nodeID == currentLearningNode?.id }) {
+            activityFeedback = attempt.evaluation
+            evaluatedResponse = attempt.response
+        }
+        synchronizeLearningCompletion()
+        do { try context?.save() } catch { learningError = error.localizedDescription }
     }
 
     func prepareLearningPlan(force: Bool = false) async {
@@ -193,6 +204,10 @@ extension LumapStore {
 
     func cancelLearningGeneration() {
         planningTask?.cancel()
+        sectionAdaptationTask?.cancel()
+        sectionAdaptationTask = nil
+        sectionAdaptationRequestID = UUID()
+        isAdaptingSection = false
         activityTask?.cancel()
         activityWatchdog?.cancel()
         planningRequestID = UUID()
@@ -408,24 +423,49 @@ extension LumapStore {
             }
             let mastered = Set(sessionEvidence.completedNodeIDs)
             guard let next = plan.nodes.first(where: { !mastered.contains($0.id) && Set($0.prerequisiteIDs).isSubset(of: mastered) }) else {
+                guard plan.nodes.allSatisfy({ mastered.contains($0.id) }) else {
+                    throw LearningSessionError.sectionLocked
+                }
+                synchronizeLearningCompletion()
+                try persistLearningAgentState()
                 bannerMessage = t("You completed this learning path. Start a new question whenever you are ready.", "你已完成这条学习路径，随时可以开始新的问题。")
                 return
             }
             guard let config = providerConfigurationForGeneration() else { throw LearningSessionError.providerRequired }
+            let requestID = UUID()
+            sectionAdaptationRequestID = requestID
             isAdaptingSection = true
-            defer { isAdaptingSection = false }
-            let refined = try await LearningAgentService.adaptSection(plan: plan, nodeID: next.id,
-                learnerContext: learnerContextForGeneration, configuration: config)
-            guard currentGoal?.id == goalID, activePlan?.id == plan.id, currentLearningNode?.id == node.id else {
-                throw LearningSessionError.sessionChanged
+            let learnerContext = learnerContextForGeneration
+            let task = Task { [weak self] in
+                guard let self else { return }
+                defer {
+                    if self.sectionAdaptationRequestID == requestID {
+                        self.isAdaptingSection = false
+                        self.sectionAdaptationTask = nil
+                    }
+                }
+                do {
+                    let refined = try await self.sectionAdapter(plan, next.id, learnerContext, config)
+                    try Task.checkCancellation()
+                    guard self.sectionAdaptationRequestID == requestID,
+                          self.currentGoal?.id == goalID, self.activePlan?.id == plan.id,
+                          self.currentLearningNode?.id == node.id else { return }
+                    self.replaceLearningNode(refined)
+                    try self.selectLearningNode(refined.id, unlocking: true)
+                    try self.setMethod(self.sectionMethods.first ?? .guidedExplanation)
+                    self.sessionEvidence.currentMethodID = self.currentMethod.rawValue
+                    self.adaptiveReason = self.t("This section was adapted using your latest answers and method outcomes.", "这一环节已结合你刚才的回答和方式表现重新适配。")
+                    try self.persistLearningAgentState()
+                    await self.ensureLearningActivity(method: self.currentMethod)
+                } catch is CancellationError { }
+                catch {
+                    if self.sectionAdaptationRequestID == requestID, self.currentGoal?.id == goalID {
+                        self.learningError = error.localizedDescription
+                    }
+                }
             }
-            replaceLearningNode(refined)
-            try selectLearningNode(refined.id, unlocking: true)
-            try setMethod(sectionMethods.first ?? .guidedExplanation)
-            sessionEvidence.currentMethodID = currentMethod.rawValue
-            adaptiveReason = t("This section was adapted using your latest answers and method outcomes.", "这一环节已结合你刚才的回答和方式表现重新适配。")
-            try persistLearningAgentState()
-            await ensureLearningActivity(method: currentMethod)
+            sectionAdaptationTask = task
+            await task.value
         } catch {
             if currentGoal?.id == goalID { learningError = error.localizedDescription }
         }
@@ -441,7 +481,7 @@ extension LumapStore {
     }
 
     private func recordSectionMethodCompletion(_ method: LearningMethod) {
-        guard let node = currentLearningNode, let goal = currentGoal, let plan = activePlan,
+        guard let node = currentLearningNode, currentGoal != nil, activePlan != nil,
               (activityFeedback?.score ?? 0) >= 70 else { return }
         var completions = sessionEvidence.completedSectionMethods ?? [:]
         var methods = Set(completions[node.id] ?? [])
@@ -459,7 +499,25 @@ extension LumapStore {
         if currentSectionIsComplete, !sessionEvidence.completedNodeIDs.contains(node.id) {
             sessionEvidence.completedNodeIDs.append(node.id)
         }
-        goal.progress = Double(sessionEvidence.completedNodeIDs.count) / Double(max(1, plan.nodes.count))
+        synchronizeLearningCompletion()
+    }
+
+    /// Persist a terminal course state from assessed section evidence, not button taps.
+    func synchronizeLearningCompletion() {
+        guard let goal = currentGoal, let plan = activePlan, !plan.nodes.isEmpty else { return }
+        let completed = Set(sessionEvidence.completedNodeIDs).intersection(Set(plan.nodes.map(\.id)))
+        goal.totalSteps = plan.nodes.count
+        goal.progress = Double(completed.count) / Double(plan.nodes.count)
+        if completed.count == plan.nodes.count {
+            goal.status = "completed"
+            goal.currentStep = plan.nodes.count
+        }
+    }
+
+    func retryLearningGeneration() async {
+        if activePlan == nil { await prepareLearningPlan(force: true) }
+        else if currentSectionIsComplete { await continueLearningSection() }
+        else { await ensureLearningActivity(method: currentMethod, force: true) }
     }
 
     @discardableResult
@@ -468,9 +526,16 @@ extension LumapStore {
         guard !artifact.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw LearningSessionError.emptyResponse }
         let activityID = method == .narratedDeck ? (sessionEvidence.attempts.last { $0.nodeID == goal.agentNodeID && $0.methodID == method.rawValue }?.activityID ?? "\(goal.agentNodeID):\(method.rawValue)") : (activeActivity?.methodID == method.rawValue ? activeActivity!.id : "\(goal.agentNodeID):\(method.rawValue)")
         if sessionEvidence.savedActivityIDs.contains(activityID) {
-            if activeActivity?.id == activityID { recordSectionMethodCompletion(method) }
-            try persistLearningAgentState()
-            return false
+            let snapshot = sessionEvidence
+            do {
+                let key = "generated:\(goal.id):\(activityID)"
+                let existing = try context.fetch(FetchDescriptor<ActivityRecord>()).first { $0.rewardEventKey == key }
+                existing?.artifactText = artifact
+                if activeActivity?.id == activityID || method == .narratedDeck { recordSectionMethodCompletion(method) }
+                try persistLearningAgentState()
+                invalidatePersonalizedRecommendations()
+                return false
+            } catch { context.rollback(); sessionEvidence = snapshot; throw error }
         }
         let key = "generated:\(goal.id):\(activityID)"
         let snapshot = sessionEvidence
@@ -488,18 +553,28 @@ extension LumapStore {
             goal.agentSessionData = try JSONEncoder().encode(sessionEvidence)
             try context.save()
             objectWillChange.send()
-            bannerMessage = t("Activity saved · +10 Lumens", "活动已保存 · +10 光点")
+            bannerMessage = goal.status == "completed"
+                ? t("Learning path completed · +10 Lumens", "学习路径已完成 · +10 光点")
+                : t("Activity saved · +10 Lumens", "活动已保存 · +10 光点")
+            invalidatePersonalizedRecommendations()
             return true
         } catch { context.rollback(); sessionEvidence = snapshot; throw error }
     }
 
     func prepareAssessmentActivity(kind: AssessmentKind) async throws -> LearningGeneratedActivity {
-        if activePlan == nil { await prepareLearningPlan() }
-        guard let plan = activePlan, let node = currentLearningNode else { throw LearningSessionError.courseRequired }
+        try Task.checkCancellation()
         guard let config = providerConfigurationForGeneration() else { throw LearningSessionError.providerRequired }
-        return try await LearningAgentService.activity(plan: plan, nodeID: node.id,
+        if activePlan == nil { await prepareLearningPlan() }
+        try Task.checkCancellation()
+        guard let plan = activePlan, let node = currentLearningNode, let goalID = currentGoal?.id else { throw LearningSessionError.courseRequired }
+        let activity = try await LearningAgentService.activity(plan: plan, nodeID: node.id,
             methodID: (kind == .theoretical ? LearningMethod.teachBack : .transferChallenge).rawValue,
             learnerContext: learnerContextForGeneration, configuration: config)
+        try Task.checkCancellation()
+        guard currentGoal?.id == goalID, activePlan?.id == plan.id, currentLearningNode?.id == node.id else {
+            throw LearningSessionError.sessionChanged
+        }
+        return activity
     }
 
     func evaluateAssessment(kind: AssessmentKind, response: String, prompt: String? = nil,
@@ -520,27 +595,24 @@ extension LumapStore {
         let evaluation = try await LearningAgentService.evaluate(plan: plan, activity: assessed, response: response,
             learnerContext: learnerContextForGeneration, configuration: config)
         guard currentGoal?.id == goal.id, currentLearningNode?.id == nodeID, activePlan?.id == plan.id else { throw LearningSessionError.sessionChanged }
-        sessionEvidence.attempts.append(.init(id: UUID(), nodeID: nodeID, activityID: activity.id,
-            methodID: activity.methodID, response: response, evaluation: evaluation, durationSeconds: 0, createdAt: .now))
-        let record = AssessmentRecord(goalID: goal.id, kind: kind, status: "reviewed", score: evaluation.score,
-            feedback: evaluation.feedback, evidenceSummary: "AI rubric /100; node \(nodeID); \(evaluation.misconceptions.joined(separator: "; "))")
-        context.insert(record)
-        _ = try award(delta: 15, reason: "Completed an evidence-based \(kind.rawValue) check", eventKey: "agent-assessment:\(goal.id):\(kind.rawValue):\(nodeID)", context: context)
-        // Optional assessments inform adaptation, but cannot bypass assigned section activities.
-        try persistLearningAgentState()
-        return record
-    }
-
-    func refreshPersonalizedRecommendations(force: Bool = false) async {
-        guard !isRefreshingRecommendations, force || suggestedTopics.isEmpty,
-              let config = providerConfigurationForGeneration() else { return }
-        isRefreshingRecommendations = true
-        recommendationError = nil
-        defer { isRefreshingRecommendations = false }
+        try Task.checkCancellation()
+        let snapshot = sessionEvidence
         do {
-            suggestedTopics = try await LearningAgentService.recommendations(learnerContext: learnerContextForGeneration,
-                excluding: Array(dismissedSuggestions.suffix(24)), configuration: config)
-        } catch { recommendationError = error.localizedDescription }
+            sessionEvidence.attempts.append(.init(id: UUID(), nodeID: nodeID, activityID: activity.id,
+                methodID: activity.methodID, response: response, evaluation: evaluation, durationSeconds: 0, createdAt: .now))
+            let record = AssessmentRecord(goalID: goal.id, kind: kind, status: "reviewed", score: evaluation.score,
+                feedback: evaluation.feedback, evidenceSummary: "AI rubric /100; node \(nodeID); \(evaluation.misconceptions.joined(separator: "; "))")
+            context.insert(record)
+            _ = try award(delta: 15, reason: "Completed an evidence-based \(kind.rawValue) check", eventKey: "agent-assessment:\(goal.id):\(kind.rawValue):\(nodeID)", context: context)
+            // Optional assessments inform adaptation, but cannot bypass assigned section activities.
+            try persistLearningAgentState()
+            invalidatePersonalizedRecommendations()
+            return record
+        } catch {
+            context.rollback()
+            sessionEvidence = snapshot
+            throw error
+        }
     }
 
     func persistLearningAgentState() throws {
@@ -573,8 +645,12 @@ extension LumapStore {
             nextMethodID: score >= 70 ? LearningMethod.teachBack.rawValue : LearningMethod.workedExample.rawValue,
             nextNodeID: node.id,
             reason: learningText("Use a new response format to check transfer beyond recognising quiz answers.", "换一种作答形式，检测是否能超越选项识别并迁移理解。"))
-        guard !sessionEvidence.attempts.contains(where: { $0.activityID == deck.id }) else { return }
-        sessionEvidence.attempts.append(LearningAttemptEvidence(id: UUID(), nodeID: node.id, activityID: deck.id,
+        let activityID = "narrated:\(node.id):\(deck.id)"
+        guard !sessionEvidence.attempts.contains(where: {
+            $0.nodeID == node.id && $0.methodID == LearningMethod.narratedDeck.rawValue
+                && ($0.activityID == activityID || $0.activityID == deck.id)
+        }) else { return }
+        sessionEvidence.attempts.append(LearningAttemptEvidence(id: UUID(), nodeID: node.id, activityID: activityID,
             methodID: LearningMethod.narratedDeck.rawValue, response: "All chapters listened. Quiz score: \(score)/100",
             evaluation: evaluation, durationSeconds: 0, createdAt: .now))
         adaptiveReason = evaluation.reason

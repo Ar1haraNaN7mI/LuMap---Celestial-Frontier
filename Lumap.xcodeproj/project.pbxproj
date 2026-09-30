@@ -11,6 +11,8 @@
 		09C8BE7148D94388B884807B /* LumapStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */; };
 		105C9A4E298B08B6BB957F98 /* GroundedStudyWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */; };
 		16EF9268CBB1BAE02128F4F0 /* LumapTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB720C61F1B30B015CC947A /* LumapTheme.swift */; };
+		193DA6D2B2F489C6FA6DA365 /* AssessmentSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58A021B3E29A9B12615D76B /* AssessmentSessionModel.swift */; };
+		1E6C6354DBBB03F48422735F /* AssessmentSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58A021B3E29A9B12615D76B /* AssessmentSessionModel.swift */; };
 		233E4225571C9DFB6E1C7F0D /* MobileGroundedStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */; };
 		247BF4081185A81A93BBF553 /* LumapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */; };
 		2B6802264CDF7CDB179E22EC /* NarratedDeckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */; };
@@ -45,6 +47,7 @@
 		7FFDB8F3E22D24B294EF98C2 /* LearningIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB74D415C0F1DA3E00C0572A /* LearningIntelligenceModels.swift */; };
 		81ABC82B1E5C7B3570E1F551 /* sherpa-onnx in Frameworks */ = {isa = PBXBuildFile; productRef = 72896EE2C495685FF709C861 /* sherpa-onnx */; };
 		8F3C5BAF75B0C180D9528800 /* LumapAIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */; };
+		9089D6193C4CC828F88DFE0A /* AssessmentSessionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA434061A626C2EF4403BF /* AssessmentSessionModelTests.swift */; };
 		91DCFBAFC33EA79E85C659CA /* LearningAgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */; };
 		94A9FF403FBC4A9ABFA5F126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 660B8CF456D18037DB71D5DF /* Assets.xcassets */; };
 		96F74183D5498719EAE3E651 /* MobileDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7E4BA0E71D15CFB5AC0DC /* MobileDiscoverView.swift */; };
@@ -61,12 +64,15 @@
 		A55AD84A9F03E42D206D2424 /* LessonPresentationExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */; };
 		A6AF9E079539BB13FAF4246D /* LearningAgentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E932209C31F5565118A80F3C /* LearningAgentServiceTests.swift */; };
 		A732C63BD11EBCB6B76F9FA2 /* LumapStore+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */; };
+		AA1263A79B1A93AFD1B43008 /* LearningRecommendationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB0BA26B40FC92BF51E51F /* LearningRecommendationTests.swift */; };
+		AC78BD5ACB1B66D1207FC353 /* MobileAssessmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA054022182DB0EB5670EF6 /* MobileAssessmentView.swift */; };
 		B4426950F940049D94FF3C7C /* LearningWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A8217AC4E338C55FFC3D3 /* LearningWorkspaceView.swift */; };
 		BD8328D1676A9C90D0871201 /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA48ED56D9C892CDE932F76 /* RewardsView.swift */; };
 		C5500B2A1F0A3D301D3483F2 /* MobileProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2595F83CCBD02763F998F291 /* MobileProgressView.swift */; };
 		C638F4D47618B316050D8784 /* LumapAIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */; };
 		C80347B19BD984CEE398D034 /* LumapStore+LearningAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */; };
 		C9CCBD6167FF5A9EAE2BA3F7 /* LumapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */; };
+		CA9087925AD177341950C68F /* LumapStore+Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431EB9C6B18DBE94A21DCD14 /* LumapStore+Recommendations.swift */; };
 		CC9FAEDEA3A582033A1859FB /* sherpa-onnx in Frameworks */ = {isa = PBXBuildFile; productRef = 52D50E2D697C8572516F6B2A /* sherpa-onnx */; };
 		D38D5050C6209579615B586F /* LearningAgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02604E11E20B9FCA46F564 /* LearningAgentService.swift */; };
 		D45A7017A73958FED0490B98 /* SpatialLearningCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */; };
@@ -80,6 +86,7 @@
 		E52F59A541316D96C0CCDAC0 /* LumapKeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */; };
 		E879316A5044B3F5024F2E53 /* SpatialLearningCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */; };
 		EB8F1087E4020D61326747CD /* KokoroVoicePackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB217F24F9F26CA4BE88F0D6 /* KokoroVoicePackManager.swift */; };
+		ECCFB8B558D15B591DC5AD3F /* LumapStore+Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431EB9C6B18DBE94A21DCD14 /* LumapStore+Recommendations.swift */; };
 		F1B9387F85654441D424B196 /* AssessmentHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63537254453CDE2ADF5D23F2 /* AssessmentHubView.swift */; };
 		F30468F47DA2C7368B59FE41 /* GroundedStudyWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */; };
 		F469F4C5B293FBD53427D050 /* LearningResearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FB51A9C07A39D54A62FB24 /* LearningResearchService.swift */; };
@@ -99,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapStore.swift; sourceTree = "<group>"; };
+		0FA054022182DB0EB5670EF6 /* MobileAssessmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAssessmentView.swift; sourceTree = "<group>"; };
 		104F02CCA86B2584E305DBDA /* MobileSpatialLearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSpatialLearningView.swift; sourceTree = "<group>"; };
 		1B3F1C8FA1C5594042D72F4A /* LearningAgentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAgentStatusView.swift; sourceTree = "<group>"; };
 		247DAAC09D8C4DB03C0203D9 /* LessonPresentationExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonPresentationExporter.swift; sourceTree = "<group>"; };
@@ -106,6 +114,7 @@
 		2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileGroundedStudyView.swift; sourceTree = "<group>"; };
 		2FC516B02FDDE23A9D577396 /* LumapLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapLocalization.swift; sourceTree = "<group>"; };
 		37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLearningActivityView.swift; sourceTree = "<group>"; };
+		431EB9C6B18DBE94A21DCD14 /* LumapStore+Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LumapStore+Recommendations.swift"; sourceTree = "<group>"; };
 		4BEB34CE1AAF6F8B9BD1937C /* LumapModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapModels.swift; sourceTree = "<group>"; };
 		4DCC77AE468E0CCA87C9028A /* GroundedStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedStudyView.swift; sourceTree = "<group>"; };
 		4F0F371167B2A484ECECCECE /* FutureLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureLabView.swift; sourceTree = "<group>"; };
@@ -125,6 +134,7 @@
 		7ECE0BA337FF889CBDE4E636 /* LumapAIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapAIClient.swift; sourceTree = "<group>"; };
 		812C22AB5A85872DFCE97A69 /* NarratedLessonMVPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarratedLessonMVPTests.swift; sourceTree = "<group>"; };
 		8A286EFF0B0D9E318A04AEBF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8AAA434061A626C2EF4403BF /* AssessmentSessionModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentSessionModelTests.swift; sourceTree = "<group>"; };
 		8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LumapStore+LearningAgent.swift"; sourceTree = "<group>"; };
 		917513F43AE0EEE335319AC0 /* MobileFutureLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileFutureLabView.swift; sourceTree = "<group>"; };
 		9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapStoreTests.swift; sourceTree = "<group>"; };
@@ -133,10 +143,12 @@
 		98A6FE29852C880481A5E215 /* MobileNarratedDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileNarratedDeckView.swift; sourceTree = "<group>"; };
 		9FB3813F6E908A33C1943DEB /* LumapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapKeychainStore.swift; sourceTree = "<group>"; };
+		A58A021B3E29A9B12615D76B /* AssessmentSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentSessionModel.swift; sourceTree = "<group>"; };
 		A93C3764EB804D9E7CE0CAEE /* GroundedStudyWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedStudyWorkflow.swift; sourceTree = "<group>"; };
 		ADA48ED56D9C892CDE932F76 /* RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsView.swift; sourceTree = "<group>"; };
 		B29DCDB1D9F2B9B4446C5F13 /* PersonalHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalHubView.swift; sourceTree = "<group>"; };
 		B2B279970E0682BF6F5012E4 /* LumapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumapApp.swift; sourceTree = "<group>"; };
+		B6CB0BA26B40FC92BF51E51F /* LearningRecommendationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRecommendationTests.swift; sourceTree = "<group>"; };
 		B9C245D94D21F21951A96398 /* Lumap.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Lumap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarratedDeckService.swift; sourceTree = "<group>"; };
 		BEFBDAD4DA3C8187E9F241A6 /* MobileARKitProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileARKitProvider.swift; sourceTree = "<group>"; };
@@ -204,6 +216,7 @@
 				37BC8F189143272BA3D9BAAE /* AgentLearningActivityView.swift */,
 				D8011EE5B0AB8473302C7607 /* AppShellView.swift */,
 				63537254453CDE2ADF5D23F2 /* AssessmentHubView.swift */,
+				A58A021B3E29A9B12615D76B /* AssessmentSessionModel.swift */,
 				4F0F371167B2A484ECECCECE /* FutureLabView.swift */,
 				4DCC77AE468E0CCA87C9028A /* GroundedStudyView.swift */,
 				8A286EFF0B0D9E318A04AEBF /* HomeView.swift */,
@@ -271,6 +284,7 @@
 				A3F4873B330C59F22F84FA9A /* LumapKeychainStore.swift */,
 				0D6ED8AFB92FA44E73B6C315 /* LumapStore.swift */,
 				8CD422B99EB7987BE99D39A1 /* LumapStore+LearningAgent.swift */,
+				431EB9C6B18DBE94A21DCD14 /* LumapStore+Recommendations.swift */,
 				FACC920F25E6361921DB87F7 /* LumapStore+Workspace.swift */,
 				BDA32D2C1ABAD40B4A693AE4 /* NarratedDeckService.swift */,
 				F1B55489A2C31B2A4316C7F1 /* SpatialLearningCapability.swift */,
@@ -290,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				7C8473BDB4103F855F4AA730 /* LumapiOSRootView.swift */,
+				0FA054022182DB0EB5670EF6 /* MobileAssessmentView.swift */,
 				D3D7E4BA0E71D15CFB5AC0DC /* MobileDiscoverView.swift */,
 				917513F43AE0EEE335319AC0 /* MobileFutureLabView.swift */,
 				2926D8C27ACB672E9CFCC3D9 /* MobileGroundedStudyView.swift */,
@@ -306,8 +321,10 @@
 		9EBD22C28AFF413FAA1520BB /* LumapTests */ = {
 			isa = PBXGroup;
 			children = (
+				8AAA434061A626C2EF4403BF /* AssessmentSessionModelTests.swift */,
 				E932209C31F5565118A80F3C /* LearningAgentServiceTests.swift */,
 				E1009FC5DA5904FACE7B5B5E /* LearningAgentStoreTests.swift */,
+				B6CB0BA26B40FC92BF51E51F /* LearningRecommendationTests.swift */,
 				56074591B02426C9DD67A61D /* LearningWorkspaceTests.swift */,
 				9460E86D82ABAB6F192D300E /* LumapStoreTests.swift */,
 				812C22AB5A85872DFCE97A69 /* NarratedLessonMVPTests.swift */,
@@ -489,6 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E8EF61594E09F35664CA2F2 /* AgentLearningActivityView.swift in Sources */,
+				1E6C6354DBBB03F48422735F /* AssessmentSessionModel.swift in Sources */,
 				F30468F47DA2C7368B59FE41 /* GroundedStudyWorkflow.swift in Sources */,
 				EB8F1087E4020D61326747CD /* KokoroVoicePackManager.swift in Sources */,
 				D38D5050C6209579615B586F /* LearningAgentService.swift in Sources */,
@@ -503,11 +521,13 @@
 				6A7800D21BBAAC511747836B /* LumapLocalization.swift in Sources */,
 				247BF4081185A81A93BBF553 /* LumapModels.swift in Sources */,
 				C80347B19BD984CEE398D034 /* LumapStore+LearningAgent.swift in Sources */,
+				ECCFB8B558D15B591DC5AD3F /* LumapStore+Recommendations.swift in Sources */,
 				A732C63BD11EBCB6B76F9FA2 /* LumapStore+Workspace.swift in Sources */,
 				6FB9C74CE32D6086336BDC0D /* LumapStore.swift in Sources */,
 				687E2019A43B27BD168C314B /* LumapiOSApp.swift in Sources */,
 				5448D1E2E41410B7F42AD6F5 /* LumapiOSRootView.swift in Sources */,
 				33CBC0FD794C7AACE4504709 /* MobileARKitProvider.swift in Sources */,
+				AC78BD5ACB1B66D1207FC353 /* MobileAssessmentView.swift in Sources */,
 				96F74183D5498719EAE3E651 /* MobileDiscoverView.swift in Sources */,
 				9BD3D2AC821E5B43492711E2 /* MobileFutureLabView.swift in Sources */,
 				233E4225571C9DFB6E1C7F0D /* MobileGroundedStudyView.swift in Sources */,
@@ -531,6 +551,7 @@
 				A51C5FBA310CE43D3A97FD01 /* AgentLearningActivityView.swift in Sources */,
 				F69817DA0F3C3911539EB7A8 /* AppShellView.swift in Sources */,
 				F1B9387F85654441D424B196 /* AssessmentHubView.swift in Sources */,
+				193DA6D2B2F489C6FA6DA365 /* AssessmentSessionModel.swift in Sources */,
 				786BDDEE2EC831DB573D3122 /* FutureLabView.swift in Sources */,
 				9D9921E7F499CD3DA8D2FFB6 /* GroundedStudyView.swift in Sources */,
 				105C9A4E298B08B6BB957F98 /* GroundedStudyWorkflow.swift in Sources */,
@@ -552,6 +573,7 @@
 				6AD1A683419D619B64C98ED9 /* LumapLocalization.swift in Sources */,
 				A3CC34EB10FA735DFB3E9D74 /* LumapModels.swift in Sources */,
 				F68283C9AD029D98210913D2 /* LumapStore+LearningAgent.swift in Sources */,
+				CA9087925AD177341950C68F /* LumapStore+Recommendations.swift in Sources */,
 				0722024B09E5F7DE00B1B642 /* LumapStore+Workspace.swift in Sources */,
 				C9CCBD6167FF5A9EAE2BA3F7 /* LumapStore.swift in Sources */,
 				16EF9268CBB1BAE02128F4F0 /* LumapTheme.swift in Sources */,
@@ -571,8 +593,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9089D6193C4CC828F88DFE0A /* AssessmentSessionModelTests.swift in Sources */,
 				A6AF9E079539BB13FAF4246D /* LearningAgentServiceTests.swift in Sources */,
 				E01707AA66C70976E6E9AB52 /* LearningAgentStoreTests.swift in Sources */,
+				AA1263A79B1A93AFD1B43008 /* LearningRecommendationTests.swift in Sources */,
 				48AB84657DA9F7E340A7718D /* LearningWorkspaceTests.swift in Sources */,
 				09C8BE7148D94388B884807B /* LumapStoreTests.swift in Sources */,
 				6571EFE8FDA79E080F241949 /* NarratedLessonMVPTests.swift in Sources */,

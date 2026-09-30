@@ -1,0 +1,33 @@
+{
+  "activities" : {
+
+  },
+  "attempts" : [
+    {
+      "activityID" : "704AA6F0-C972-4AD2-9319-F39E826DB9C8",
+      "createdAt" : "2026-09-30T02:55:59Z",
+      "durationSeconds" : 0,
+      "evaluation" : {
+        "feedback" : "You correctly traced the sugar’s carbon to carbon dioxide in the air, distinguished light as energy rather than carbon, and connected carbon dioxide and water with sugar production. Add that water supplies hydrogen and oxygen, and that soil mainly supplies water and minerals rather than being the carbon source.",
+        "misconceptions" : [
+
+        ],
+        "nextMethodID" : "workedExample",
+        "nextNodeID" : "n2",
+        "reason" : "Your explanation accurately applies the carbon-source concept, with only a minor omission about water’s atoms and soil’s broader contributions.",
+        "score" : 90
+      },
+      "id" : "1D4A2382-F3C5-4DFA-B983-29A83F284589",
+      "methodID" : "teachBack",
+      "nodeID" : "n1",
+      "response" : "The carbon atoms in newly formed sugar come from carbon dioxide in the air. Photosynthesis uses light as an energy source to build sugar from carbon dioxide and water. Light is not matter and contributes no carbon atoms; soil minerals are not the principal source of the sugar's carbon. Carbon dioxide is taken into the plant and its carbon is incorporated into sugar."
+    }
+  ],
+  "completedNodeIDs" : [
+
+  ],
+  "currentMethodID" : "workedExample",
+  "savedActivityIDs" : [
+
+  ]
+}

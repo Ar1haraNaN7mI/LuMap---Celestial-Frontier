@@ -299,6 +299,7 @@ struct NarratedDeckGenerationCoordinator: Sendable {
     let configuration: ProviderConfiguration?
 
     func generate(_ request: NarratedDeckGenerationRequest, useCache: Bool = true) async throws -> NarratedDeckGenerationOutcome {
+        try Task.checkCancellation()
         guard let configuration else { throw NarratedDeckGenerationError.missingProvider }
         let cacheKey = NarratedDeckArchive.key(request: request, configuration: configuration)
         if useCache, let cached = NarratedDeckArchive.load(key: cacheKey),
@@ -318,6 +319,7 @@ struct NarratedDeckGenerationCoordinator: Sendable {
             guard let response = try await group.next() else { throw CancellationError() }
             return response
         }
+        try Task.checkCancellation()
         NarratedDeckArchive.save(response, key: cacheKey)
         return .init(response: response, origin: .remote(modelID: configuration.model))
     }
@@ -601,6 +603,84 @@ enum NarrationPlaybackState: String, Codable, Equatable, Sendable {
     case failed
 }
 
+/// Completion belongs to the playback request that actually finished, not to
+/// whichever chapter happens to be visible when SwiftUI delivers the event.
+struct NarrationPlaybackEvent: Equatable, Sendable {
+    let requestID: UUID?
+    let state: NarrationPlaybackState
+}
+
+/// A checkpoint stays attached to its chapter until its answer is reviewed.
+/// Keeping this independent of audio makes navigation and evidence verifiable
+/// without a voice pack, timers or a running player.
+struct NarratedLessonProgress: Equatable, Sendable {
+    let slides: [NarratedDeckSlide]
+    private(set) var slideIndex = 0
+    private(set) var narratedSlides: Set<Int> = []
+    private(set) var quizResults: [String: NarratedDeckQuizResult] = [:]
+    private(set) var pendingQuiz: NarratedDeckQuiz?
+    private(set) var selectedOption: String?
+    private(set) var activePlaybackID: UUID?
+
+    var isComplete: Bool {
+        let expected = Set(slides.map(\.index))
+        return !slides.isEmpty && expected == narratedSlides && pendingQuiz == nil
+            && slides.compactMap(\.quiz).allSatisfy { quiz in
+                guard let result = quizResults[quiz.id] else { return false }
+                return quiz.options.contains { $0.id == result.selectedOptionID }
+            }
+    }
+
+    mutating func beginPlayback() -> UUID? {
+        guard pendingQuiz == nil, slides.indices.contains(slideIndex) else { return nil }
+        let id = UUID()
+        activePlaybackID = id
+        return id
+    }
+
+    mutating func cancelPlayback() { activePlaybackID = nil }
+
+    @discardableResult
+    mutating func finishPlayback(requestID: UUID?) -> Bool {
+        guard let requestID, requestID == activePlaybackID,
+              slides.indices.contains(slideIndex) else { return false }
+        activePlaybackID = nil
+        let slide = slides[slideIndex]
+        narratedSlides.insert(slide.index)
+        if let quiz = slide.quiz, quizResults[quiz.id] == nil {
+            pendingQuiz = quiz
+            selectedOption = nil
+        }
+        return true
+    }
+
+    @discardableResult
+    mutating func seek(_ index: Int) -> Bool {
+        guard pendingQuiz == nil, slides.indices.contains(index) else { return false }
+        activePlaybackID = nil
+        slideIndex = index
+        return true
+    }
+
+    @discardableResult
+    mutating func answerQuiz(optionID: String) -> Bool {
+        guard let quiz = pendingQuiz, selectedOption == nil,
+              quiz.options.contains(where: { $0.id == optionID }) else { return false }
+        selectedOption = optionID
+        quizResults[quiz.id] = .init(quizID: quiz.id, selectedOptionID: optionID,
+                                   wasCorrect: optionID == quiz.correctOptionID)
+        return true
+    }
+
+    @discardableResult
+    mutating func dismissAnsweredQuiz() -> Bool {
+        guard pendingQuiz != nil, selectedOption != nil else { return false }
+        pendingQuiz = nil
+        selectedOption = nil
+        return true
+    }
+}
+
 /// A playback-facing boundary. A real sherpa-onnx/Kokoro implementation owns
 /// model loading, PCM generation and audio output behind this protocol. The UI
 /// never calls AVSpeechSynthesizer and never silently substitutes a system voice.
@@ -627,6 +707,8 @@ final class NarrationSession: ObservableObject, NarrationProviding {
     @Published private(set) var playbackState: NarrationPlaybackState
     @Published private(set) var progress: Double
     @Published private(set) var isMuted: Bool
+    @Published private(set) var playbackEvent: NarrationPlaybackEvent
+    private var requestID: UUID?
 
     let voicePackDirectory: URL
 
@@ -642,6 +724,7 @@ final class NarrationSession: ObservableObject, NarrationProviding {
         self.playbackState = provider.playbackState
         self.progress = provider.progress
         self.isMuted = provider.isMuted
+        self.playbackEvent = .init(requestID: nil, state: provider.playbackState)
         providerObservation = provider.objectWillChange.sink { [weak self] _ in
             Task { @MainActor [weak self] in
                 // ObservableObject announces immediately before @Published
@@ -657,15 +740,13 @@ final class NarrationSession: ObservableObject, NarrationProviding {
 
         #if canImport(SherpaOnnx) && canImport(AVFoundation)
         let sherpaProvider = SherpaKokoroNarrationProvider(voicePackDirectory: voicePackDirectory)
-        if case .ready = sherpaProvider.availability {
-            return NarrationSession(provider: sherpaProvider, voicePackDirectory: voicePackDirectory)
-        }
-        #endif
-
+        return NarrationSession(provider: sherpaProvider, voicePackDirectory: voicePackDirectory)
+        #else
         return NarrationSession(
             provider: VoicePackRequiredNarrationProvider(),
             voicePackDirectory: voicePackDirectory
         )
+        #endif
     }
 
     static func invalidateCachedVoiceEngine() async {
@@ -675,6 +756,11 @@ final class NarrationSession: ObservableObject, NarrationProviding {
     }
 
     func play(_ request: NarrationRequest) {
+        play(request, requestID: UUID())
+    }
+
+    func play(_ request: NarrationRequest, requestID: UUID) {
+        self.requestID = requestID
         provider.play(request)
         synchroniseFromProvider()
     }
@@ -690,6 +776,7 @@ final class NarrationSession: ObservableObject, NarrationProviding {
     }
 
     func stop() {
+        requestID = nil
         provider.stop()
         synchroniseFromProvider()
     }
@@ -699,11 +786,19 @@ final class NarrationSession: ObservableObject, NarrationProviding {
         synchroniseFromProvider()
     }
 
+    func refreshAvailability() {
+        #if canImport(SherpaOnnx) && canImport(AVFoundation)
+        (provider as? SherpaKokoroNarrationProvider)?.refreshAvailability()
+        #endif
+        synchroniseFromProvider()
+    }
+
     private func synchroniseFromProvider() {
         availability = provider.availability
         playbackState = provider.playbackState
         progress = provider.progress
         isMuted = provider.isMuted
+        playbackEvent = .init(requestID: requestID, state: provider.playbackState)
     }
 }
 
@@ -981,7 +1076,18 @@ final class SherpaKokoroNarrationProvider: NSObject, ObservableObject, Narration
         #endif
     }
 
+    func refreshAvailability() {
+        let installed = (try? KokoroVoicePackManager.validatePack(at: voicePackDirectory)) != nil
+        if !installed, playbackState == .preparing || playbackState == .playing || playbackState == .paused {
+            stop()
+        }
+        availability = installed
+            ? .ready(engine: "sherpa-onnx 1.13.8", voice: "Kokoro multilingual v1.1")
+            : .voicePackRequired(.sherpaKokoro)
+    }
+
     func play(_ request: NarrationRequest) {
+        refreshAvailability()
         guard case .ready = availability else {
             playbackState = .failed
             return

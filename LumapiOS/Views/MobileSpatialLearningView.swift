@@ -10,6 +10,7 @@ struct MobileSpatialLearningView: View {
     @State private var adjustment = ""
     @State private var modelValue = 0.45
     @State private var resultMessage: String?
+    @State private var previewNotes: String?
     @State private var errorMessage: String?
     @State private var anchorCount = 2
     @State private var selectedAnchor = 0
@@ -254,8 +255,10 @@ struct MobileSpatialLearningView: View {
 
     private var evidenceCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(store.t("Capture what changed", "记录发生了什么变化"))
+            Text(store.t("Reflect on the preview", "回顾这次预览"))
                 .font(.headline)
+            Text(store.t("These notes belong to this preview only. They do not create assessment scores, learning progress or Lumens. Share a copy to keep them.", "这些笔记仅保留在本次预览中，不会产生检测分数、学习进度或光点。你可以分享副本以保存。"))
+                .font(.caption).foregroundStyle(.secondary)
             evidenceField(store.t("Prediction", "预测"), text: $prediction)
             evidenceField(store.t("Observation", "观察"), text: $observation)
             evidenceField(store.t("Adjustment", "调整"), text: $adjustment)
@@ -263,17 +266,19 @@ struct MobileSpatialLearningView: View {
             Button {
                 submitEvidence()
             } label: {
-                Label(store.t("Save Practical Evidence", "保存实践证据"), systemImage: "checkmark.seal.fill")
+                Label(store.t("Capture preview notes", "记录预览笔记"), systemImage: "note.text")
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 44)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(store.currentGoal == nil || prediction.isEmpty || observation.isEmpty || adjustment.isEmpty)
+            .disabled([prediction, observation, adjustment].contains { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
 
-            if store.currentGoal == nil {
-                Label(store.t("Start a topic in Discover to save this evidence.", "请先在探索中开始一个主题，才能保存证据。"), systemImage: "info.circle")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            if let previewNotes {
+                ShareLink(item: previewNotes) {
+                    Label(store.t("Share preview notes", "分享预览笔记"), systemImage: "square.and.arrow.up")
+                        .frame(minHeight: 44)
+                }
+                .buttonStyle(.bordered)
             }
 
             if let resultMessage {
@@ -396,19 +401,17 @@ struct MobileSpatialLearningView: View {
     }
 
     private func submitEvidence() {
-        do {
-            let record = try store.submitPractical(
-                prediction: prediction,
-                observation: observation,
-                adjustment: adjustment
-            )
-            resultMessage = record.feedback
-            errorMessage = nil
-            selectedStep = spatialSteps.count
-        } catch {
-            resultMessage = nil
-            errorMessage = error.localizedDescription
-        }
+        guard ![prediction, observation, adjustment].contains(where: { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) else { return }
+        previewNotes = """
+        Lumap · AR concept preview notes (not assessed)
+        Simulated value: \(Int(modelValue * 100))%
+        Prediction: \(prediction)
+        Observation: \(observation)
+        Adjustment: \(adjustment)
+        """
+        resultMessage = store.t("Preview notes captured for this session. Share them to keep a copy; no score was recorded.", "已记录本次预览笔记。分享副本即可保存；未记录检测分数。")
+        errorMessage = nil
+        selectedStep = spatialSteps.count
     }
 }
 

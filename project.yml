@@ -67,6 +67,7 @@ targets:
       - path: Lumap/Views/AgentLearningActivityView.swift
       - path: Lumap/Views/NarratedLessonPlayerView.swift
       - path: Lumap/Views/LearningAgentStatusView.swift
+      - path: Lumap/Views/AssessmentSessionModel.swift
       - path: Lumap/Views/LearningWorkspaceView.swift
       - path: LumapiOS
     dependencies:

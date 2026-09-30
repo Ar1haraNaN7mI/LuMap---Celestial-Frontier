@@ -5,23 +5,18 @@ struct AssessmentHubView: View {
     @EnvironmentObject private var store: LumapStore
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Query(sort: \AssessmentRecord.createdAt, order: .reverse) private var attempts: [AssessmentRecord]
-    @State private var selectedKind: AssessmentKind = .theoretical
-    @State private var theoryAnswer = ""
-    @State private var theoryResult: AssessmentRecord?
-    @State private var prediction = ""
-    @State private var observation = ""
-    @State private var adjustment = ""
-    @State private var practicalResult: AssessmentRecord?
-    @State private var theoryActivity: LearningGeneratedActivity?
-    @State private var preparing = false
-    @State private var practicalActivity: LearningGeneratedActivity?
-    @State private var evaluating = false
+    @StateObject private var assessment = AssessmentSessionModel()
     @State private var showSpatialMock = false
     @State private var mockValue = 0.45
-    @State private var errorMessage: String?
+
+    private var sessionContext: AssessmentSessionContext { AssessmentSessionContext(store: store) }
+    private var currentAttempts: [AssessmentRecord] {
+        guard let goalID = store.currentGoal?.id else { return [] }
+        return attempts.filter { $0.goalID == goalID }
+    }
 
     private var theoryPrompt: String {
-        theoryActivity?.prompt ?? ""
+        assessment.context == sessionContext ? assessment.theoryActivity?.prompt ?? "" : ""
     }
 
     var body: some View {
@@ -44,20 +39,20 @@ struct AssessmentHubView: View {
                         }
                     } else {
                         Text(store.activeTopic).font(.title2.weight(.semibold))
-                        Picker("Assessment", selection: $selectedKind) {
+                        Picker("Assessment", selection: $assessment.selectedKind) {
                             Label(store.t("Theoretical", "理论检测"), systemImage: "brain.head.profile").tag(AssessmentKind.theoretical)
                             Label(store.t("Practical", "实践检测"), systemImage: "wrench.and.screwdriver").tag(AssessmentKind.practical)
                         }
                         .pickerStyle(.segmented)
-                        .disabled(evaluating)
-                        if selectedKind == .theoretical { theoryPanel } else { practicalPanel }
-                        if evaluating {
+                        .disabled(assessment.evaluating)
+                        if assessment.selectedKind == .theoretical { theoryPanel } else { practicalPanel }
+                        if assessment.evaluating {
                             HStack(spacing: 10) {
                                 ProgressView().controlSize(.small)
                                 Text(store.t("Checking your reasoning and evidence…", "正在检查你的推理和证据……")).foregroundStyle(.secondary)
                             }
                         }
-                        if let errorMessage {
+                        if let errorMessage = assessment.errorMessage {
                             Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
                                 .foregroundStyle(.orange).textSelection(.enabled)
                         }
@@ -82,13 +77,10 @@ struct AssessmentHubView: View {
                 .transition(.opacity)
             }
         }
-        .task(id: "\(store.currentGoal?.id.uuidString ?? "none")|\(store.currentLearningNode?.id ?? "none")|\(selectedKind.rawValue)") {
-            await prepareAssessment()
-        }
-        .onChange(of: store.currentGoal?.id) { _, _ in
-            theoryAnswer = ""; theoryResult = nil; prediction = ""; observation = ""; adjustment = ""
-            practicalResult = nil; practicalActivity = nil; errorMessage = nil
-        }
+        .task(id: sessionContext) { prepareAssessment() }
+        .onChange(of: assessment.selectedKind) { _, _ in prepareAssessment() }
+        .onChange(of: sessionContext) { _, _ in showSpatialMock = false }
+        .onDisappear { assessment.cancelRequests() }
     }
 
     private var theoryPanel: some View {
@@ -101,21 +93,21 @@ struct AssessmentHubView: View {
                     Text(theoryPrompt).font(.title3.weight(.semibold)).textSelection(.enabled)
                     Text(store.t("Explain the concept, show your reasoning, and test it with an example. The tutor evaluates the meaning of your answer.", "解释概念、展示推理，并用案例检验。导师将评估回答的实际含义。"))
                         .foregroundStyle(.secondary)
-                    TextEditor(text: $theoryAnswer)
+                    TextEditor(text: $assessment.theoryAnswer)
                         .scrollContentBackground(.hidden).padding(12).frame(minHeight: 170)
                         .background(LumapTheme.card, in: RoundedRectangle(cornerRadius: 14))
                         .overlay { RoundedRectangle(cornerRadius: 14).stroke(LumapTheme.border) }
-                        .disabled(evaluating)
+                        .disabled(assessment.evaluating)
                     HStack {
                         skipButton(.theoretical)
                         Spacer()
                         Button(store.t("Submit for feedback", "提交并获得反馈")) {
-                            Task { await evaluateTheory() }
+                            submitAssessment()
                         }
                         .buttonStyle(.borderedProminent)
-                        .disabled(evaluating || theoryAnswer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .disabled(!assessment.canSubmit)
                     }
-                    if let result = theoryResult { ResultCard(record: result) }
+                    if let result = assessment.theoryResult { ResultCard(record: result) }
                 }
             }
         }
@@ -125,7 +117,7 @@ struct AssessmentHubView: View {
         LumapCard(padding: 24) {
             VStack(alignment: .leading, spacing: 18) {
                 Label(store.t("Predict · Test · Revise", "预测 · 检验 · 修正"), systemImage: "wrench.and.screwdriver.fill").font(.headline)
-                if let activity = practicalActivity {
+                if assessment.context == sessionContext, let activity = assessment.practicalActivity {
                     Text(activity.title).font(.title3.weight(.semibold))
                     Text(activity.explanation).foregroundStyle(.secondary)
                     Text(activity.prompt).font(.headline)
@@ -133,19 +125,19 @@ struct AssessmentHubView: View {
                         Text(example).padding(12).frame(maxWidth: .infinity, alignment: .leading)
                             .background(LumapTheme.card, in: RoundedRectangle(cornerRadius: 12))
                     }
-                    assessmentField(title: store.t("1. Your prediction or approach", "1. 你的预测或操作方案"), placeholder: store.t("Describe what you will test and why.", "说明你要检验什么，以及原因。"), text: $prediction)
-                    assessmentField(title: store.t("2. Observed or calculated result", "2. 观察或计算的结果"), placeholder: store.t("Give the result, calculation, or evidence from your attempt.", "提供尝试的结果、计算过程或证据。"), text: $observation)
-                    assessmentField(title: store.t("3. What you would revise", "3. 你会修正什么"), placeholder: store.t("Compare the evidence with your prediction.", "比较实际证据与最初预测。"), text: $adjustment)
+                    assessmentField(title: store.t("1. Your prediction or approach", "1. 你的预测或操作方案"), placeholder: store.t("Describe what you will test and why.", "说明你要检验什么，以及原因。"), text: $assessment.prediction)
+                    assessmentField(title: store.t("2. Observed or calculated result", "2. 观察或计算的结果"), placeholder: store.t("Give the result, calculation, or evidence from your attempt.", "提供尝试的结果、计算过程或证据。"), text: $assessment.observation)
+                    assessmentField(title: store.t("3. What you would revise", "3. 你会修正什么"), placeholder: store.t("Compare the evidence with your prediction.", "比较实际证据与最初预测。"), text: $assessment.adjustment)
                     HStack {
                         skipButton(.practical)
                         Spacer()
                         Button(store.t("Evaluate practical evidence", "评估实践证据")) {
-                            Task { await evaluatePractice(activity) }
+                            submitAssessment()
                         }
                         .buttonStyle(.borderedProminent)
-                        .disabled(evaluating || [prediction, observation, adjustment].contains { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
+                        .disabled(!assessment.canSubmit)
                     }
-                    if let result = practicalResult { ResultCard(record: result) }
+                    if let result = assessment.practicalResult { ResultCard(record: result) }
                 } else { preparationState }
                 DisclosureGroup(store.t("AR concept preview", "AR 概念展示")) {
                     VStack(alignment: .leading, spacing: 10) {
@@ -162,36 +154,44 @@ struct AssessmentHubView: View {
 
     private var preparationState: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if store.isPlanning || store.isGeneratingActivity {
+            if assessment.preparing {
                 ProgressView(store.t("Preparing a check for your topic…", "正在为你的主题准备检测……"))
+                Button(store.t("Cancel preparation", "取消准备")) { assessment.cancelRequests() }
+                    .buttonStyle(.bordered)
             } else {
-                Text(store.learningError ?? store.t("The agent needs to prepare this check.", "Agent 需要先准备这次检测。"))
+                Text(assessment.errorMessage == nil
+                     ? store.t("The agent needs to prepare this check.", "Agent 需要先准备这次检测。")
+                     : store.t("Your draft is safe. Try preparing this check again.", "你的草稿已保留，请重试准备检测。"))
                     .foregroundStyle(.secondary)
-                Button(store.t("Prepare check", "准备检测")) { Task { await prepareAssessment() } }
+                Button(store.t("Prepare check", "准备检测")) { prepareAssessment() }
                     .buttonStyle(.borderedProminent)
             }
+            skipButton(assessment.selectedKind)
         }.padding(.vertical, 12)
     }
 
     private func skipButton(_ kind: AssessmentKind) -> some View {
         Button(store.t("Skip for now", "暂时跳过")) {
-            do { try store.skipAssessment(kind: kind) }
-            catch { errorMessage = error.localizedDescription }
-        }.buttonStyle(.bordered).disabled(evaluating)
+            do {
+                try store.skipAssessment(kind: kind)
+                store.selectedSection = .studio
+            }
+            catch { assessment.errorMessage = error.localizedDescription }
+        }.buttonStyle(.bordered).disabled(assessment.evaluating)
     }
 
     private var recentAttempts: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(store.t("Recent evidence", "最近的学习证据")).font(.title3.bold())
-            if attempts.isEmpty {
+            if currentAttempts.isEmpty {
                 Text(store.t("No assessments yet. Your learning path is still fully available.", "还没有检测记录，你仍然可以完整使用学习路径。"))
                     .foregroundStyle(.secondary)
             } else {
-                ForEach(attempts.prefix(4)) { attempt in
+                ForEach(currentAttempts.prefix(4)) { attempt in
                     HStack(spacing: 12) {
                         Image(systemName: attempt.kind == AssessmentKind.theoretical.rawValue ? "brain.head.profile" : "wrench.and.screwdriver")
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(attempt.kind.capitalized).font(.subheadline.weight(.semibold))
+                            Text(attempt.kind == AssessmentKind.theoretical.rawValue ? store.t("Theory check", "理论检测") : store.t("Practical check", "实践检测")).font(.subheadline.weight(.semibold))
                             Text(attempt.feedback).font(.caption).foregroundStyle(.secondary).lineLimit(3)
                         }
                         Spacer()
@@ -208,50 +208,33 @@ struct AssessmentHubView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title).font(.subheadline.weight(.semibold))
             TextField(placeholder, text: text, axis: .vertical)
-                .textFieldStyle(.roundedBorder).lineLimit(3...8).disabled(evaluating)
+                .textFieldStyle(.roundedBorder).lineLimit(3...8).disabled(assessment.evaluating)
         }
     }
 
-    @MainActor private func prepareAssessment() async {
-        guard store.currentGoal != nil else { return }
-        let kind = selectedKind
-        let goalID = store.currentGoal?.id
-        preparing = true; errorMessage = nil
-        defer { preparing = false }
-        do {
-            let activity = try await store.prepareAssessmentActivity(kind: kind)
-            guard !Task.isCancelled, store.currentGoal?.id == goalID,
-                  store.currentLearningNode?.id == activity.nodeID, selectedKind == kind else { return }
-            if kind == .practical { practicalActivity = activity } else { theoryActivity = activity }
-        } catch { if !Task.isCancelled { errorMessage = error.localizedDescription } }
+    private func prepareAssessment() {
+        assessment.prepare(context: sessionContext) { kind in
+            try await store.prepareAssessmentActivity(kind: kind)
+        }
     }
 
-    @MainActor private func evaluateTheory() async {
-        evaluating = true; errorMessage = nil; theoryResult = nil
-        defer { evaluating = false }
-        do {
-            theoryResult = try await store.evaluateAssessment(kind: .theoretical, response: theoryAnswer, displayedActivity: theoryActivity)
-        } catch { errorMessage = error.localizedDescription }
-    }
-
-    @MainActor private func evaluatePractice(_ activity: LearningGeneratedActivity) async {
-        evaluating = true; errorMessage = nil; practicalResult = nil
-        defer { evaluating = false }
-        do {
-            practicalResult = try await store.evaluateAssessment(kind: .practical, response: "Context: \(activity.explanation)\nPrediction: \(prediction)\nObservation: \(observation)\nRevision: \(adjustment)", displayedActivity: activity)
-        } catch { errorMessage = error.localizedDescription }
+    private func submitAssessment() {
+        assessment.submit(context: sessionContext) { kind, response, activity in
+            try await store.evaluateAssessment(kind: kind, response: response, displayedActivity: activity)
+        }
     }
 
     private var spatialAnimation: Animation { reduceMotion ? .easeOut(duration: 0.12) : .snappy }
 }
 
 private struct ResultCard: View {
+    @EnvironmentObject private var store: LumapStore
     let record: AssessmentRecord
 
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
             HStack {
-                Label("Feedback", systemImage: "checkmark.seal.fill")
+                Label(store.t("Feedback saved", "反馈已保存"), systemImage: "checkmark.seal.fill")
                     .font(.headline)
                     .foregroundStyle(LumapTheme.mint)
                 Spacer()

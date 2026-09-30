@@ -1,0 +1,72 @@
+{
+  "answerExplanation" : "A strong teach-back should include all four criteria: (1) states that the carbon atoms in new sugar come from carbon dioxide absorbed from the air; (2) explains that light provides energy, not carbon atoms; (3) distinguishes water as a source of hydrogen and oxygen and soil as a source of water and minerals rather than the principal carbon source; and (4) connects the source to the process by explaining that photosynthesis uses carbon dioxide and water, powered by light, to make sugar. A concise model answer is: “The carbon in plant sugar comes from carbon dioxide in the air. Light gives the plant energy to make the sugar but does not add carbon. Water contributes hydrogen and oxygen, while soil mainly provides water and minerals.” [S1]",
+  "cards" : [
+    {
+      "back" : "Carbon dioxide taken in from the air [S1].",
+      "front" : "What is the principal source of the carbon atoms in newly produced plant sugar?"
+    },
+    {
+      "back" : "Light supplies energy for the process, not carbon atoms [S1].",
+      "front" : "What does light contribute to photosynthesis?"
+    },
+    {
+      "back" : "Water supplies hydrogen and oxygen; soil supplies water and minerals, not the principal carbon source of sugar [S1].",
+      "front" : "What do water and soil contribute?"
+    }
+  ],
+  "choices" : [
+
+  ],
+  "concepts" : [
+    {
+      "detail" : "Carbon atoms in newly produced plant sugar come from carbon dioxide absorbed from the air [S1].",
+      "id" : "c1",
+      "label" : "Carbon source"
+    },
+    {
+      "detail" : "Light provides energy that powers photosynthesis; it does not become the carbon in sugar [S1].",
+      "id" : "c2",
+      "label" : "Role of light"
+    },
+    {
+      "detail" : "Water contributes hydrogen and oxygen, while soil provides water and minerals rather than the principal carbon source [S1].",
+      "id" : "c3",
+      "label" : "Other inputs"
+    }
+  ],
+  "connections" : [
+    {
+      "from" : "c1",
+      "label" : "Carbon dioxide supplies matter, while light supplies the energy to transform it into sugar",
+      "to" : "c2"
+    },
+    {
+      "from" : "c1",
+      "label" : "Tracking carbon distinguishes carbon dioxide from water and soil as the principal carbon source",
+      "to" : "c3"
+    }
+  ],
+  "examples" : [
+    "A plant absorbs carbon dioxide from the air. During photosynthesis, light energy helps rearrange the materials, and carbon from the absorbed carbon dioxide becomes carbon in newly made sugar [S1]."
+  ],
+  "explanation" : "During photosynthesis, a plant uses carbon dioxide from the air and water to make sugar, using light energy. The carbon atoms that become part of the new sugar come from the carbon dioxide molecules, not from the soil or from light [S1]. The plant takes in carbon dioxide through structures in its leaves.\n\nLight is an energy source: it powers the chemical changes but does not provide carbon atoms. Water contributes hydrogen and oxygen, while soil mainly provides water and minerals rather than the principal carbon source of sugar [S1]. For example, if a plant makes a new sugar molecule, its carbon atoms can be traced back to carbon dioxide absorbed from the air.",
+  "hints" : [
+    "First name the molecule that enters from the air and contains carbon.",
+    "Then separate the source of matter from the source of energy: ask whether light contains carbon atoms.",
+    "Finish by stating what water and soil contribute, so the explanation rules out both common misconceptions."
+  ],
+  "id" : "704AA6F0-C972-4AD2-9319-F39E826DB9C8",
+  "methodID" : "teachBack",
+  "nodeID" : "n1",
+  "prompt" : "Imagine a younger student says, “The plant’s sugar gets its carbon from the soil because the roots are in soil, and sunlight adds the carbon.” Teach the student in your own words. Explain where the carbon atoms actually come from, what light contributes, and why soil is not the principal carbon source. Include the carbon dioxide-to-sugar example.",
+  "sourceIDs" : [
+    "S1"
+  ],
+  "steps" : [
+    "Identify the atom being traced: carbon in newly produced sugar.",
+    "Trace its source: carbon dioxide enters the plant from the air, and its carbon atoms become part of sugar.",
+    "Separate matter from energy: light supplies energy for the process but supplies no carbon atoms.",
+    "Compare other inputs: water supplies hydrogen and oxygen; soil supplies water and minerals, not the principal carbon source of sugar."
+  ],
+  "title" : "Teach Back: Where Does the Carbon in Sugar Come From?"
+}

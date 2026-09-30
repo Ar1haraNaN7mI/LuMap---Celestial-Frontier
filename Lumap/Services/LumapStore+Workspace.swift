@@ -332,6 +332,7 @@ extension LumapStore {
         currentGoal = goal
         currentMethod = LearningMethod(rawValue: payload.currentMethodID) ?? .guidedExplanation
         restoreLearningAgentState()
+        invalidatePersonalizedRecommendations()
         // Preserve the source language in cached keys without changing the user's
         // profile or interface preferences. New activities use their current setting.
         if let exact = payload.session.activities["\(payload.currentNodeID):\(payload.currentMethodID):\(payload.teachingLanguage.rawValue)"] {
