@@ -1,0 +1,185 @@
+{
+  "replaced_voice_segments": 12,
+  "voice": "Kokoro v1.0 FP32 / af_heart",
+  "voice_source": "24 kHz float32 synthesis",
+  "master_format": "48 kHz 24-bit PCM",
+  "mp4_audio": "48 kHz AAC target320kbps",
+  "processing": "Mild presence EQ, final stereo loudness normalization; no time stretching or aggressive spectral denoising. Noisy procedural effects removed; quieter music mix.",
+  "model_source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2",
+  "model_archive_sha256": "c5f7e2d2caf082bc1d20fb70334a61d99d20b484500aad32e7cf84c128ea3298",
+  "voice_reference": "https://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md",
+  "editions": [
+    {
+      "file": "Lumap_Product_Film_HQ_Audio.mp4",
+      "sha256": "1fce502b38703e364a4eab7eacc8eb2d6a50e097187c99c1331230c2631b9386",
+      "bytes": 21302306,
+      "frames": 3150,
+      "duration_seconds": 105,
+      "picture_stream_sha256": "SHA256=4a5063282020e31ef4f3face5c2fe5ab280f143caa8858b64071d2c3f80ce433",
+      "picture_identical_to_original": true,
+      "full_decode": "passed",
+      "loudness_lufs": -16.0,
+      "true_peak_dbtp": -3.54,
+      "stems": [
+        {
+          "id": "01_question",
+          "duration_seconds": 4.436875,
+          "complete_stem_correlation": 0.9997781150073205,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "02_introducing",
+          "duration_seconds": 6.100666666666666,
+          "complete_stem_correlation": 0.999766834517775,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "03_sources",
+          "duration_seconds": 6.45275,
+          "complete_stem_correlation": 0.9995784183195273,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "04_adaptive",
+          "duration_seconds": 5.9089583333333335,
+          "complete_stem_correlation": 0.9992381487765092,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "11_journey",
+          "duration_seconds": 5.401916666666667,
+          "complete_stem_correlation": 0.9991635744977568,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "05_methods",
+          "duration_seconds": 8.9525,
+          "complete_stem_correlation": 0.9988485340330867,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "12_methods",
+          "duration_seconds": 8.295166666666667,
+          "complete_stem_correlation": 0.9987598329290537,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "06_narration",
+          "duration_seconds": 5.385,
+          "complete_stem_correlation": 0.9988174454527257,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "07_evidence",
+          "duration_seconds": 6.930958333333334,
+          "complete_stem_correlation": 0.9987481896066989,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "08_devices",
+          "duration_seconds": 5.269208333333333,
+          "complete_stem_correlation": 0.9988409505443271,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "09_spatial",
+          "duration_seconds": 5.56925,
+          "complete_stem_correlation": 0.9989629244594278,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "10_close",
+          "duration_seconds": 6.742208333333333,
+          "complete_stem_correlation": 0.9995489022903955,
+          "inside_original_caption_window": true
+        }
+      ]
+    },
+    {
+      "file": "Lumap_Product_Film_HQ_Voice_Only.mp4",
+      "sha256": "da8aabd225fb09e959e636b1cfa0815f20240f5f6e7f08f72ed1820e0766d448",
+      "bytes": 19290512,
+      "frames": 3150,
+      "duration_seconds": 105,
+      "picture_stream_sha256": "SHA256=4a5063282020e31ef4f3face5c2fe5ab280f143caa8858b64071d2c3f80ce433",
+      "picture_identical_to_original": true,
+      "full_decode": "passed",
+      "loudness_lufs": -18.9,
+      "true_peak_dbtp": -3.74,
+      "stems": [
+        {
+          "id": "01_question",
+          "duration_seconds": 4.436875,
+          "complete_stem_correlation": 0.9999901299814191,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "02_introducing",
+          "duration_seconds": 6.100666666666666,
+          "complete_stem_correlation": 0.9999921195374859,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "03_sources",
+          "duration_seconds": 6.45275,
+          "complete_stem_correlation": 0.9999912844567328,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "04_adaptive",
+          "duration_seconds": 5.9089583333333335,
+          "complete_stem_correlation": 0.9999901994370194,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "11_journey",
+          "duration_seconds": 5.401916666666667,
+          "complete_stem_correlation": 0.9999924459269545,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "05_methods",
+          "duration_seconds": 8.9525,
+          "complete_stem_correlation": 0.9999928424830792,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "12_methods",
+          "duration_seconds": 8.295166666666667,
+          "complete_stem_correlation": 0.9999898880324753,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "06_narration",
+          "duration_seconds": 5.385,
+          "complete_stem_correlation": 0.999992514867245,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "07_evidence",
+          "duration_seconds": 6.930958333333334,
+          "complete_stem_correlation": 0.9999929886749401,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "08_devices",
+          "duration_seconds": 5.269208333333333,
+          "complete_stem_correlation": 0.9999919654452193,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "09_spatial",
+          "duration_seconds": 5.56925,
+          "complete_stem_correlation": 0.9999936441256598,
+          "inside_original_caption_window": true
+        },
+        {
+          "id": "10_close",
+          "duration_seconds": 6.742208333333333,
+          "complete_stem_correlation": 0.9999933595401741,
+          "inside_original_caption_window": true
+        }
+      ]
+    }
+  ]
+}
