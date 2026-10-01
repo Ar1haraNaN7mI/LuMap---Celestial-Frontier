@@ -9,7 +9,7 @@ The [119-second hybrid release](https://github.com/Ar1haraNaN7mI/LuMap---Celesti
 | [Launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Film_Hybrid.mp4) | Picture, narration, original score and sound effects. |
 | [No-music edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Film_Hybrid_No_Music.mp4) | The same picture, narration and sound effects. |
 | [Editable project](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Hybrid_Editable_Project.zip) | Remotion source, selected media, captions, separate PCM stems and production notes. |
-| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Hybrid_English.srt) | Sidecar SRT; captions are also embedded in both MP4s and off by default. |
+| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Hybrid_English.srt) | Sidecar SRT; selectable English captions are also embedded in both MP4s. |
 
 ## The film
 
