@@ -1,81 +1,72 @@
-# Lumap launch film — real-demo edition
+# Lumap launch film — hybrid edition
 
-The [119-second release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-demo-2026-10-01) presents Lumap by Celestial Frontier at **1920 × 1080, 30 fps**. It combines the owner's opening, real native-app recordings, code animation, whole-context English narration, physical sound effects and an original score.
+The [119-second hybrid release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-hybrid-2026-10-01) combines expressive animation with genuine Lumap operation at **1920 × 1080, 30 fps**. It restores the first 49 seconds of the 99-second personalized edition, adds a 35-second native-app demonstration, and closes with a light violet/cyan sequence about individual potential, continuity and understanding. The narration addresses the learner rather than explaining the example lesson step by step.
 
-## A question becomes a learning experience
+## Watch and download
+
+| File | Contents |
+| --- | --- |
+| [Launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Film_Hybrid.mp4) | Picture, narration, original score and sound effects. |
+| [No-music edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Film_Hybrid_No_Music.mp4) | The same picture, narration and sound effects. |
+| [Editable project](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Hybrid_Editable_Project.zip) | Remotion source, selected media, captions, separate PCM stems and production notes. |
+| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-hybrid-2026-10-01/Lumap_Launch_Hybrid_English.srt) | Sidecar SRT; captions are also embedded in both MP4s and off by default. |
+
+## The film
 
 | Time | Picture and purpose |
 | --- | --- |
-| 0–10 s | Owner-supplied opening: individual strengths, potential and Lumap. The original 720p image is upscaled without reframing. |
-| 10–17 s | Read, listen, question and try occupy one focal point. |
-| 17–33 s | A real typed photosynthesis goal, generated lesson and source inspection. Processing waits are shortened. |
-| 33–46 s | A generated visual map, then the actual Paper2Galgame player with a labeled example teaching script. |
-| 46–62 s | Actual narrated chapters and a quiz: read the question, choose, then see the confirmation. |
-| 62–78 s | Written reasoning, tutor feedback, evidence save and next-step availability; then the native golden journey with example lesson fixtures. |
-| 78–94 s | Knowledge, pace and learning method shape an individual path. Curiosity, creativity and critical thinking receive concrete prompts. |
-| 94–102 s | An uninterrupted view of actual saved learning history and evidence. |
-| 102–111 s | Mac and iPhone clients, followed by actual interactive spatial-concept controls. |
-| 111–119 s | Understanding, Lumap, Celestial Frontier and the repository link. |
+| 0–10 s | Owner-supplied opening about individual strengths and potential. The original 720p image is upscaled without reframing. |
+| 10–17 s | Read, listen, ask and try move through the method carousel. |
+| 17–30 s | One question branches into possible approaches; sources converge into connected ideas. |
+| 30–49 s | A golden learning journey, followed by one continuous transformation through explanation, experiment and Lumi dialogue. |
+| 49–60 s | Actual goal entry and submission, generated lesson output, then source selection and excerpt inspection. |
+| 60–72 s | The native story player with a labeled example script, followed by actual narrated chapters. |
+| 72–84 s | A real quiz response, written reasoning and tutor feedback. |
+| 84–98 s | Personalization, curiosity, creativity, critical thinking and room for individual talent. |
+| 98–104 s | Actual personal page and saved learning history. |
+| 104–112 s | Mac and iPhone clients, then interactive spatial-concept controls. |
+| 112–119 s | Understanding, Lumap, Celestial Frontier and the repository link. |
 
-Three persistent headlines guide the central 61-second case. Native pages settle into a front-on view before interactions. Results remain visible long enough to register, with a consistent light violet/cyan visual treatment through the ending.
-
-## Download
-
-| File | Purpose |
-| --- | --- |
-| [Launch film](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-demo-2026-10-01/Lumap_Launch_Film_Demo_Edition.mp4) | Music, narration and sound effects. |
-| [No-music edition](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-demo-2026-10-01/Lumap_Launch_Film_Demo_Edition_No_Music.mp4) | Identical picture, with narration and sound effects retained. |
-| [Editable project](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-demo-2026-10-01/Lumap_Launch_Demo_Editable_Project.zip) | Remotion source, selected media, separate PCM stems and production notes. |
-| [English captions](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/download/launch-film-demo-2026-10-01/Lumap_Launch_Demo_English.srt) | Optional captions, also embedded in each MP4 and off by default. |
+The animated front half uses motion to make ideas memorable. The central demonstration lets the actual interface carry the evidence. Processing waits are shortened and selected results are held for reading. The later personal history is an existing saved record; this edition's demonstration ends on tutor feedback and does not show saving that exact response or unlocking its next activity.
 
 ## Edit and render
 
-Unzip the project. With Node.js and npm installed, run inside the directory containing `package.json`:
+Unzip the project and run these commands in the directory containing `package.json`. Node.js and npm are required:
 
 ```sh
 npm ci
 npm run studio
 ```
 
-`src/timeline.ts` defines the eight timeline units and 3,570 frames. `RealDemoScenes.tsx` carries the continuous product case; `LightBrandScenes.tsx` contains the method words, personalization and closing; `RealDeviceShowcase.tsx` contains client and spatial-concept views. `Film.tsx` composes the transitions. All native crop coordinates are logical 1920×1042 coordinates; the embedded recordings retain 3024×1640 pixels for sharper close-ups.
+`src/timeline.ts` defines 15 scene slots and 3,570 frames. The 37–42 and 42–49 second slots form one continuous `AdaptiveContinuum` animation. `ShotcraftScenes.tsx`, `BeginDiscovery.tsx` and the Journey in `Film.tsx` supply the restored opening; `HybridLiveScenes.tsx` supplies the three native-app sequences. `LightBrandScenes.tsx`, the personal-page component in `RealDemoScenes.tsx`, and `RealDeviceShowcase.tsx` supply the ending. The active timeline and scene switch distinguish current scenes from retained earlier implementations.
 
-The original recorded sessions are edited into related public photosynthesis examples, rather than one uninterrupted session. The rendered result is constant 30fps, with deliberate still holds and no optical-flow interpolation. The archive retains some earlier scene components for editing; `timeline.ts` identifies the active version.
+Native recordings retain 3024 × 1640 pixels, with crop positions expressed in a logical 1920 × 1042 space. The prepared clips use constant 30 fps without optical-flow interpolation. Avenir Next is used on macOS; fallback fonts can change layout elsewhere.
 
-Install Python 3 and FFmpeg, then render and finalize both editions:
+With Python 3 and FFmpeg installed, render and package both editions:
 
 ```sh
 npx remotion render src/index.ts LumapLaunch rendered.mp4 --props='{"audio":false,"bgm":false}'
 python3 finalize.py rendered.mp4 exports
 ```
 
-`finalize.py` copies the shared H.264 picture, mixes the PCM voice/music/SFX stems, encodes each final mix to AAC once and adds English subtitles. Set `FFMPEG` to the executable path if it is not on `PATH`. The project uses Avenir Next on macOS with system sans-serif fallbacks; typography can differ on another OS.
+Set `FFMPEG` to the executable path if needed. The finalizer copies the shared H.264 picture, mixes the voice/music/SFX stems, encodes each mix once to AAC and adds optional captions. Recheck timing, transitions, captions and audio after any edit.
 
-## Audio and synchronization
+`src/workbench.ts` also imports 15 clips and separate audio lanes into the [video-shotcraft workbench](https://github.com/Vincentwei1021/video-shotcraft/tree/main/workbench). Its controls support clip order, timing, transforms and audio mixing; internal wording and styling remain in TSX. The archive's README and design notes provide the detailed source map.
 
-New narration uses complete contextual takes with the early launch's Kokoro af_heart voice settings: native rate 0.97, with the reflective personalization passage at 0.94. The supplied opening narration and earlier whole method/closing/brand takes are retained. There is no time stretch, pitch shift or syllable splicing. ASR verifies wording and approximate clause timing, not subjective emotional quality.
+## Voice, sound and provenance
 
-Recorded UI actions anchor the edit: source inspection around 27.70s, chapter change 49.57s, quiz confirmation 59.40s, reasoning 64.70–66.00s, feedback 68.10s and saved evidence/next-step availability 71.43s. The final reasoning take stays whole; the picture waits before typing so the first phrase and the later unlock both align.
+The 166-word English direction preserves the first 37 seconds of the earlier personalized narration, then uses complete thoughts about learning and individual potential. Original whole device, closing and brand takes are also retained. New speech uses local Kokoro v1.0 FP32, `af_heart`, with native synthesis rates of 0.94–0.97. The production approach preserves whole phrases without pitch shifting, time stretching or syllable splicing.
 
-Brief key, switch, page and transition Foley is sourced from the video-shotcraft library with individual Mixkit URLs and license records. The score and harmonic motion accents are original. `public/audio/AUDIO_PROVENANCE.json` records sources; the music-free edition keeps the narration and sound effects.
+The score and harmonic accents are original. Brief key, switch, page and transition Foley comes from the video-shotcraft library under the [Mixkit Sound Effects Free License](https://mixkit.co/license/#sfxFree). The project includes exact source URLs and assembly details in `public/audio/AUDIO_PROVENANCE.json`. Speech recognition checks wording and approximate timing; it does not establish emotional quality or replace listening.
 
-## Visual workbench
+Motion recipes are adapted from [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft), under Apache-2.0. `SHOTCRAFT_LICENSE.txt` preserves attribution, and `shotcraft-mapping.json` records source references and active adaptations, including the restored carousel, source convergence and inverse-camera journey. Brand assets and the opening were supplied by the owner. Google references informed pacing and the progression from idea to interaction; no Google footage, marks, voice or music is included.
 
-`src/workbench.ts` imports eight shot units with separate narration, SFX and music tracks into the [video-shotcraft workbench](https://github.com/Vincentwei1021/video-shotcraft/tree/main/workbench). From that toolkit's root:
+## What the footage establishes
 
-```sh
-node workbench/scripts/open.mjs /absolute/path/to/lumap-launch-film
-```
+The native footage uses public photosynthesis material from edited sessions. The narrated deck is a separate generated lesson on the same topic. These are actual recorded app states, without a claim that they form one uninterrupted session, demonstrate instant generation or measure learning effectiveness.
 
-The workbench opens at `http://localhost:5198/?import=project`. Reorder, trim, position and scale clips, or remix the audio lanes. Internal scene wording and styling remain in the TSX source; the current unit schemas do not expose every scene element as an inspector field. Re-render and review after editing. The source composition is 119 seconds even if the editor adds spare space after the final clip.
+The story is a still from the actual native player using an example teaching script; it does not demonstrate a live branch choice or fresh story generation. The early golden path and adaptive illustrations are editorial animation, with native example-route imagery used as a reference. Spatial Vision Lab is an interactive concept preview, without camera tracking or a production headset client. Mac/iPhone transfer uses manual file-based Handoff; automatic cloud sync and trained RL deployment remain future work.
 
-`shotcraft-mapping.json` distinguishes inspected recipes, active narrow adaptations and superseded prototypes. The current restrained scenes are original adaptations; the film does not claim to reproduce every Gallery card. Apache-2.0 attribution is preserved in `SHOTCRAFT_LICENSE.txt`.
+See the [hybrid film verification report](../examples/launch-film-hybrid-verification.json) for this delivery's recorded checks and limitations. App validation is documented separately in the [functional-integrity update](../updates/2026-09-30-functional-integrity.md) and [golden-journey update](../updates/2026-09-30-golden-journey.md); a film revision is not a new full application test run.
 
-## Demonstration scope and provenance
-
-Native footage uses public photosynthesis example material. The generated lesson, source inspection, quiz, tutor feedback, evidence save and next-step availability are actual recorded app states. Paper2Galgame and the golden journey show actual renderers with labeled synthetic teaching fixtures. They do not establish a new live provider request or measured learning outcome.
-
-Spatial controls are a working interactive concept preview, without camera tracking or a headset client. Mac/iPhone continuity refers to available clients and file-based Handoff, not automatic cloud synchronization. The trained RL policy remains a research direction. The personalization animation communicates the product's intended learning approach, not an efficacy study.
-
-Brand assets and the opening were supplied by the owner. The Google references informed pacing and the prompt→construction→result→interaction structure; no Google footage, marks, voice or music is embedded. The archive excludes credentials, private learner files, dependency folders and model weights.
-
-See the [delivery verification](../examples/launch-film-demo-verification.json). Existing app validation is recorded separately in the [functional-integrity update](../updates/2026-09-30-functional-integrity.md) and [golden-journey update](../updates/2026-09-30-golden-journey.md); this film revision does not represent a new full application test run. The [99-second personalized release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-personalized-2026-10-01) remains archived unchanged.
+The [119-second real-demo release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-demo-2026-10-01) and [99-second personalized release](https://github.com/Ar1haraNaN7mI/LuMap---Celestial-Frontier/releases/tag/launch-film-personalized-2026-10-01) remain archived unchanged.
